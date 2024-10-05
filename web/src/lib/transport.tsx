@@ -97,6 +97,14 @@ class WebTransport {
       this.socket = null;
     }
   }
+
+  public async sendStartGameplay(): Promise<void> {
+    await this.sendMessage("start_gameplay", {});
+  }
+
+  public async sendStopGameplay(): Promise<void> {
+    await this.sendMessage("stop_gameplay", {});
+  }
 }
 
 export default WebTransport;

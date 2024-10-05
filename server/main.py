@@ -3,12 +3,14 @@ from pprint import pprint
 import websockets
 import json
 import base64
-from typing import Dict, Any, Callable, Union, Coroutine
+from typing import Dict, Any, Callable, Union, Coroutine, List
 
 class WebTransport:
     def __init__(self):
         self.components: Dict[str, Dict[str, Any]] = {}
         self.event_handlers: Dict[str, Union[Callable, Coroutine]] = {}
+        self.is_gameplay_running: bool = False
+        self.frames: List[str] = []  # Store frames here
 
     async def handle_connection(self, websocket, path):
         try:
@@ -31,13 +33,33 @@ class WebTransport:
             await self.handle_remove_component(data)
         elif event_type == 'keyboard_event':
             await self.handle_keyboard_event(data)
+        elif event_type == 'start_gameplay':
+            await self.handle_start_gameplay()
+        elif event_type == 'stop_gameplay':
+            await self.handle_stop_gameplay()
         else:
             print(f"Unknown event type: {event_type}")
 
+    async def handle_start_gameplay(self):
+        self.is_gameplay_running = True
+        self.frames.clear()  # Clear the frames array when gameplay starts
+        print("Gameplay started")
+        if 'start_gameplay' in self.event_handlers:
+            await self.call_handler('start_gameplay')
+
+    async def handle_stop_gameplay(self):
+        self.is_gameplay_running = False
+        print("Gameplay stopped")
+        if 'stop_gameplay' in self.event_handlers:
+            await self.call_handler('stop_gameplay')
+
     async def handle_game_frame(self, data: Dict[str, Any]):
+        if not self.is_gameplay_running:
+            return  # Don't process game frames if gameplay is not running
+        
         payload = data.get('payload')
-        # Decode base64 payload if needed
-        # image_data = base64.b64decode(payload)
+        self.frames.append(payload)  # Store the frame
+        print(f"Stored frame. Total frames: {len(self.frames)}")
         
         if 'game_frame' in self.event_handlers:
             await self.call_handler('game_frame', payload)
@@ -112,6 +134,8 @@ async def main():
     transport.on('user_event', lambda event: print(f"User event received: {event}"))
     transport.on('remove_component', lambda component_id: print(f"Component removed: {component_id}"))
     transport.on('keyboard_event', lambda event: print(f"Keyboard event handler called: {json.dumps(event, indent=2)}"))
+    transport.on('start_gameplay', lambda: print("Start gameplay event received"))
+    transport.on('stop_gameplay', lambda: print("Stop gameplay event received"))
 
     await transport.start_server('localhost', 8765)
 

@@ -21,7 +21,6 @@ export function GameEditorComponent() {
   const [code, setCode] = useState(
     "// Your game code here\n\nfunction gameLogic() {\n  // Add your game logic\n}\n\n// Start the game\ngameLogic();",
   );
-  const [isGameStarted, setIsGameStarted] = useState(false);
 
   const components = useGameEditorStore((state) => state.components);
   const addComponent = useGameEditorStore((state) => state.addComponent);
@@ -34,6 +33,12 @@ export function GameEditorComponent() {
   const sendKeyboardEvent = useGameEditorStore(
     (state) => state.sendKeyboardEvent,
   );
+
+  const isGameplayRunning = useGameEditorStore(
+    (state) => state.isGameplayRunning,
+  );
+  const startGameplay = useGameEditorStore((state) => state.startGameplay);
+  const stopGameplay = useGameEditorStore((state) => state.stopGameplay);
 
   const handleNameChange = (id: string, newContext: string) => {
     const success = updateComponent(id, { context: newContext });
@@ -68,7 +73,11 @@ export function GameEditorComponent() {
   };
 
   const handleStartGame = () => {
-    setIsGameStarted(!isGameStarted);
+    if (isGameplayRunning) {
+      stopGameplay();
+    } else {
+      startGameplay();
+    }
   };
 
   const handleIframeLoad = useCallback(
@@ -122,7 +131,7 @@ export function GameEditorComponent() {
           />
         </div>
         <Button onClick={handleStartGame} className="mt-4 w-full">
-          {isGameStarted ? "Stop Game" : "Start Game"}
+          {isGameplayRunning ? "Stop Game" : "Start Game"}
         </Button>
       </div>
       <div className="flex h-screen w-1/3 flex-col p-4">
