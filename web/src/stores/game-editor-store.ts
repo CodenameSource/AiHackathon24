@@ -23,15 +23,21 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
   const transport = new WebTransport(options.transportUrl);
   let screenshotLoopId: ReturnType<typeof setInterval> | null = null;
 
+  let disconnected = false;
+
   // Automatically connect without awaiting
   transport.connect().catch((error) => {
     alert(
       "Failed to connect to transport. Start the server and press ok to refresh the page.",
     );
+    disconnected = true;
     window.location.reload();
   });
 
   transport.onDisconnect(() => {
+    if (disconnected) {
+      return;
+    }
     alert(
       "Disconnected from transport. Start the server and press ok to refresh the page.",
     );
