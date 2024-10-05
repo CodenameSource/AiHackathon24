@@ -31,6 +31,13 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
     window.location.reload();
   });
 
+  transport.onDisconnect(() => {
+    alert(
+      "Disconnected from transport. Start the server and press ok to refresh the page.",
+    );
+    window.location.reload();
+  });
+
   const takeScreenshot = async (
     iFrameElement: HTMLIFrameElement | null,
   ): Promise<Blob | null> => {
@@ -85,6 +92,14 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
     clearIFrameElement: () => set({ iFrameElement: null }),
     sendKeyboardEvent: (event: KeyboardEvent) => {
       const { key, type, altKey, ctrlKey, metaKey, shiftKey } = event;
+      console.log("Sending keyboard event:", {
+        key,
+        type,
+        altKey,
+        ctrlKey,
+        metaKey,
+        shiftKey,
+      });
       transport.sendKeyboardEvent({
         key,
         type,

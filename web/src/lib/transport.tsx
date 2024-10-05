@@ -1,5 +1,3 @@
-import { EventEmitter } from "events";
-
 export interface Component {
   id: string;
   kind: "ocr" | "movement" | "sprite";
@@ -23,6 +21,7 @@ interface KeyboardEvent {
 
 class WebTransport {
   private socket: WebSocket | null = null;
+  private onDisconnectCallback: (() => void) | null = null;
 
   constructor(private url: string) {}
 
@@ -42,8 +41,15 @@ class WebTransport {
 
       this.socket.onclose = () => {
         console.log("WebSocket connection closed");
+        if (this.onDisconnectCallback) {
+          this.onDisconnectCallback();
+        }
       };
     });
+  }
+
+  onDisconnect(callback: () => void) {
+    this.onDisconnectCallback = callback;
   }
 
   async sendGameFrame(blob: Blob) {
