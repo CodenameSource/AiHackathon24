@@ -1,6 +1,6 @@
 import { EventEmitter } from "events";
 
-interface Component {
+export interface Component {
   id: string;
   kind: "ocr" | "movement" | "sprite";
   context: string;
