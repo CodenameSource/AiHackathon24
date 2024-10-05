@@ -27,6 +27,10 @@ class WebTransport:
             await self.handle_component_update(data)
         elif event_type == 'user_event':
             await self.handle_user_event(data)
+        elif event_type == 'remove_component':
+            await self.handle_remove_component(data)
+        elif event_type == 'keyboard_event':
+            await self.handle_keyboard_event(data)
         else:
             print(f"Unknown event type: {event_type}")
 
@@ -56,6 +60,24 @@ class WebTransport:
         if 'user_event' in self.event_handlers:
             await self.call_handler('user_event', user_event)
 
+    async def handle_remove_component(self, data: Dict[str, Any]):
+        component_id = data.get('component_id')
+        if component_id in self.components:
+            del self.components[component_id]
+            print(f"Removed component with ID: {component_id}")
+        else:
+            print(f"Component with ID {component_id} not found")
+
+        if 'remove_component' in self.event_handlers:
+            await self.call_handler('remove_component', component_id)
+
+    async def handle_keyboard_event(self, data: Dict[str, Any]):
+        keyboard_event = data.get('event', {})
+        print(f"Keyboard event received: {keyboard_event}")
+
+        if 'keyboard_event' in self.event_handlers:
+            await self.call_handler('keyboard_event', keyboard_event)
+
     async def call_handler(self, event_type: str, *args):
         handler = self.event_handlers[event_type]
         if asyncio.iscoroutinefunction(handler):
@@ -67,8 +89,18 @@ class WebTransport:
         self.event_handlers[event_type] = handler
 
     async def start_server(self, host: str, port: int):
-        server = await websockets.serve(self.handle_connection, host, port)
+        allowed_origins = [
+            'http://localhost:3000',
+            'https://ai-hackathon-gym-environments.vercel.app'
+        ]
+        server = await websockets.serve(
+            self.handle_connection, 
+            host, 
+            port, 
+            origins=allowed_origins
+        )
         print(f"WebSocket server started on ws://{host}:{port}")
+        print(f"Allowed origins: {', '.join(allowed_origins)}")
         await server.wait_closed()
 
 async def main():
@@ -78,6 +110,8 @@ async def main():
     transport.on('game_frame', lambda payload: print(f"Received game frame, payload length: {len(payload)}"))
     transport.on('component_update', lambda component: print(f"Component updated: {component['id']}"))
     transport.on('user_event', lambda event: print(f"User event received: {event}"))
+    transport.on('remove_component', lambda component_id: print(f"Component removed: {component_id}"))
+    transport.on('keyboard_event', lambda event: print(f"Keyboard event: {event}"))
 
     await transport.start_server('localhost', 8765)
 

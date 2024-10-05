@@ -9,7 +9,16 @@ export interface Component {
 
 interface UserEvent {
   action: string;
-  [key: string]: unknown;
+  data: object;
+}
+
+interface KeyboardEvent {
+  key: string;
+  type: string;
+  altKey: boolean;
+  ctrlKey: boolean;
+  metaKey: boolean;
+  shiftKey: boolean;
 }
 
 class WebTransport {
@@ -38,6 +47,7 @@ class WebTransport {
   }
 
   async sendGameFrame(blob: Blob) {
+    console.log("sending game frame...");
     const base64 = await this.blobToBase64(blob);
     this.sendMessage("game_frame", { payload: base64 });
   }
@@ -55,8 +65,16 @@ class WebTransport {
     this.sendMessage("component_update", { component });
   }
 
+  sendRemoveComponent(componentId: string) {
+    this.sendMessage("remove_component", { component_id: componentId });
+  }
+
   sendUserEvent(event: UserEvent) {
     this.sendMessage("user_event", { event });
+  }
+
+  sendKeyboardEvent(event: KeyboardEvent) {
+    this.sendMessage("keyboard_event", { event });
   }
 
   private sendMessage(type: string, data: object) {

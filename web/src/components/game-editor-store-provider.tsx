@@ -13,13 +13,18 @@ const GameEditorStoreContext = createContext<ReturnType<
 
 export function GameEditorStoreProvider({
   children,
+  link,
 }: {
   children: React.ReactNode;
+  link: string;
 }) {
   const storeRef = useRef<ReturnType<typeof createGameEditorStore>>();
 
   if (!storeRef.current) {
-    storeRef.current = createGameEditorStore();
+    storeRef.current = createGameEditorStore({
+      link,
+      transportUrl: "ws://localhost:8765",
+    });
   }
 
   return (

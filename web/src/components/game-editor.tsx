@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useGameEditorStore } from "~/components/game-editor-store-provider";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
@@ -9,26 +9,30 @@ import { Label } from "~/components/ui/label";
 import { toast } from "~/hooks/use-toast";
 
 enum EditorState {
-  LinkInput,
   ComponentEditor,
   CodeEditor,
 }
 
 export function GameEditorComponent() {
   const [editorState, setEditorState] = useState<EditorState>(
-    EditorState.LinkInput,
+    EditorState.ComponentEditor,
   );
-  const [link, setLink] = useState("");
   const [code, setCode] = useState(
     "// Your game code here\n\nfunction gameLogic() {\n  // Add your game logic\n}\n\n// Start the game\ngameLogic();",
   );
   const [isGameStarted, setIsGameStarted] = useState(false);
-  const [backendActions, setBackendActions] = useState<string[]>([]);
 
   const components = useGameEditorStore((state) => state.components);
   const addComponent = useGameEditorStore((state) => state.addComponent);
   const removeComponent = useGameEditorStore((state) => state.removeComponent);
   const updateComponent = useGameEditorStore((state) => state.updateComponent);
+  const link = useGameEditorStore((state) => state.link);
+  const setIFrameElement = useGameEditorStore(
+    (state) => state.setIFrameElement,
+  );
+  const sendKeyboardEvent = useGameEditorStore(
+    (state) => state.sendKeyboardEvent,
+  );
 
   const handleNameChange = (id: string, newContext: string) => {
     const success = updateComponent(id, { context: newContext });
@@ -39,20 +43,6 @@ export function GameEditorComponent() {
         variant: "destructive",
       });
     }
-  };
-
-  const handleLinkSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (link.trim() === "") {
-      toast({
-        title: "Invalid Link",
-        description: "Please enter a valid link before submitting.",
-        variant: "destructive",
-      });
-      return;
-    }
-    console.log("Link submitted:", link);
-    setEditorState(EditorState.ComponentEditor);
   };
 
   const handleBuild = () => {
@@ -80,60 +70,61 @@ export function GameEditorComponent() {
     setIsGameStarted(!isGameStarted);
   };
 
-  // Simulating backend actions
+  const handleIframeLoad = useCallback(
+    (iframe: HTMLIFrameElement) => {
+      if (iframe) {
+        setIFrameElement(iframe);
+
+        // Add a click event listener to focus the iframe
+        iframe.addEventListener("click", () => {
+          iframe.focus();
+        });
+
+        // Add event listeners to the iframe's content window
+        iframe.contentWindow?.addEventListener("keydown", (e) => {
+          e.preventDefault(); // Prevent default behavior
+          sendKeyboardEvent(e);
+        });
+        iframe.contentWindow?.addEventListener("keyup", (e) => {
+          e.preventDefault(); // Prevent default behavior
+          sendKeyboardEvent(e);
+        });
+
+        // Focus the iframe initially
+        iframe.focus();
+      }
+    },
+    [setIFrameElement, sendKeyboardEvent],
+  );
+
   useEffect(() => {
-    if (!isGameStarted) {
-      const interval = setInterval(() => {
-        setBackendActions((prev) => [
-          ...prev,
-          `Action at ${new Date().toLocaleTimeString()}`,
-        ]);
-      }, 2000);
-      return () => clearInterval(interval);
-    }
-  }, [isGameStarted]);
+    return () => {
+      const iframe = document.querySelector("iframe");
+      if (iframe && iframe.contentWindow) {
+        iframe.contentWindow.removeEventListener("keydown", sendKeyboardEvent);
+        iframe.contentWindow.removeEventListener("keyup", sendKeyboardEvent);
+      }
+    };
+  }, [sendKeyboardEvent]);
 
   return (
     <div className="flex h-screen">
       <div className="flex-1 border-r p-4">
         <h2 className="mb-4 text-2xl font-bold">Game Screen</h2>
         <div className="flex h-[calc(100vh-12rem)] flex-col items-center justify-center rounded-lg border">
-          {isGameStarted ? (
-            <iframe
-              src={link}
-              className="h-full w-full rounded-lg"
-              title="Game Content"
-            />
-          ) : (
-            <div className="p-4 text-center">
-              <h3 className="mb-2 text-xl font-semibold">Backend Actions</h3>
-              <div className="h-64 overflow-y-auto rounded border p-2">
-                {backendActions.map((action, index) => (
-                  <p key={index} className="text-sm">
-                    {action}
-                  </p>
-                ))}
-              </div>
-            </div>
-          )}
+          <iframe
+            src={link}
+            className="h-full w-full rounded-lg"
+            title="Game Content"
+            ref={handleIframeLoad}
+            tabIndex={0} // Make the iframe focusable
+          />
         </div>
         <Button onClick={handleStartGame} className="mt-4 w-full">
           {isGameStarted ? "Stop Game" : "Start Game"}
         </Button>
       </div>
       <div className="flex h-screen w-1/3 flex-col p-4">
-        {editorState === EditorState.LinkInput && (
-          <form onSubmit={handleLinkSubmit}>
-            <h2 className="mb-4 text-2xl font-bold">Enter Link</h2>
-            <Input
-              value={link}
-              onChange={(e) => setLink(e.target.value)}
-              placeholder="Enter link here"
-              className="mb-4"
-            />
-            <Button type="submit">Submit</Button>
-          </form>
-        )}
         {editorState === EditorState.ComponentEditor && (
           <div>
             <h2 className="mb-4 text-2xl font-bold">Component Editor</h2>
