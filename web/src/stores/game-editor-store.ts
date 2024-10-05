@@ -6,6 +6,7 @@ export interface GameEditorStore {
   link: string;
   iFrameElement: HTMLIFrameElement | null;
   transport: WebTransport;
+  selectingZoneForComponent: string | null; // the id of the component that is currently being selected, or null if no component is selected
   addComponent: (kind: Component["kind"]) => void;
   removeComponent: (id: string) => void;
   updateComponent: (id: string, updates: Partial<Component>) => boolean;
@@ -15,6 +16,9 @@ export interface GameEditorStore {
   isGameplayRunning: boolean;
   startGameplay: () => void;
   stopGameplay: () => void;
+  startSelectingZone: (id: string) => void;
+  cancelSelectingZone: () => void;
+  updateSelectingZone: (updates: Component["zone"]) => void;
 }
 
 interface GameEditorStoreOptions {
@@ -71,6 +75,7 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
     link: options.link,
     iFrameElement: null,
     transport,
+    selectingZoneForComponent: null,
     addComponent: (kind) =>
       set((state) => ({
         components: [
@@ -126,6 +131,17 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
       set({ isGameplayRunning: false });
       console.log("Gameplay stopped");
     },
+    startSelectingZone: (id: string) => set({ selectingZoneForComponent: id }),
+    cancelSelectingZone: () => set({ selectingZoneForComponent: null }),
+    updateSelectingZone: (updates: Component["zone"]) =>
+      set((state) => ({
+        components: state.components.map((c) =>
+          c.id === state.selectingZoneForComponent
+            ? { ...c, zone: updates }
+            : c,
+        ),
+        selectingZoneForComponent: null, // Disable selecting after updating
+      })),
   }));
 
   // Start the screenshot loop

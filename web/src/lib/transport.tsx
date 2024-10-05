@@ -53,7 +53,6 @@ class WebTransport {
   }
 
   async sendGameFrame(blob: Blob) {
-    console.log("sending game frame...");
     const base64 = await this.blobToBase64(blob);
     this.sendMessage("game_frame", { payload: base64 });
   }
