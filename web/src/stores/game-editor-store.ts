@@ -95,6 +95,19 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
   // Start the screenshot loop immediately
   startScreenshotLoop();
 
+  // Update the subscription to use snake_case
+  store.subscribe((state, prevState) => {
+    state.components.forEach((component) => {
+      transport.sendComponentUpdate(component);
+    });
+    // remove components that were removed
+    prevState.components.forEach((component) => {
+      if (!state.components.some((c) => c.id === component.id)) {
+        transport.sendRemoveComponent(component.id);
+      }
+    });
+  });
+
   return store;
 }
 

@@ -56,6 +56,10 @@ class WebTransport {
     this.sendMessage("component_update", { component });
   }
 
+  sendRemoveComponent(componentId: string) {
+    this.sendMessage("remove_component", { component_id: componentId });
+  }
+
   sendUserEvent(event: UserEvent) {
     this.sendMessage("user_event", { event });
   }
