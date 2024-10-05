@@ -2,7 +2,7 @@
 
 import { cn } from "~/lib/utils";
 import { useGameEditorStore } from "~/components/game-editor-store-provider";
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export const ComponentSelectionOverlay = ({
   children,
@@ -21,6 +21,36 @@ export const ComponentSelectionOverlay = ({
   const cancelSelectingZone = useGameEditorStore(
     (state) => state.cancelSelectingZone,
   );
+  const updateSelectingZone = useGameEditorStore(
+    (state) => state.updateSelectingZone,
+  );
+
+  const [startPoint, setStartPoint] = useState<{ x: number; y: number } | null>(
+    null,
+  );
+  const [endPoint, setEndPoint] = useState<{ x: number; y: number } | null>(
+    null,
+  );
+
+  const topLeft = useMemo(() => {
+    if (!startPoint || !endPoint) {
+      return null;
+    }
+    return {
+      x: Math.min(startPoint.x, endPoint.x),
+      y: Math.min(startPoint.y, endPoint.y),
+    };
+  }, [startPoint, endPoint]);
+
+  const bottomRight = useMemo(() => {
+    if (!startPoint || !endPoint) {
+      return null;
+    }
+    return {
+      x: Math.max(startPoint.x, endPoint.x),
+      y: Math.max(startPoint.y, endPoint.y),
+    };
+  }, [startPoint, endPoint]);
 
   // global shortcut to start selecting zone on shift + space
   useEffect(() => {
@@ -55,10 +85,45 @@ export const ComponentSelectionOverlay = ({
     };
   }, [cancelSelectingZone, selectingZoneForComponent]);
 
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!selectingZoneForComponent) {
+      return;
+    }
+    setStartPoint({ x: e.clientX, y: e.clientY });
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!selectingZoneForComponent) {
+      return;
+    }
+    setEndPoint({ x: e.clientX, y: e.clientY });
+  };
+
+  const handleMouseUp = () => {
+    if (!selectingZoneForComponent) {
+      return;
+    }
+    if (topLeft && bottomRight) {
+      updateSelectingZone({
+        x: topLeft.x,
+        y: topLeft.y,
+        width: bottomRight.x - topLeft.x,
+        height: bottomRight.y - topLeft.y,
+      });
+    }
+    setEndPoint(null);
+    setStartPoint(null);
+  };
+
   return (
-    <div className={cn("relative", className)}>
+    <div
+      className={cn("relative", className)}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+    >
       {selectingZoneForComponent && (
-        <div className="absolute inset-0 bg-black opacity-50"></div>
+        <div className="absolute inset-0 z-50 cursor-crosshair bg-black opacity-50"></div>
       )}
       {children}
     </div>
