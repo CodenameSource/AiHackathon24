@@ -3,14 +3,21 @@ import { Component } from "~/lib/transport";
 
 export interface GameEditorStore {
   components: Component[];
+  link: string;
   addComponent: (kind: Component["kind"]) => void;
   removeComponent: (id: string) => void;
   updateComponent: (id: string, updates: Partial<Component>) => boolean;
 }
 
-export function createGameEditorStore() {
+interface GameEditorStoreOptions {
+  link: string;
+  // Add more options here in the future if needed
+}
+
+export function createGameEditorStore(options: GameEditorStoreOptions) {
   return create<GameEditorStore>((set, get) => ({
     components: [],
+    link: options.link,
     addComponent: (kind) =>
       set((state) => ({
         components: [

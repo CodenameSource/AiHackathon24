@@ -9,16 +9,14 @@ import { Label } from "~/components/ui/label";
 import { toast } from "~/hooks/use-toast";
 
 enum EditorState {
-  LinkInput,
   ComponentEditor,
   CodeEditor,
 }
 
 export function GameEditorComponent() {
   const [editorState, setEditorState] = useState<EditorState>(
-    EditorState.LinkInput,
+    EditorState.ComponentEditor,
   );
-  const [link, setLink] = useState("");
   const [code, setCode] = useState(
     "// Your game code here\n\nfunction gameLogic() {\n  // Add your game logic\n}\n\n// Start the game\ngameLogic();",
   );
@@ -29,6 +27,7 @@ export function GameEditorComponent() {
   const addComponent = useGameEditorStore((state) => state.addComponent);
   const removeComponent = useGameEditorStore((state) => state.removeComponent);
   const updateComponent = useGameEditorStore((state) => state.updateComponent);
+  const link = useGameEditorStore((state) => state.link);
 
   const handleNameChange = (id: string, newContext: string) => {
     const success = updateComponent(id, { context: newContext });
@@ -39,20 +38,6 @@ export function GameEditorComponent() {
         variant: "destructive",
       });
     }
-  };
-
-  const handleLinkSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (link.trim() === "") {
-      toast({
-        title: "Invalid Link",
-        description: "Please enter a valid link before submitting.",
-        variant: "destructive",
-      });
-      return;
-    }
-    console.log("Link submitted:", link);
-    setEditorState(EditorState.ComponentEditor);
   };
 
   const handleBuild = () => {
@@ -122,18 +107,6 @@ export function GameEditorComponent() {
         </Button>
       </div>
       <div className="flex h-screen w-1/3 flex-col p-4">
-        {editorState === EditorState.LinkInput && (
-          <form onSubmit={handleLinkSubmit}>
-            <h2 className="mb-4 text-2xl font-bold">Enter Link</h2>
-            <Input
-              value={link}
-              onChange={(e) => setLink(e.target.value)}
-              placeholder="Enter link here"
-              className="mb-4"
-            />
-            <Button type="submit">Submit</Button>
-          </form>
-        )}
         {editorState === EditorState.ComponentEditor && (
           <div>
             <h2 className="mb-4 text-2xl font-bold">Component Editor</h2>
