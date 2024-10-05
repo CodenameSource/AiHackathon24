@@ -73,7 +73,7 @@ class WebTransport:
 
     async def handle_keyboard_event(self, data: Dict[str, Any]):
         keyboard_event = data.get('event', {})
-        print(f"Keyboard event received: {keyboard_event}")
+        print(f"Keyboard event received on server: {json.dumps(keyboard_event, indent=2)}")
 
         if 'keyboard_event' in self.event_handlers:
             await self.call_handler('keyboard_event', keyboard_event)
@@ -111,7 +111,7 @@ async def main():
     transport.on('component_update', lambda component: print(f"Component updated: {component['id']}"))
     transport.on('user_event', lambda event: print(f"User event received: {event}"))
     transport.on('remove_component', lambda component_id: print(f"Component removed: {component_id}"))
-    transport.on('keyboard_event', lambda event: print(f"Keyboard event: {event}"))
+    transport.on('keyboard_event', lambda event: print(f"Keyboard event handler called: {json.dumps(event, indent=2)}"))
 
     await transport.start_server('localhost', 8765)
 
