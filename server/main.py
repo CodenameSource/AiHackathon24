@@ -1,13 +1,14 @@
 import asyncio
+from pprint import pprint
 import websockets
 import json
 import base64
-from typing import Dict, Any, Callable
+from typing import Dict, Any, Callable, Union, Coroutine
 
 class WebTransport:
     def __init__(self):
         self.components: Dict[str, Dict[str, Any]] = {}
-        self.event_handlers: Dict[str, Callable] = {}
+        self.event_handlers: Dict[str, Union[Callable, Coroutine]] = {}
 
     async def handle_connection(self, websocket, path):
         try:
@@ -35,7 +36,7 @@ class WebTransport:
         # image_data = base64.b64decode(payload)
         
         if 'game_frame' in self.event_handlers:
-            await self.event_handlers['game_frame'](payload)
+            await self.call_handler('game_frame', payload)
 
     async def handle_component_update(self, data: Dict[str, Any]):
         component = data.get('component', {})
@@ -44,16 +45,25 @@ class WebTransport:
         if component_id:
             self.components[component_id] = component
 
+        pprint(self.components)
+
         if 'component_update' in self.event_handlers:
-            await self.event_handlers['component_update'](component)
+            await self.call_handler('component_update', component)
 
     async def handle_user_event(self, data: Dict[str, Any]):
         user_event = data.get('event', {})
         
         if 'user_event' in self.event_handlers:
-            await self.event_handlers['user_event'](user_event)
+            await self.call_handler('user_event', user_event)
 
-    def on(self, event_type: str, handler: Callable):
+    async def call_handler(self, event_type: str, *args):
+        handler = self.event_handlers[event_type]
+        if asyncio.iscoroutinefunction(handler):
+            await handler(*args)
+        else:
+            handler(*args)
+
+    def on(self, event_type: str, handler: Union[Callable, Coroutine]):
         self.event_handlers[event_type] = handler
 
     async def start_server(self, host: str, port: int):
