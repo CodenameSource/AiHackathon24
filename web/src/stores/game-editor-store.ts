@@ -11,6 +11,7 @@ export interface GameEditorStore {
   updateComponent: (id: string, updates: Partial<Component>) => boolean;
   setIFrameElement: (element: HTMLIFrameElement) => void;
   clearIFrameElement: () => void;
+  sendKeyboardEvent: (event: KeyboardEvent) => void;
 }
 
 interface GameEditorStoreOptions {
@@ -82,6 +83,17 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
     setIFrameElement: (element: HTMLIFrameElement) =>
       set({ iFrameElement: element }),
     clearIFrameElement: () => set({ iFrameElement: null }),
+    sendKeyboardEvent: (event: KeyboardEvent) => {
+      const { key, type, altKey, ctrlKey, metaKey, shiftKey } = event;
+      transport.sendKeyboardEvent({
+        key,
+        type,
+        altKey,
+        ctrlKey,
+        metaKey,
+        shiftKey,
+      });
+    },
   }));
 
   // Start the screenshot loop

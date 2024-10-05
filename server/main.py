@@ -29,6 +29,8 @@ class WebTransport:
             await self.handle_user_event(data)
         elif event_type == 'remove_component':
             await self.handle_remove_component(data)
+        elif event_type == 'keyboard_event':
+            await self.handle_keyboard_event(data)
         else:
             print(f"Unknown event type: {event_type}")
 
@@ -69,6 +71,13 @@ class WebTransport:
         if 'remove_component' in self.event_handlers:
             await self.call_handler('remove_component', component_id)
 
+    async def handle_keyboard_event(self, data: Dict[str, Any]):
+        keyboard_event = data.get('event', {})
+        print(f"Keyboard event received: {keyboard_event}")
+
+        if 'keyboard_event' in self.event_handlers:
+            await self.call_handler('keyboard_event', keyboard_event)
+
     async def call_handler(self, event_type: str, *args):
         handler = self.event_handlers[event_type]
         if asyncio.iscoroutinefunction(handler):
@@ -93,6 +102,7 @@ class WebTransport:
         print(f"WebSocket server started on ws://{host}:{port}")
         print(f"Allowed origins: {', '.join(allowed_origins)}")
         await server.wait_closed()
+
 async def main():
     transport = WebTransport()
 
@@ -101,6 +111,7 @@ async def main():
     transport.on('component_update', lambda component: print(f"Component updated: {component['id']}"))
     transport.on('user_event', lambda event: print(f"User event received: {event}"))
     transport.on('remove_component', lambda component_id: print(f"Component removed: {component_id}"))
+    transport.on('keyboard_event', lambda event: print(f"Keyboard event: {event}"))
 
     await transport.start_server('localhost', 8765)
 

@@ -12,6 +12,15 @@ interface UserEvent {
   data: object;
 }
 
+interface KeyboardEvent {
+  key: string;
+  type: string;
+  altKey: boolean;
+  ctrlKey: boolean;
+  metaKey: boolean;
+  shiftKey: boolean;
+}
+
 class WebTransport {
   private socket: WebSocket | null = null;
 
@@ -62,6 +71,10 @@ class WebTransport {
 
   sendUserEvent(event: UserEvent) {
     this.sendMessage("user_event", { event });
+  }
+
+  sendKeyboardEvent(event: KeyboardEvent) {
+    this.sendMessage("keyboard_event", { event });
   }
 
   private sendMessage(type: string, data: object) {

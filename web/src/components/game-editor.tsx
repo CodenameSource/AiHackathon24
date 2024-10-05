@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useGameEditorStore } from "~/components/game-editor-store-provider";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
@@ -29,6 +29,9 @@ export function GameEditorComponent() {
   const link = useGameEditorStore((state) => state.link);
   const setIFrameElement = useGameEditorStore(
     (state) => state.setIFrameElement,
+  );
+  const sendKeyboardEvent = useGameEditorStore(
+    (state) => state.sendKeyboardEvent,
   );
 
   const handleNameChange = (id: string, newContext: string) => {
@@ -67,6 +70,43 @@ export function GameEditorComponent() {
     setIsGameStarted(!isGameStarted);
   };
 
+  const handleIframeLoad = useCallback(
+    (iframe: HTMLIFrameElement) => {
+      if (iframe) {
+        setIFrameElement(iframe);
+
+        // Add a click event listener to focus the iframe
+        iframe.addEventListener("click", () => {
+          iframe.focus();
+        });
+
+        // Add event listeners to the iframe's content window
+        iframe.contentWindow?.addEventListener("keydown", (e) => {
+          e.preventDefault(); // Prevent default behavior
+          sendKeyboardEvent(e);
+        });
+        iframe.contentWindow?.addEventListener("keyup", (e) => {
+          e.preventDefault(); // Prevent default behavior
+          sendKeyboardEvent(e);
+        });
+
+        // Focus the iframe initially
+        iframe.focus();
+      }
+    },
+    [setIFrameElement, sendKeyboardEvent],
+  );
+
+  useEffect(() => {
+    return () => {
+      const iframe = document.querySelector("iframe");
+      if (iframe && iframe.contentWindow) {
+        iframe.contentWindow.removeEventListener("keydown", sendKeyboardEvent);
+        iframe.contentWindow.removeEventListener("keyup", sendKeyboardEvent);
+      }
+    };
+  }, [sendKeyboardEvent]);
+
   return (
     <div className="flex h-screen">
       <div className="flex-1 border-r p-4">
@@ -76,11 +116,8 @@ export function GameEditorComponent() {
             src={link}
             className="h-full w-full rounded-lg"
             title="Game Content"
-            ref={(el) => {
-              if (el) {
-                setIFrameElement(el);
-              }
-            }}
+            ref={handleIframeLoad}
+            tabIndex={0} // Make the iframe focusable
           />
         </div>
         <Button onClick={handleStartGame} className="mt-4 w-full">
