@@ -9,7 +9,7 @@ export interface Component {
 
 interface UserEvent {
   action: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 class WebTransport {
@@ -28,7 +28,7 @@ class WebTransport {
 
       this.socket.onerror = (error) => {
         console.error("WebSocket error:", error);
-        reject(error);
+        reject(new Error(JSON.stringify(error)));
       };
 
       this.socket.onclose = () => {
@@ -59,7 +59,7 @@ class WebTransport {
     this.sendMessage("user_event", { event });
   }
 
-  private sendMessage(type: string, data: any) {
+  private sendMessage(type: string, data: object) {
     if (this.socket && this.socket.readyState === WebSocket.OPEN) {
       this.socket.send(JSON.stringify({ type, ...data }));
     } else {

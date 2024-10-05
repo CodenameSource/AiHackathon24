@@ -36,7 +36,8 @@ export function createGameEditorStore() {
 
       if (
         "context" in updates &&
-        !isNameUnique(updates.context as string, id)
+        typeof updates.context === "string" &&
+        !isNameUnique(updates.context, id)
       ) {
         return false;
       }
