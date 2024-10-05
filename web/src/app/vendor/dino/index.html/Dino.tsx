@@ -29,6 +29,9 @@ const DinoGame = React.forwardRef<HTMLDivElement, DinoGameProps>(
         dinoScriptContainer.id = dinoScriptId;
         dinoScriptContainer.appendChild(document.createTextNode(DinoScript));
         startDiv.current.appendChild(dinoScriptContainer);
+        const injectedScript = document.createElement("script");
+        injectedScript.src = "/injected.js";
+        startDiv.current.appendChild(injectedScript);
       }
 
       if (!document.querySelector(`#${runnerScriptId}`)) {

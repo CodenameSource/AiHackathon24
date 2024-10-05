@@ -28,6 +28,9 @@ export function GameEditorComponent() {
   const removeComponent = useGameEditorStore((state) => state.removeComponent);
   const updateComponent = useGameEditorStore((state) => state.updateComponent);
   const link = useGameEditorStore((state) => state.link);
+  const setIFrameElement = useGameEditorStore(
+    (state) => state.setIFrameElement,
+  );
 
   const handleNameChange = (id: string, newContext: string) => {
     const success = updateComponent(id, { context: newContext });
@@ -88,6 +91,11 @@ export function GameEditorComponent() {
               src={link}
               className="h-full w-full rounded-lg"
               title="Game Content"
+              ref={(el) => {
+                if (el) {
+                  setIFrameElement(el);
+                }
+              }}
             />
           ) : (
             <div className="p-4 text-center">

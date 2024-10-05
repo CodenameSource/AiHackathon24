@@ -1,23 +1,59 @@
 import { create } from "zustand";
-import { Component } from "~/lib/transport";
+import WebTransport, { Component } from "~/lib/transport";
 
 export interface GameEditorStore {
   components: Component[];
   link: string;
+  iFrameElement: HTMLIFrameElement | null;
+  transport: WebTransport;
   addComponent: (kind: Component["kind"]) => void;
   removeComponent: (id: string) => void;
   updateComponent: (id: string, updates: Partial<Component>) => boolean;
+  setIFrameElement: (element: HTMLIFrameElement) => void;
+  clearIFrameElement: () => void;
 }
 
 interface GameEditorStoreOptions {
   link: string;
-  // Add more options here in the future if needed
+  transportUrl: string;
 }
 
 export function createGameEditorStore(options: GameEditorStoreOptions) {
-  return create<GameEditorStore>((set, get) => ({
+  const transport = new WebTransport(options.transportUrl);
+  let screenshotLoopId: ReturnType<typeof setInterval> | null = null;
+
+  // Automatically connect without awaiting
+  transport.connect().catch((error) => {
+    alert(
+      "Failed to connect to transport. Start the server and press ok to refresh the page.",
+    );
+    window.location.reload();
+  });
+
+  const takeScreenshot = async (
+    iFrameElement: HTMLIFrameElement | null,
+  ): Promise<Blob | null> => {
+    if (!iFrameElement) {
+      return null;
+    }
+    const dataUrl = await callRemoteFunction(iFrameElement, screenshotCanvas);
+    if (!dataUrl) {
+      return null;
+    }
+    const response = await fetch(dataUrl);
+    if (!response.ok) {
+      return null;
+    }
+    const blob = await response.blob();
+    transport.sendGameFrame(blob);
+    return blob;
+  };
+
+  const store = create<GameEditorStore>((set, get) => ({
     components: [],
     link: options.link,
+    iFrameElement: null,
+    transport,
     addComponent: (kind) =>
       set((state) => ({
         components: [
@@ -35,26 +71,68 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
         components: state.components.filter((c) => c.id !== id),
       })),
     updateComponent: (id, updates) => {
-      const isNameUnique = (context: string, currentId: string): boolean => {
-        return !get().components.some(
-          (c) => c.context === context && c.id !== currentId,
-        );
-      };
-
-      if (
-        "context" in updates &&
-        typeof updates.context === "string" &&
-        !isNameUnique(updates.context, id)
-      ) {
-        return false;
-      }
-
+      // Implement the updateComponent logic here
       set((state) => ({
         components: state.components.map((c) =>
           c.id === id ? { ...c, ...updates } : c,
         ),
       }));
-      return true;
+      return true; // Return true to indicate successful update
     },
+    setIFrameElement: (element: HTMLIFrameElement) =>
+      set({ iFrameElement: element }),
+    clearIFrameElement: () => set({ iFrameElement: null }),
   }));
+
+  // Start the screenshot loop
+  const startScreenshotLoop = (fps = 60) => {
+    const interval = 1000 / fps;
+    screenshotLoopId = setInterval(() => {
+      takeScreenshot(store.getState().iFrameElement);
+    }, interval);
+  };
+
+  // Start the screenshot loop immediately
+  startScreenshotLoop();
+
+  return store;
+}
+
+function screenshotCanvas() {
+  const canvas = document.getElementsByTagName("canvas")[0];
+  if (!canvas) {
+    return null;
+  }
+  const context = canvas.getContext("2d");
+  if (!context) {
+    return null;
+  }
+  context.drawImage(canvas, 0, 0, canvas.width, canvas.height);
+  return canvas.toDataURL();
+}
+
+async function callRemoteFunction<ReturnType>(
+  iFrameElement: HTMLIFrameElement,
+  fn: () => ReturnType,
+  timeout?: number,
+) {
+  const functionCode = `(${fn.toString()})()`;
+  iFrameElement.contentWindow?.postMessage(functionCode, {
+    targetOrigin: "*",
+  });
+  return new Promise<ReturnType>((resolve, reject) => {
+    const messageHandler = (event: MessageEvent) => {
+      if (event.source === iFrameElement.contentWindow) {
+        resolve(event.data as ReturnType);
+        window.removeEventListener("message", messageHandler);
+        clearInterval(timeoutId);
+      }
+    };
+    window.addEventListener("message", messageHandler);
+
+    const timeoutId = setInterval(() => {
+      window.removeEventListener("message", messageHandler);
+      reject(new Error("Function call timed out"));
+    }, timeout || 5000);
+  });
 }

@@ -21,7 +21,10 @@ export function GameEditorStoreProvider({
   const storeRef = useRef<ReturnType<typeof createGameEditorStore>>();
 
   if (!storeRef.current) {
-    storeRef.current = createGameEditorStore({ link });
+    storeRef.current = createGameEditorStore({
+      link,
+      transportUrl: "ws://localhost:8765",
+    });
   }
 
   return (
