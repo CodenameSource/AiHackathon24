@@ -85,7 +85,8 @@ class WebTransport {
 
   private sendMessage(type: string, data: object) {
     if (this.socket && this.socket.readyState === WebSocket.OPEN) {
-      this.socket.send(JSON.stringify({ type, ...data }));
+      const timestamp = Date.now() / 1000; // Current time in seconds
+      this.socket.send(JSON.stringify({ type, timestamp, ...data }));
     } else {
       console.error("WebSocket is not connected");
     }
