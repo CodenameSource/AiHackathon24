@@ -44,7 +44,7 @@ def analyze_frames_with_gpt_vision(frames):
             "content": [
                 {
                     "type": "text",
-                    "text": "This is a gameplay from a 2d game. Explain me what is the purpose of the game - all observations, actions and reward functions. The response should be in a form that is the most meaningful to a LLM for generating a code that will make the environment.",
+                    "text": "You are a reinforcemnt learning expert. This is a gameplay from a 2d game. Explain me what is the purpose of the game - all observations, actions and reward functions. The response should be in a form that is the most meaningful to a LLM for generating a code that will make the environment. Then Your task is to create an accurate and good gym environment for 2d game using the knowledge extracted from the gameplay. Please write Python code",
                 }
             ],
         }
@@ -64,7 +64,7 @@ def analyze_frames_with_gpt_vision(frames):
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=messages,
-        max_tokens=300,
+        max_tokens=1500,
     )
     return response
 
