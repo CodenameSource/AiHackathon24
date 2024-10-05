@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react"
 import { create } from 'zustand'
-import { PlusCircle, X, Crosshair, Play, Download } from "lucide-react"
 import { Button } from "~/components/ui/button"
 import { Input } from "~/components/ui/input"
 import { Label } from "~/components/ui/label"
@@ -98,7 +97,6 @@ export function GameEditorComponent() {
       title: "Code Exported",
       description: "Your code has been successfully exported.",
     })
-    // We're not changing the editor state here, so we stay on the code editor screen
   }
 
   const handleStartGame = () => {
@@ -116,119 +114,105 @@ export function GameEditorComponent() {
   }, [isGameStarted])
 
   return (
-    <div className="flex h-screen bg-[#DCE5DC]">
-      <div className="flex-1 p-4 border-r border-[#91A392]">
-        <h2 className="text-2xl font-bold mb-4 text-[#4A5759]">Game Screen</h2>
-        <div className="bg-white h-[calc(100vh-12rem)] rounded-lg flex flex-col items-center justify-center border-2 border-[#91A392]">
+    <div className="flex h-screen">
+      <div className="flex-1 p-4 border-r">
+        <h2 className="text-2xl font-bold mb-4">Game Screen</h2>
+        <div className="h-[calc(100vh-12rem)] border rounded-lg flex flex-col items-center justify-center">
           {isGameStarted ? (
             <iframe src={link} className="w-full h-full rounded-lg" title="Game Content" />
           ) : (
             <div className="text-center p-4">
-              <h3 className="text-xl font-semibold mb-2 text-[#4A5759]">Backend Actions</h3>
-              <div className="overflow-y-auto h-64 bg-[#F0F4F0] p-2 rounded">
+              <h3 className="text-xl font-semibold mb-2">Backend Actions</h3>
+              <div className="overflow-y-auto h-64 border p-2 rounded">
                 {backendActions.map((action, index) => (
-                  <p key={index} className="text-sm text-[#4A5759]">{action}</p>
+                  <p key={index} className="text-sm">{action}</p>
                 ))}
               </div>
             </div>
           )}
         </div>
-        <Button
-          onClick={handleStartGame}
-          className={`mt-4 w-full ${
-            isGameStarted
-              ? "bg-[#91A392] hover:bg-[#7A8B7B] text-white"
-              : "bg-[#B4C4B4] hover:bg-[#A3B3A3] text-[#4A5759]"
-          }`}
-        >
+        <Button onClick={handleStartGame} className="mt-4 w-full">
           {isGameStarted ? "Stop Game" : "Start Game"}
         </Button>
       </div>
-      <div className="w-1/3 p-4 flex flex-col h-screen bg-[#F0F4F0]">
+      <div className="w-1/3 p-4 flex flex-col h-screen">
         {editorState === EditorState.LinkInput && (
           <form onSubmit={handleLinkSubmit}>
-            <h2 className="text-2xl font-bold mb-4 text-[#4A5759]">Enter Link</h2>
+            <h2 className="text-2xl font-bold mb-4">Enter Link</h2>
             <Input
               value={link}
               onChange={(e) => setLink(e.target.value)}
               placeholder="Enter link here"
-              className="mb-4 bg-white border-[#91A392]"
+              className="mb-4"
             />
-            <Button type="submit" className="bg-[#91A392] hover:bg-[#7A8B7B] text-white">Submit</Button>
+            <Button type="submit">Submit</Button>
           </form>
         )}
         {editorState === EditorState.VariableEditor && (
           <div>
-            <h2 className="text-2xl font-bold mb-4 text-[#4A5759]">Variable Editor</h2>
+            <h2 className="text-2xl font-bold mb-4">Variable Editor</h2>
             <div className="flex space-x-2 mb-4">
-              <Button onClick={() => addVariable("textContent")} className="bg-[#91A392] hover:bg-[#7A8B7B] text-white">
-                <PlusCircle className="mr-2 h-4 w-4" />
+              <Button onClick={() => addVariable("textContent")}>
                 Add Text Content
               </Button>
-              <Button onClick={() => addVariable("deltaPosition")} className="bg-[#91A392] hover:bg-[#7A8B7B] text-white">
-                <PlusCircle className="mr-2 h-4 w-4" />
+              <Button onClick={() => addVariable("deltaPosition")}>
                 Add Delta Position
               </Button>
             </div>
             <div className="space-y-4 flex-grow overflow-auto">
               {variables.map((variable) => (
-                <div key={variable.id} className="bg-white p-4 rounded-lg border border-[#91A392]">
+                <div key={variable.id} className="p-4 border rounded-lg">
                   <div className="flex justify-between items-center mb-2">
                     <div className="flex items-center space-x-2">
                       <Input
                         value={variable.name}
                         onChange={(e) => handleNameChange(variable.id, e.target.value)}
-                        className="font-semibold border-[#91A392]"
+                        className="font-semibold"
                       />
-                      <Badge className="bg-[#91A392]">{variable.type}</Badge>
+                      <Badge>{variable.type}</Badge>
                     </div>
                     <Button
                       variant="ghost"
                       size="sm"
                       onClick={() => removeVariable(variable.id)}
-                      className="text-[#4A5759] hover:text-[#2D3738]"
                     >
-                      <X className="h-4 w-4" />
+                      Remove
                     </Button>
                   </div>
                   <div className="space-y-2">
-                    <Label className="text-[#4A5759]">Element</Label>
+                    <Label>Element</Label>
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => {}}
-                      className="w-full border-[#91A392] text-[#4A5759]"
+                      className="w-full"
                     >
-                      <Crosshair className="mr-2 h-4 w-4" />
                       Pick Element
                     </Button>
-                    <Label className="text-[#4A5759]">Value</Label>
+                    <Label>Value</Label>
                     <Input
                       type="number"
                       value={variable.value}
                       onChange={(e) => updateVariable(variable.id, { value: parseFloat(e.target.value) })}
-                      className="bg-[#F0F4F0] border-[#91A392]"
                     />
                   </div>
                 </div>
               ))}
             </div>
-            <Button onClick={handleBuild} className="mt-4 bg-[#91A392] hover:bg-[#7A8B7B] text-white">Build</Button>
+            <Button onClick={handleBuild} className="mt-4">Build</Button>
           </div>
         )}
         {editorState === EditorState.CodeEditor && (
           <div className="flex flex-col h-full">
-            <h2 className="text-2xl font-bold mb-4 text-[#4A5759]">Code Editor</h2>
-            <div className="flex-grow flex flex-col bg-[#1E1E1E] rounded-lg overflow-hidden">
-              <div className="bg-[#252526] p-2 flex justify-between items-center">
-                <span className="text-[#CCCCCC]">game.js</span>
+            <h2 className="text-2xl font-bold mb-4">Code Editor</h2>
+            <div className="flex-grow flex flex-col border rounded-lg overflow-hidden">
+              <div className="p-2 flex justify-between items-center border-b">
+                <span>game.js</span>
                 <div className="flex space-x-2">
-                  <Button onClick={handleCompile} size="sm" className="bg-[#4D4D4D] hover:bg-[#3D3D3D] text-[#CCCCCC]">
-                    <Play className="mr-2 h-4 w-4" />
+                  <Button onClick={handleCompile} size="sm">
                     Compile
                   </Button>
-                  <Button onClick={handleExport} size="sm" className="bg-[#4D4D4D] hover:bg-[#3D3D3D] text-[#CCCCCC]">
-                    <Download className="mr-2 h-4 w-4" />
+                  <Button onClick={handleExport} size="sm">
                     Export
                   </Button>
                 </div>
@@ -236,7 +220,7 @@ export function GameEditorComponent() {
               <textarea
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
-                className="flex-grow p-4 bg-[#1E1E1E] text-[#D4D4D4] font-mono text-sm resize-none focus:outline-none"
+                className="flex-grow p-4 font-mono text-sm resize-none focus:outline-none"
                 style={{ lineHeight: '1.5', tabSize: 2 }}
               />
             </div>
