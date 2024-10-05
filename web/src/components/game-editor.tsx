@@ -21,7 +21,6 @@ export function GameEditorComponent() {
     "// Your game code here\n\nfunction gameLogic() {\n  // Add your game logic\n}\n\n// Start the game\ngameLogic();",
   );
   const [isGameStarted, setIsGameStarted] = useState(false);
-  const [backendActions, setBackendActions] = useState<string[]>([]);
 
   const components = useGameEditorStore((state) => state.components);
   const addComponent = useGameEditorStore((state) => state.addComponent);
@@ -68,47 +67,21 @@ export function GameEditorComponent() {
     setIsGameStarted(!isGameStarted);
   };
 
-  // Simulating backend actions
-  useEffect(() => {
-    if (!isGameStarted) {
-      const interval = setInterval(() => {
-        setBackendActions((prev) => [
-          ...prev,
-          `Action at ${new Date().toLocaleTimeString()}`,
-        ]);
-      }, 2000);
-      return () => clearInterval(interval);
-    }
-  }, [isGameStarted]);
-
   return (
     <div className="flex h-screen">
       <div className="flex-1 border-r p-4">
         <h2 className="mb-4 text-2xl font-bold">Game Screen</h2>
         <div className="flex h-[calc(100vh-12rem)] flex-col items-center justify-center rounded-lg border">
-          {isGameStarted ? (
-            <iframe
-              src={link}
-              className="h-full w-full rounded-lg"
-              title="Game Content"
-              ref={(el) => {
-                if (el) {
-                  setIFrameElement(el);
-                }
-              }}
-            />
-          ) : (
-            <div className="p-4 text-center">
-              <h3 className="mb-2 text-xl font-semibold">Backend Actions</h3>
-              <div className="h-64 overflow-y-auto rounded border p-2">
-                {backendActions.map((action, index) => (
-                  <p key={index} className="text-sm">
-                    {action}
-                  </p>
-                ))}
-              </div>
-            </div>
-          )}
+          <iframe
+            src={link}
+            className="h-full w-full rounded-lg"
+            title="Game Content"
+            ref={(el) => {
+              if (el) {
+                setIFrameElement(el);
+              }
+            }}
+          />
         </div>
         <Button onClick={handleStartGame} className="mt-4 w-full">
           {isGameStarted ? "Stop Game" : "Start Game"}

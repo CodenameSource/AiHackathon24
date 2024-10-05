@@ -9,7 +9,7 @@ export interface Component {
 
 interface UserEvent {
   action: string;
-  [key: string]: unknown;
+  data: object;
 }
 
 class WebTransport {
