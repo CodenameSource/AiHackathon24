@@ -95,6 +95,22 @@ export function useGameEditorLogic() {
     [setIFrameElement, sendKeyboardEvent],
   );
 
+  // New handlers added
+  const handleSelectArea = () => {
+    console.log("Handling area selection");
+    // Placeholder logic for selecting an area
+  };
+
+  const handleScreenshot = () => {
+    console.log("Handling screenshot");
+    // Placeholder logic for taking a screenshot
+  };
+
+  const handleAddText = (text: string) => {
+    console.log("Adding text:", text);
+    // Placeholder logic for adding text to the editor
+  };
+
   useEffect(() => {
     return () => {
       const iframe = document.querySelector("iframe");
@@ -122,5 +138,8 @@ export function useGameEditorLogic() {
     removeComponent,
     updateComponent,
     link,
+    handleSelectArea,  // Added in return
+    handleScreenshot,  // Added in return
+    handleAddText,     // Added in return
   };
 }
