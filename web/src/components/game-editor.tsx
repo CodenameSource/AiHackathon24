@@ -110,7 +110,7 @@ export function GameEditorComponent() {
   useEffect(() => {
     return () => {
       const iframe = document.querySelector("iframe");
-      if (iframe && iframe.contentWindow) {
+      if (iframe?.contentWindow) {
         iframe.contentWindow.removeEventListener("keydown", sendKeyboardEvent);
         iframe.contentWindow.removeEventListener("keyup", sendKeyboardEvent);
       }

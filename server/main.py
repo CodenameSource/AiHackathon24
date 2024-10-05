@@ -23,7 +23,7 @@ class WebTransport:
     async def process_message(self, message: str):
         data = json.loads(message)
         event_type = data.get('type')
-        timestamp = data.get('timestamp', int(time.time() * 1000))  # Use provided timestamp or current time in milliseconds
+        timestamp = data.get('timestamp', int(time.time()) * 1000)  # Use provided timestamp or current time in milliseconds
 
         if event_type == 'game_frame':
             await self.handle_game_frame(data, timestamp)

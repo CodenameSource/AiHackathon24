@@ -148,10 +148,10 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
     });
     if (prevState.isGameplayRunning !== state.isGameplayRunning) {
       if (state.isGameplayRunning) {
-        transport.sendStartGameplay();
+        void transport.sendStartGameplay();
         startScreenshotLoop();
       } else {
-        transport.sendStopGameplay();
+        void transport.sendStopGameplay();
         if (screenshotLoopId) {
           clearInterval(screenshotLoopId);
         }

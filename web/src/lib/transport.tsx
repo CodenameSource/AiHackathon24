@@ -85,7 +85,7 @@ class WebTransport {
 
   private sendMessage(type: string, data: object) {
     if (this.socket && this.socket.readyState === WebSocket.OPEN) {
-      const timestamp = Date.now() / 1000; // Current time in seconds
+      const timestamp = Date.now();
       this.socket.send(JSON.stringify({ type, timestamp, ...data }));
     } else {
       console.error("WebSocket is not connected");
@@ -100,11 +100,11 @@ class WebTransport {
   }
 
   public async sendStartGameplay(): Promise<void> {
-    await this.sendMessage("start_gameplay", {});
+    this.sendMessage("start_gameplay", {});
   }
 
   public async sendStopGameplay(): Promise<void> {
-    await this.sendMessage("stop_gameplay", {});
+    this.sendMessage("stop_gameplay", {});
   }
 }
 
