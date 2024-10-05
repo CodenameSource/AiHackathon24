@@ -62,11 +62,17 @@ def analyze_frames_with_gpt_vision(frames):
         )
 
     response = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model="gpt-4o",
         messages=messages,
         max_tokens=1500,
     )
     return response
+
+def get_knowledge_from_images(video_path, frame_interval, output_dir):
+    frames = extract_frames(video_path, frame_interval, output_dir)
+    response = analyze_frames_with_gpt_vision(frames)
+    final_message = response.choices[0].message.content
+    return final_message
 
 def main():
     video_path = "/Users/flychuban/Downloads/dino_test_video.mkv"
