@@ -1,5 +1,6 @@
 "use client";
 
+import { Trash, X } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useGameEditorStore } from "~/components/game-editor-store-provider";
 import { Badge } from "~/components/ui/badge";
@@ -151,10 +152,10 @@ export function GameEditorComponent() {
                     </div>
                     <Button
                       variant="ghost"
-                      size="sm"
+                      size="icon"
                       onClick={() => removeComponent(component.id)}
                     >
-                      Remove
+                      <X className="h-4 w-4" />
                     </Button>
                   </div>
                   <div className="space-y-2">
