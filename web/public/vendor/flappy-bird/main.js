@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 var outerPadding = 0;
 /*!
  * @license CreateJS
@@ -94,7 +96,7 @@ var outerPadding = 0;
             function (a) {
               b.call(c, a, e), d && a.remove();
             },
-            f
+            f,
           )
         );
       }),
@@ -416,7 +418,7 @@ var outerPadding = 0;
           this.pointerID,
           this.primary,
           this.rawX,
-          this.rawY
+          this.rawY,
         );
       }),
       (b.toString = function () {
@@ -524,7 +526,7 @@ var outerPadding = 0;
                 -Math.sin(g),
                 Math.cos(g),
                 b,
-                c
+                c,
               ))
             : this.prepend(l * d, m * d, -m * e, l * e, b, c),
           this
@@ -546,7 +548,7 @@ var outerPadding = 0;
                 -Math.sin(g),
                 Math.cos(g),
                 b,
-                c
+                c,
               ),
               this.append(l * d, m * d, -m * e, l * e, 0, 0))
             : this.append(l * d, m * d, -m * e, l * e, b, c),
@@ -582,7 +584,7 @@ var outerPadding = 0;
             -Math.sin(b),
             Math.cos(b),
             0,
-            0
+            0,
           ),
           this
         );
@@ -682,7 +684,7 @@ var outerPadding = 0;
           a.ty,
           a.alpha,
           a.shadow,
-          a.compositeOperation
+          a.compositeOperation,
         );
       }),
       (b.appendProperties = function (a, b, c) {
@@ -838,13 +840,13 @@ var outerPadding = 0;
         "mousedown" == d
           ? ((this._isPressed = !0), (b = this.downLabel))
           : "pressup" == d
-          ? ((this._isPressed = !1),
-            (b = this._isOver ? this.overLabel : this.outLabel))
-          : "rollover" == d
-          ? ((this._isOver = !0),
-            (b = this._isPressed ? this.downLabel : this.overLabel))
-          : ((this._isOver = !1),
-            (b = this._isPressed ? this.overLabel : this.outLabel)),
+            ? ((this._isPressed = !1),
+              (b = this._isOver ? this.overLabel : this.outLabel))
+            : "rollover" == d
+              ? ((this._isOver = !0),
+                (b = this._isPressed ? this.downLabel : this.overLabel))
+              : ((this._isOver = !1),
+                (b = this._isPressed ? this.overLabel : this.outLabel)),
           this.play
             ? c.gotoAndPlay && c.gotoAndPlay(b)
             : c.gotoAndStop && c.gotoAndStop(b);
@@ -1000,7 +1002,7 @@ var outerPadding = 0;
               -c.regX,
               -c.regY,
               c.rect.width,
-              c.rect.height
+              c.rect.height,
             )
           : null;
       }),
@@ -1058,7 +1060,7 @@ var outerPadding = 0;
                   (j % g) * b,
                   (0 | (j / g)) * c,
                   b,
-                  c
+                  c,
                 ),
                 regX: this._regX,
                 regY: this._regY,
@@ -1223,7 +1225,7 @@ var outerPadding = 0;
         return (
           (this._dirty = this._active = !0),
           this._activeInstructions.push(
-            new a(this._ctx.arcTo, [b, c, d, e, f])
+            new a(this._ctx.arcTo, [b, c, d, e, f]),
           ),
           this
         );
@@ -1233,7 +1235,7 @@ var outerPadding = 0;
           (this._dirty = this._active = !0),
           null == g && (g = !1),
           this._activeInstructions.push(
-            new a(this._ctx.arc, [b, c, d, e, f, g])
+            new a(this._ctx.arc, [b, c, d, e, f, g]),
           ),
           this
         );
@@ -1242,7 +1244,7 @@ var outerPadding = 0;
         return (
           (this._dirty = this._active = !0),
           this._activeInstructions.push(
-            new a(this._ctx.quadraticCurveTo, [b, c, d, e])
+            new a(this._ctx.quadraticCurveTo, [b, c, d, e]),
           ),
           this
         );
@@ -1251,7 +1253,7 @@ var outerPadding = 0;
         return (
           (this._dirty = this._active = !0),
           this._activeInstructions.push(
-            new a(this._ctx.bezierCurveTo, [b, c, d, e, f, g])
+            new a(this._ctx.bezierCurveTo, [b, c, d, e, f, g]),
           ),
           this
         );
@@ -1356,7 +1358,7 @@ var outerPadding = 0;
                 "lineCap",
                 null == d ? "butt" : isNaN(d) ? d : b.STROKE_CAPS_MAP[d],
               ],
-              !1
+              !1,
             ),
             new a(
               this._setProp,
@@ -1364,7 +1366,7 @@ var outerPadding = 0;
                 "lineJoin",
                 null == e ? "miter" : isNaN(e) ? e : b.STROKE_JOINTS_MAP[e],
               ],
-              !1
+              !1,
             ),
             new a(this._setProp, ["miterLimit", null == f ? "10" : f], !1),
           ]),
@@ -1460,7 +1462,7 @@ var outerPadding = 0;
             new a(o, [b - i * n, c + e + i * n, b, c + e - i, i]),
             new a(p, [b, c + f]),
             new a(o, [b - f * k, c - f * k, b + f, c, f]),
-            new a(this._ctx.closePath)
+            new a(this._ctx.closePath),
           ),
           this
         );
@@ -1483,7 +1485,7 @@ var outerPadding = 0;
             new a(this._ctx.bezierCurveTo, [b, l - h, k - g, c, k, c]),
             new a(this._ctx.bezierCurveTo, [k + g, c, i, l - h, i, l]),
             new a(this._ctx.bezierCurveTo, [i, l + h, k + g, j, k, j]),
-            new a(this._ctx.bezierCurveTo, [k - g, j, b, l + h, b, l])
+            new a(this._ctx.bezierCurveTo, [k - g, j, b, l + h, b, l]),
           ),
           this
         );
@@ -1502,7 +1504,7 @@ var outerPadding = 0;
           null == g ? (g = 0) : (g /= 180 / Math.PI);
         var h = Math.PI / e;
         this._activeInstructions.push(
-          new a(this._ctx.moveTo, [b + Math.cos(g) * d, c + Math.sin(g) * d])
+          new a(this._ctx.moveTo, [b + Math.cos(g) * d, c + Math.sin(g) * d]),
         );
         for (var i = 0; e > i; i++)
           (g += h),
@@ -1511,14 +1513,14 @@ var outerPadding = 0;
                 new a(this._ctx.lineTo, [
                   b + Math.cos(g) * d * f,
                   c + Math.sin(g) * d * f,
-                ])
+                ]),
               ),
             (g += h),
             this._activeInstructions.push(
               new a(this._ctx.lineTo, [
                 b + Math.cos(g) * d,
                 c + Math.sin(g) * d,
-              ])
+              ]),
             );
         return this;
       }),
@@ -1618,7 +1620,7 @@ var outerPadding = 0;
           this._appendInstructions(this._fillInstructions),
           this._appendInstructions(this._strokeInstructions),
           this._appendInstructions(
-            this._strokeInstructions && this._strokeStyleInstructions
+            this._strokeInstructions && this._strokeStyleInstructions,
           ),
           this._appendInstructions(this._activeInstructions),
           this._fillInstructions &&
@@ -1626,7 +1628,7 @@ var outerPadding = 0;
           this._strokeInstructions &&
             this._appendDraw(
               b.strokeCmd,
-              this._strokeIgnoreScale && [1, 0, 0, 1, 0, 0]
+              this._strokeIgnoreScale && [1, 0, 0, 1, 0, 0],
             );
       }),
       (c._appendInstructions = function (a) {
@@ -1638,7 +1640,7 @@ var outerPadding = 0;
               new a(this._ctx.save, [], !1),
               new a(this._ctx.transform, c, !1),
               b,
-              new a(this._ctx.restore, [], !1)
+              new a(this._ctx.restore, [], !1),
             )
           : this._instructions.push(b);
       }),
@@ -1762,7 +1764,7 @@ var outerPadding = 0;
               d.skewX,
               d.skewY,
               d.regX,
-              d.regY
+              d.regY,
             )),
           createjs.Stage._snapToPixelEnabled && d.snapToPixel
             ? a.transform(
@@ -1771,7 +1773,7 @@ var outerPadding = 0;
                 b.c,
                 b.d,
                 0 | (b.tx + 0.5),
-                0 | (b.ty + 0.5)
+                0 | (b.ty + 0.5),
               )
             : a.transform(b.a, b.b, b.c, b.d, b.tx, b.ty),
           (a.globalAlpha *= d.alpha),
@@ -1877,7 +1879,7 @@ var outerPadding = 0;
             b.skewX,
             b.skewY,
             b.regX,
-            b.regY
+            b.regY,
           )
           .appendProperties(b.alpha, b.shadow, b.compositeOperation);
       }),
@@ -1894,7 +1896,7 @@ var outerPadding = 0;
               b.skewX,
               b.skewY,
               b.regX,
-              b.regY
+              b.regY,
             )
             .prependProperties(b.alpha, b.shadow, b.compositeOperation),
             (b = b.parent);
@@ -1919,7 +1921,7 @@ var outerPadding = 0;
             this._cacheOffsetX,
             this._cacheOffsetY,
             a.width / b,
-            a.height / b
+            a.height / b,
           );
         }
         return null;
@@ -1933,7 +1935,7 @@ var outerPadding = 0;
             a,
             b,
             c,
-            d
+            d,
           ));
       }),
       (b.clone = function () {
@@ -2257,7 +2259,7 @@ var outerPadding = 0;
                     m.skewX,
                     m.skewY,
                     m.regX,
-                    m.regY
+                    m.regY,
                   ),
                   (h.alpha = m.alpha)),
                 (g.globalAlpha = h.alpha),
@@ -2391,9 +2393,12 @@ var outerPadding = 0;
           a = 20;
         else if (0 >= a) return;
         var b = this;
-        this._mouseOverIntervalID = setInterval(function () {
-          b._testMouseOver();
-        }, 1e3 / Math.min(50, a));
+        this._mouseOverIntervalID = setInterval(
+          function () {
+            b._testMouseOver();
+          },
+          1e3 / Math.min(50, a),
+        );
       }),
       (b.enableDOMEvents = function (a) {
         null == a && (a = !0);
@@ -2506,7 +2511,7 @@ var outerPadding = 0;
                 !1,
                 a,
                 e,
-                b
+                b,
               ),
               this._dispatchMouseEvent(this, "stagemousemove", !1, a, e, b),
               this._dispatchMouseEvent(e.target, "pressmove", !0, a, e, b);
@@ -2524,9 +2529,9 @@ var outerPadding = 0;
                   a,
                   a == this._primaryPointerID,
                   e.rawX,
-                  e.rawY
+                  e.rawY,
                 ),
-                e.target
+                e.target,
               ),
               this.nextStage && this.nextStage._handlePointerMove(a, b, c, d);
           }
@@ -2577,9 +2582,9 @@ var outerPadding = 0;
               a,
               a == this._primaryPointerID,
               d.rawX,
-              d.rawY
+              d.rawY,
             ),
-            e
+            e,
           ),
           c
             ? (a == this._primaryPointerID && (this._primaryPointerID = null),
@@ -2601,7 +2606,7 @@ var outerPadding = 0;
             !0,
             a,
             e,
-            b
+            b,
           )),
           this.nextStage && this.nextStage._handlePointerDown(a, b, c, d);
       }),
@@ -2626,7 +2631,7 @@ var outerPadding = 0;
               this.mouseX,
               this.mouseY,
               null,
-              !0
+              !0,
             )),
             (this._mouseOverX = this.mouseX),
             (this._mouseOverY = this.mouseY));
@@ -2671,7 +2676,7 @@ var outerPadding = 0;
             d,
             d == this._primaryPointerID,
             e.rawX,
-            e.rawY
+            e.rawY,
           );
           return a.dispatchEvent(g), g;
         }
@@ -2725,7 +2730,7 @@ var outerPadding = 0;
                 0,
                 0,
                 c.width,
-                c.height
+                c.height,
               )
             : a.drawImage(this.image, 0, 0),
           !0
@@ -2807,7 +2812,7 @@ var outerPadding = 0;
             -c.regX,
             -c.regY,
             d.width,
-            d.height
+            d.height,
           ),
           !0
         );
@@ -2959,7 +2964,7 @@ var outerPadding = 0;
       }),
       (b.clone = function (b) {
         var c = new a(
-          b && this.graphics ? this.graphics.clone() : this.graphics
+          b && this.graphics ? this.graphics.clone() : this.graphics,
         );
         return this.cloneProps(c), c;
       }),
@@ -3233,7 +3238,7 @@ var outerPadding = 0;
                       f - e,
                       g - p.regY,
                       c,
-                      d
+                      d,
                     ),
                   (f += c + this.letterSpacing);
               }
@@ -3287,7 +3292,7 @@ var outerPadding = 0;
             0,
             0,
             e.width,
-            e.height
+            e.height,
           );
         var g = document.createElement("img");
         return (g.src = f.toDataURL("image/png")), g;
@@ -3331,7 +3336,7 @@ var outerPadding = 0;
               0,
               e ? -1 : 1,
               d ? k.width : 0,
-              e ? k.height : 0
+              e ? k.height : 0,
             ),
             h.drawImage(k, 0, 0);
           var l = document.createElement("img");
@@ -3453,7 +3458,7 @@ var outerPadding = 0;
                 (this.actionsEnabled = b);
             },
             [i],
-            b
+            b,
           );
         }
         var k = b.timeline._labels,
@@ -3491,9 +3496,12 @@ var outerPadding = 0;
         if (this._data) throw a.ERR_RUNNING;
         (this.timeSlice = b), this._startBuild();
         var c = this;
-        this._timerID = setTimeout(function () {
-          c._run();
-        }, 50 - 50 * Math.max(0.01, Math.min(0.99, this.timeSlice || 0.3)));
+        this._timerID = setTimeout(
+          function () {
+            c._run();
+          },
+          50 - 50 * Math.max(0.01, Math.min(0.99, this.timeSlice || 0.3)),
+        );
       }),
       (b.stopAsync = function () {
         clearTimeout(this._timerID), (this._data = null);
@@ -3807,7 +3815,7 @@ var outerPadding = 0;
           -this.blurX * a,
           -this.blurY * a,
           2 * this.blurX * a,
-          2 * this.blurY * a
+          2 * this.blurY * a,
         );
       }),
       (b.applyFilter = function (a, b, c, d, e, f, g, h) {
@@ -4133,7 +4141,7 @@ var outerPadding = 0;
           this.redOffset,
           this.greenOffset,
           this.blueOffset,
-          this.alphaOffset
+          this.alphaOffset,
         );
       }),
       (createjs.ColorFilter = a);
@@ -4513,9 +4521,9 @@ var outerPadding = 0;
               ("touchstart" == d
                 ? this._handleStart(a, h, b, g.pageX, g.pageY)
                 : "touchmove" == d
-                ? this._handleMove(a, h, b, g.pageX, g.pageY)
-                : ("touchend" == d || "touchcancel" == d) &&
-                  this._handleEnd(a, h, b));
+                  ? this._handleMove(a, h, b, g.pageX, g.pageY)
+                  : ("touchend" == d || "touchcancel" == d) &&
+                    this._handleEnd(a, h, b));
           }
         }
       }),
@@ -5011,7 +5019,7 @@ var outerPadding = 0;
             d.id,
             d.data,
             f,
-            this
+            this,
           );
           if (k === !1) return null;
           k === !0 ||
@@ -5318,7 +5326,7 @@ var outerPadding = 0;
         0 == c && (c = createjs.LoadQueue.loadTimeout),
           (this._loadTimeout = setTimeout(
             createjs.proxy(this._handleTimeout, this),
-            c
+            c,
           )),
           this._isAudio && ((b.src = null), (b.preload = "auto")),
           (b.onerror = createjs.proxy(this._handleError, this)),
@@ -5328,7 +5336,7 @@ var outerPadding = 0;
             : ((b.onload = createjs.proxy(this._handleLoad, this)),
               (b.onreadystatechange = createjs.proxy(
                 this._handleReadyStateChange,
-                this
+                this,
               )));
         var d = this.buildPath(a.src, a.values);
         switch (a.type) {
@@ -5352,7 +5360,7 @@ var outerPadding = 0;
             throw new Error(
               'JSONP callback "' +
                 a.callback +
-                '" already exists on window. You need to specify a different callback. Or re-name the current one.'
+                '" already exists on window. You need to specify a different callback. Or re-name the current one.',
             );
           window[a.callback] = createjs.proxy(this._handleJSONPLoad, this);
         }
@@ -5464,11 +5472,11 @@ var outerPadding = 0;
         if (
           ((this._request.onloadstart = createjs.proxy(
             this._handleLoadStart,
-            this
+            this,
           )),
           (this._request.onprogress = createjs.proxy(
             this._handleProgress,
-            this
+            this,
           )),
           (this._request.onabort = createjs.proxy(this._handleAbort, this)),
           (this._request.onerror = createjs.proxy(this._handleError, this)),
@@ -5480,18 +5488,18 @@ var outerPadding = 0;
           else
             try {
               console.warn(
-                "LoadQueue.LOAD_TIMEOUT has been deprecated in favor of LoadQueue.loadTimeout"
+                "LoadQueue.LOAD_TIMEOUT has been deprecated in favor of LoadQueue.loadTimeout",
               );
             } catch (b) {}
           this._loadTimeout = setTimeout(
             createjs.proxy(this._handleTimeout, this),
-            a
+            a,
           );
         }
         (this._request.onload = createjs.proxy(this._handleLoad, this)),
           (this._request.onreadystatechange = createjs.proxy(
             this._handleReadyStateChange,
-            this
+            this,
           ));
         try {
           this._item.values && this._item.method != createjs.LoadQueue.GET
@@ -5609,7 +5617,7 @@ var outerPadding = 0;
             a.method == createjs.LoadQueue.POST &&
             c.setRequestHeader(
               "Content-Type",
-              "application/x-www-form-urlencoded"
+              "application/x-www-form-urlencoded",
             ),
           createjs.LoadQueue.isBinary(a.type) &&
             (c.responseType = "arraybuffer"),
@@ -5767,8 +5775,8 @@ var outerPadding = 0;
                 0 === g.length
                   ? "[]"
                   : gap
-                  ? "[\n" + gap + g.join(",\n" + gap) + "\n" + h + "]"
-                  : "[" + g.join(",") + "]"),
+                    ? "[\n" + gap + g.join(",\n" + gap) + "\n" + h + "]"
+                    : "[" + g.join(",") + "]"),
               (gap = h),
               e
             );
@@ -5789,8 +5797,8 @@ var outerPadding = 0;
               0 === g.length
                 ? "{}"
                 : gap
-                ? "{\n" + gap + g.join(",\n" + gap) + "\n" + h + "}"
-                : "{" + g.join(",") + "}"),
+                  ? "{\n" + gap + g.join(",\n" + gap) + "\n" + h + "}"
+                  : "{" + g.join(",") + "}"),
             (gap = h),
             e
           );
@@ -5879,9 +5887,9 @@ var outerPadding = 0;
                 .replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g, "@")
                 .replace(
                   /"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,
-                  "]"
+                  "]",
                 )
-                .replace(/(?:^|:|,)(?:\s*\[)+/g, "")
+                .replace(/(?:^|:|,)(?:\s*\[)+/g, ""),
             ))
           )
             return (
@@ -5891,7 +5899,7 @@ var outerPadding = 0;
                     {
                       "": j,
                     },
-                    ""
+                    "",
                   )
                 : j
             );
@@ -6020,7 +6028,7 @@ var outerPadding = 0;
       (e.registerPlugin = function (a) {
         try {
           console.log(
-            "createjs.Sound.registerPlugin has been deprecated. Please use registerPlugins."
+            "createjs.Sound.registerPlugin has been deprecated. Please use registerPlugins.",
           );
         } catch (b) {}
         return e._registerPlugin(a);
@@ -6031,8 +6039,8 @@ var outerPadding = 0;
           null == a
             ? !1
             : a.isSupported()
-            ? ((e.activePlugin = new a()), !0)
-            : !1
+              ? ((e.activePlugin = new a()), !0)
+              : !1
         );
       }),
       (e.registerPlugins = function (a) {
@@ -6046,13 +6054,13 @@ var outerPadding = 0;
         return null != e.activePlugin
           ? !0
           : e._pluginsRegistered
-          ? !1
-          : e.registerPlugins([
-              createjs.WebAudioPlugin,
-              createjs.HTMLAudioPlugin,
-            ])
-          ? !0
-          : !1;
+            ? !1
+            : e.registerPlugins([
+                  createjs.WebAudioPlugin,
+                  createjs.HTMLAudioPlugin,
+                ])
+              ? !0
+              : !1;
       }),
       (e.isReady = function () {
         return null != e.activePlugin;
@@ -6119,7 +6127,7 @@ var outerPadding = 0;
             a[d].id,
             a[d].data,
             a[d].preload,
-            b
+            b,
           );
         return c;
       }),
@@ -6167,7 +6175,7 @@ var outerPadding = 0;
         if (f.length > 1)
           try {
             console.log(
-              'createjs.Sound.DELIMITER "|" loading approach has been deprecated. Please use the new alternateExtensions property.'
+              'createjs.Sound.DELIMITER "|" loading approach has been deprecated. Please use the new alternateExtensions property.',
             );
           } catch (g) {}
         for (
@@ -6632,7 +6640,7 @@ var outerPadding = 0;
               1e3 * this._owner._arrayBuffers[this.src].duration),
           (this._endedHandler = createjs.proxy(
             this._handleSoundComplete,
-            this
+            this,
           ));
       }),
       (b._cleanUp = function () {
@@ -6640,7 +6648,7 @@ var outerPadding = 0;
           this.playState == createjs.Sound.PLAY_SUCCEEDED &&
           ((this.sourceNode = this._cleanUpAudioNode(this.sourceNode)),
           (this._sourceNodeNext = this._cleanUpAudioNode(
-            this._sourceNodeNext
+            this._sourceNodeNext,
           ))),
           0 != this.gainNode.numberOfOutputs && this.gainNode.disconnect(0),
           clearTimeout(this._delayTimeoutId),
@@ -6668,18 +6676,18 @@ var outerPadding = 0;
           var a = this._owner._arrayBuffers[this.src].duration;
           (this.sourceNode = this._createAndPlayAudioNode(
             this._owner.context.currentTime - a,
-            this._offset
+            this._offset,
           )),
             (this._duration = 1e3 * a),
             (this._startTime = this.sourceNode.startTime - this._offset),
             (this._soundCompleteTimeout = setTimeout(
               this._endedHandler,
-              1e3 * (a - this._offset)
+              1e3 * (a - this._offset),
             )),
             0 != this._remainingLoops &&
               (this._sourceNodeNext = this._createAndPlayAudioNode(
                 this._startTime,
-                0
+                0,
               ));
         }
       }),
@@ -6790,11 +6798,11 @@ var outerPadding = 0;
                   (this._startTime = this.sourceNode.startTime),
                   (this._sourceNodeNext = this._createAndPlayAudioNode(
                     this._startTime,
-                    0
+                    0,
                   )),
                   (this._soundCompleteTimeout = setTimeout(
                     this._endedHandler,
-                    this._duration
+                    this._duration,
                   )))
                 : this._handleSoundReady(null),
               this._sendEvent("loop"),
@@ -6858,7 +6866,7 @@ var outerPadding = 0;
         this.owner.context.decodeAudioData(
           this.request.response,
           createjs.proxy(this.handleAudioDecoded, this),
-          createjs.proxy(this.handleError, this)
+          createjs.proxy(this.handleError, this),
         );
       }),
       (b.handleAudioDecoded = function (a) {
@@ -7046,12 +7054,12 @@ var outerPadding = 0;
           (this._owner = b),
           (this._endedHandler = createjs.proxy(
             this._handleSoundComplete,
-            this
+            this,
           )),
           (this._readyHandler = createjs.proxy(this._handleSoundReady, this)),
           (this._stalledHandler = createjs.proxy(
             this._handleSoundStalled,
-            this
+            this,
           )),
           (this.loopHandler = createjs.proxy(this.handleSoundLoop, this));
       }),
@@ -7066,17 +7074,17 @@ var outerPadding = 0;
             a.removeEventListener(
               createjs.HTMLAudioPlugin._AUDIO_ENDED,
               this._endedHandler,
-              !1
+              !1,
             ),
             a.removeEventListener(
               createjs.HTMLAudioPlugin._AUDIO_READY,
               this._readyHandler,
-              !1
+              !1,
             ),
             a.removeEventListener(
               createjs.HTMLAudioPlugin._AUDIO_SEEKED,
               this.loopHandler,
-              !1
+              !1,
             );
           try {
             a.currentTime = 0;
@@ -7100,14 +7108,14 @@ var outerPadding = 0;
       (b._beginPlaying = function (a, b, c, d) {
         if (null == window.createjs) return -1;
         var e = (this.tag = createjs.HTMLAudioPlugin.TagPool.getInstance(
-          this.src
+          this.src,
         ));
         return null == e
           ? (this.playFailed(), -1)
           : (e.addEventListener(
               createjs.HTMLAudioPlugin._AUDIO_ENDED,
               this._endedHandler,
-              !1
+              !1,
             ),
             (this._offset = a),
             (this.volume = c),
@@ -7118,12 +7126,12 @@ var outerPadding = 0;
               ? (e.addEventListener(
                   createjs.HTMLAudioPlugin._AUDIO_READY,
                   this._readyHandler,
-                  !1
+                  !1,
                 ),
                 e.addEventListener(
                   createjs.HTMLAudioPlugin._AUDIO_STALLED,
                   this._stalledHandler,
-                  !1
+                  !1,
                 ),
                 (e.preload = "auto"),
                 e.load())
@@ -7143,7 +7151,7 @@ var outerPadding = 0;
             this.tag.removeEventListener(
               createjs.HTMLAudioPlugin._AUDIO_READY,
               this._readyHandler,
-              !1
+              !1,
             ),
             this._offset >= this.getDuration())
           )
@@ -7154,7 +7162,7 @@ var outerPadding = 0;
               (this.tag.addEventListener(
                 createjs.HTMLAudioPlugin._AUDIO_SEEKED,
                 this.loopHandler,
-                !1
+                !1,
               ),
               (this.tag.loop = !0)),
             this.tag.play();
@@ -7229,7 +7237,7 @@ var outerPadding = 0;
           this.tag.removeEventListener(
             createjs.HTMLAudioPlugin._AUDIO_SEEKED,
             this.loopHandler,
-            !1
+            !1,
           );
           try {
             this.tag.currentTime = 0.001 * a;
@@ -7239,7 +7247,7 @@ var outerPadding = 0;
           this.tag.addEventListener(
             createjs.HTMLAudioPlugin._AUDIO_SEEKED,
             this.loopHandler,
-            !1
+            !1,
           );
         }
         return !0;
@@ -7262,7 +7270,7 @@ var outerPadding = 0;
             this.tag.removeEventListener(
               createjs.HTMLAudioPlugin._AUDIO_SEEKED,
               this.loopHandler,
-              !1
+              !1,
             )),
           this._sendEvent("loop");
       }),
@@ -7293,7 +7301,7 @@ var outerPadding = 0;
           (this.tag = b),
           (this.preloadTimer = setInterval(
             createjs.proxy(this.preloadTick, this),
-            200
+            200,
           )),
           (this.loadedHandler = createjs.proxy(this.sendLoadedEvent, this)),
           this.tag.addEventListener &&
@@ -7302,7 +7310,7 @@ var outerPadding = 0;
         )
           this.tag.onreadystatechange = createjs.proxy(
             this.sendLoadedEvent,
-            this
+            this,
           );
         else {
           var c = this.tag.onreadystatechange;
@@ -7310,7 +7318,7 @@ var outerPadding = 0;
             c(),
               (this.tag.onreadystatechange = createjs.proxy(
                 this.sendLoadedEvent,
-                this
+                this,
               ));
           };
         }
@@ -7584,9 +7592,9 @@ var outerPadding = 0;
             (this._useTicks
               ? this._runActions(c, c)
               : 1 == b && e > c
-              ? (e != this.duration && this._runActions(e, this.duration),
-                this._runActions(0, c, !0))
-              : this._runActions(e, c)),
+                ? (e != this.duration && this._runActions(e, this.duration),
+                  this._runActions(0, c, !0))
+                : this._runActions(e, c)),
           d && this.setPaused(!0),
           this.dispatchEvent("change"),
           d
@@ -7860,8 +7868,8 @@ var outerPadding = 0;
             return 0 == a
               ? b
               : 0 > a
-              ? b * (b * -a + 1 + a)
-              : b * ((2 - b) * a + (1 - a));
+                ? b * (b * -a + 1 + a)
+                : b * ((2 - b) * a + (1 - a));
           }
         );
       }),
@@ -7944,10 +7952,10 @@ var outerPadding = 0;
         return 1 / 2.75 > a
           ? 7.5625 * a * a
           : 2 / 2.75 > a
-          ? 7.5625 * (a -= 1.5 / 2.75) * a + 0.75
-          : 2.5 / 2.75 > a
-          ? 7.5625 * (a -= 2.25 / 2.75) * a + 0.9375
-          : 7.5625 * (a -= 2.625 / 2.75) * a + 0.984375;
+            ? 7.5625 * (a -= 1.5 / 2.75) * a + 0.75
+            : 2.5 / 2.75 > a
+              ? 7.5625 * (a -= 2.25 / 2.75) * a + 0.9375
+              : 7.5625 * (a -= 2.625 / 2.75) * a + 0.984375;
       }),
       (a.bounceInOut = function (b) {
         return 0.5 > b
@@ -8171,7 +8179,7 @@ var outerPadding = 0;
               57.2957795 *
               Math.atan2(
                 (f[i + 1] - f[i - 1]) * m + (f[i + 3] - f[i + 1]) * l,
-                (f[i + 0] - f[i - 2]) * m + (f[i + 2] - f[i + 0]) * l
+                (f[i + 0] - f[i - 2]) * m + (f[i + 2] - f[i + 0]) * l,
               )),
           d
         );
@@ -8243,7 +8251,7 @@ var outerPadding = 0;
         return this.pushStack(
           n.map(this, function (b, c) {
             return a.call(b, c, b);
-          })
+          }),
         );
       },
       slice: function () {
@@ -8347,8 +8355,8 @@ var outerPadding = 0;
         return null == a
           ? a + ""
           : "object" == typeof a || "function" == typeof a
-          ? h[i.call(a)] || "object"
-          : typeof a;
+            ? h[i.call(a)] || "object"
+            : typeof a;
       },
       globalEval: function (b) {
         b &&
@@ -8456,11 +8464,11 @@ var outerPadding = 0;
     }),
     n.each(
       "Boolean Number String Function Array Date RegExp Object Error".split(
-        " "
+        " ",
       ),
       function (a, b) {
         h["[object " + b + "]"] = b.toLowerCase();
-      }
+      },
     );
   function s(a) {
     var b = a.length,
@@ -8468,10 +8476,10 @@ var outerPadding = 0;
     return "function" === c || n.isWindow(a)
       ? !1
       : 1 === a.nodeType && b
-      ? !0
-      : "array" === c ||
-        0 === b ||
-        ("number" == typeof b && b > 0 && b - 1 in a);
+        ? !0
+        : "array" === c ||
+          0 === b ||
+          ("number" == typeof b && b > 0 && b - 1 in a);
   }
   var t = (function (a) {
     var b,
@@ -8563,7 +8571,7 @@ var outerPadding = 0;
             "*(\\d+)|))" +
             K +
             "*\\)|)",
-          "i"
+          "i",
         ),
         bool: new RegExp("^(?:" + J + ")$", "i"),
         needsContext: new RegExp(
@@ -8574,7 +8582,7 @@ var outerPadding = 0;
             "*((?:-\\d)?\\d*)" +
             K +
             "*\\)|)(?=[^-]|$)",
-          "i"
+          "i",
         ),
       },
       W = /^(?:input|select|textarea|button)$/i,
@@ -8589,8 +8597,8 @@ var outerPadding = 0;
         return d !== d || c
           ? b
           : 0 > d
-          ? String.fromCharCode(d + 65536)
-          : String.fromCharCode((d >> 10) | 55296, (1023 & d) | 56320);
+            ? String.fromCharCode(d + 65536)
+            : String.fromCharCode((d >> 10) | 55296, (1023 & d) | 56320);
       };
     try {
       G.apply((D = H.call(t.childNodes)), t.childNodes),
@@ -8758,7 +8766,7 @@ var outerPadding = 0;
                       function () {
                         k();
                       },
-                      !1
+                      !1,
                     )
                   : g.attachEvent &&
                     g.attachEvent("onunload", function () {
@@ -8864,7 +8872,7 @@ var outerPadding = 0;
                   m.webkitMatchesSelector ||
                   m.mozMatchesSelector ||
                   m.oMatchesSelector ||
-                  m.msMatchesSelector)
+                  m.msMatchesSelector),
               )) &&
                 gb(function (a) {
                   (c.disconnectedMatch = q.call(a, "div")),
@@ -8911,13 +8919,13 @@ var outerPadding = 0;
                           ? a === e || (a.ownerDocument === t && r(t, a))
                             ? -1
                             : b === e || (b.ownerDocument === t && r(t, b))
-                            ? 1
-                            : i
-                            ? I.call(i, a) - I.call(i, b)
-                            : 0
+                              ? 1
+                              : i
+                                ? I.call(i, a) - I.call(i, b)
+                                : 0
                           : 4 & d
-                          ? -1
-                          : 1);
+                            ? -1
+                            : 1);
                   }
                 : function (a, b) {
                     if (a === b) return (j = !0), 0;
@@ -8931,14 +8939,14 @@ var outerPadding = 0;
                       return a === e
                         ? -1
                         : b === e
-                        ? 1
-                        : f
-                        ? -1
-                        : g
-                        ? 1
-                        : i
-                        ? I.call(i, a) - I.call(i, b)
-                        : 0;
+                          ? 1
+                          : f
+                            ? -1
+                            : g
+                              ? 1
+                              : i
+                                ? I.call(i, a) - I.call(i, b)
+                                : 0;
                     if (f === g) return ib(a, b);
                     c = a;
                     while ((c = c.parentNode)) h.unshift(c);
@@ -8948,10 +8956,10 @@ var outerPadding = 0;
                     return d
                       ? ib(h[d], k[d])
                       : h[d] === t
-                      ? -1
-                      : k[d] === t
-                      ? 1
-                      : 0;
+                        ? -1
+                        : k[d] === t
+                          ? 1
+                          : 0;
                   }),
               e)
             : l;
@@ -8986,10 +8994,10 @@ var outerPadding = 0;
         return void 0 !== f
           ? f
           : c.attributes || !n
-          ? a.getAttribute(b)
-          : (f = a.getAttributeNode(b)) && f.specified
-          ? f.value
-          : null;
+            ? a.getAttribute(b)
+            : (f = a.getAttributeNode(b)) && f.specified
+              ? f.value
+              : null;
       }),
       (db.error = function (a) {
         throw new Error("Syntax error, unrecognized expression: " + a);
@@ -9105,7 +9113,7 @@ var outerPadding = 0;
                       ("string" == typeof a.className && a.className) ||
                         (typeof a.getAttribute !== A &&
                           a.getAttribute("class")) ||
-                        ""
+                        "",
                     );
                   }))
               );
@@ -9116,23 +9124,24 @@ var outerPadding = 0;
                 return null == e
                   ? "!=" === b
                   : b
-                  ? ((e += ""),
-                    "=" === b
-                      ? e === c
-                      : "!=" === b
-                      ? e !== c
-                      : "^=" === b
-                      ? c && 0 === e.indexOf(c)
-                      : "*=" === b
-                      ? c && e.indexOf(c) > -1
-                      : "$=" === b
-                      ? c && e.slice(-c.length) === c
-                      : "~=" === b
-                      ? (" " + e + " ").indexOf(c) > -1
-                      : "|=" === b
-                      ? e === c || e.slice(0, c.length + 1) === c + "-"
-                      : !1)
-                  : !0;
+                    ? ((e += ""),
+                      "=" === b
+                        ? e === c
+                        : "!=" === b
+                          ? e !== c
+                          : "^=" === b
+                            ? c && 0 === e.indexOf(c)
+                            : "*=" === b
+                              ? c && e.indexOf(c) > -1
+                              : "$=" === b
+                                ? c && e.slice(-c.length) === c
+                                : "~=" === b
+                                  ? (" " + e + " ").indexOf(c) > -1
+                                  : "|=" === b
+                                    ? e === c ||
+                                      e.slice(0, c.length + 1) === c + "-"
+                                    : !1)
+                    : !0;
               };
             },
             CHILD: function (a, b, c, d, e) {
@@ -9213,19 +9222,19 @@ var outerPadding = 0;
               return e[s]
                 ? e(b)
                 : e.length > 1
-                ? ((c = [a, a, "", b]),
-                  d.setFilters.hasOwnProperty(a.toLowerCase())
-                    ? fb(function (a, c) {
-                        var d,
-                          f = e(a, b),
-                          g = f.length;
-                        while (g--)
-                          (d = I.call(a, f[g])), (a[d] = !(c[d] = f[g]));
-                      })
-                    : function (a) {
-                        return e(a, 0, c);
-                      })
-                : e;
+                  ? ((c = [a, a, "", b]),
+                    d.setFilters.hasOwnProperty(a.toLowerCase())
+                      ? fb(function (a, c) {
+                          var d,
+                            f = e(a, b),
+                            g = f.length;
+                          while (g--)
+                            (d = I.call(a, f[g])), (a[d] = !(c[d] = f[g]));
+                        })
+                      : function (a) {
+                          return e(a, 0, c);
+                        })
+                  : e;
             },
           },
           pseudos: {
@@ -9489,7 +9498,9 @@ var outerPadding = 0;
                   (j = e ? I.call(f, l) : m[k]) > -1 &&
                   (f[j] = !(g[j] = l));
             }
-          } else (r = sb(r === g ? r.splice(o, r.length) : r)), e ? e(null, g, r, i) : G.apply(g, r);
+          } else
+            (r = sb(r === g ? r.splice(o, r.length) : r)),
+              e ? e(null, g, r, i) : G.apply(g, r);
         })
       );
     }
@@ -9507,14 +9518,14 @@ var outerPadding = 0;
               return a === b;
             },
             i,
-            !0
+            !0,
           ),
           l = qb(
             function (a) {
               return I.call(b, a) > -1;
             },
             i,
-            !0
+            !0,
           ),
           m = [
             function (a, c, d) {
@@ -9537,12 +9548,12 @@ var outerPadding = 0;
                 pb(
                   a.slice(0, j - 1).concat({
                     value: " " === a[j - 2].type ? "*" : "",
-                  })
+                  }),
                 ).replace(P, "$1"),
               c,
               e > j && ub(a.slice(j, e)),
               f > e && ub((a = a.slice(e))),
-              f > e && pb(a)
+              f > e && pb(a),
             );
           }
           m.push(c);
@@ -9634,7 +9645,7 @@ var outerPadding = 0;
             (l = d.find[k]) &&
             (f = l(
               j.matches[0].replace(ab, bb),
-              ($.test(i[0].type) && mb(b.parentNode)) || b
+              ($.test(i[0].type) && mb(b.parentNode)) || b,
             ))
           ) {
             if ((i.splice(h, 1), (a = f.length && pb(i)), !a))
@@ -9684,10 +9695,10 @@ var outerPadding = 0;
           return c
             ? void 0
             : a[b] === !0
-            ? b.toLowerCase()
-            : (d = a.getAttributeNode(b)) && d.specified
-            ? d.value
-            : null;
+              ? b.toLowerCase()
+              : (d = a.getAttributeNode(b)) && d.specified
+                ? d.value
+                : null;
         }),
       db
     );
@@ -9731,7 +9742,7 @@ var outerPadding = 0;
             a,
             n.grep(b, function (a) {
               return 1 === a.nodeType;
-            })
+            }),
           )
     );
   }),
@@ -9745,7 +9756,7 @@ var outerPadding = 0;
           return this.pushStack(
             n(a).filter(function () {
               for (b = 0; e > b; b++) if (n.contains(d[b], this)) return !0;
-            })
+            }),
           );
         for (b = 0; e > b; b++) n.find(a, d[b], c);
         return (
@@ -9789,7 +9800,7 @@ var outerPadding = 0;
             ((b = b instanceof n ? b[0] : b),
             n.merge(
               this,
-              n.parseHTML(c[1], b && b.nodeType ? b.ownerDocument || b : z, !0)
+              n.parseHTML(c[1], b && b.nodeType ? b.ownerDocument || b : z, !0),
             ),
             v.test(c[1]) && n.isPlainObject(b))
           )
@@ -9806,12 +9817,12 @@ var outerPadding = 0;
       return a.nodeType
         ? ((this.context = this[0] = a), (this.length = 1), this)
         : n.isFunction(a)
-        ? "undefined" != typeof y.ready
-          ? y.ready(a)
-          : a(n)
-        : (void 0 !== a.selector &&
-            ((this.selector = a.selector), (this.context = a.context)),
-          n.makeArray(a, this));
+          ? "undefined" != typeof y.ready
+            ? y.ready(a)
+            : a(n)
+          : (void 0 !== a.selector &&
+              ((this.selector = a.selector), (this.context = a.context)),
+            n.makeArray(a, this));
     });
   (B.prototype = n.fn), (y = n(z));
   var C = /^(?:parents|prev(?:Until|All))/,
@@ -9876,15 +9887,15 @@ var outerPadding = 0;
             ? n.inArray(this[0], n(a))
             : n.inArray(a.jquery ? a[0] : a, this)
           : this[0] && this[0].parentNode
-          ? this.first().prevAll().length
-          : -1;
+            ? this.first().prevAll().length
+            : -1;
       },
       add: function (a, b) {
         return this.pushStack(n.unique(n.merge(this.get(), n(a, b))));
       },
       addBack: function (a) {
         return this.add(
-          null == a ? this.prevObject : this.prevObject.filter(a)
+          null == a ? this.prevObject : this.prevObject.filter(a),
         );
       },
     });
@@ -9946,7 +9957,7 @@ var outerPadding = 0;
           this.pushStack(e)
         );
       };
-    }
+    },
   );
   var F = /\S+/g,
     G = {};
@@ -10077,7 +10088,7 @@ var outerPadding = 0;
                             .progress(c.notify)
                         : c[f[0] + "With"](
                             this === d ? c.promise() : this,
-                            g ? [a] : arguments
+                            g ? [a] : arguments,
                           );
                     });
                   }),
@@ -10102,7 +10113,7 @@ var outerPadding = 0;
                     c = h;
                   },
                   b[1 ^ a][2].disable,
-                  b[2][2].lock
+                  b[2][2].lock,
                 ),
               (e[f[0]] = function () {
                 return e[f[0] + "With"](this === e ? d : this, arguments), this;
@@ -10255,14 +10266,14 @@ var outerPadding = 0;
             "true" === c
               ? !0
               : "false" === c
-              ? !1
-              : "null" === c
-              ? null
-              : +c + "" === c
-              ? +c
-              : N.test(c)
-              ? n.parseJSON(c)
-              : c;
+                ? !1
+                : "null" === c
+                  ? null
+                  : +c + "" === c
+                    ? +c
+                    : N.test(c)
+                      ? n.parseJSON(c)
+                      : c;
         } catch (e) {}
         n.data(a, b, c);
       } else c = void 0;
@@ -10322,8 +10333,8 @@ var outerPadding = 0;
           n.isArray(b)
             ? (b = b.concat(n.map(b, n.camelCase)))
             : b in d
-            ? (b = [b])
-            : ((b = n.camelCase(b)), (b = b in d ? [b] : b.split(" "))),
+              ? (b = [b])
+              : ((b = n.camelCase(b)), (b = b in d ? [b] : b.split(" "))),
             (e = b.length);
           while (e--) delete d[b[e]];
           if (c ? !Q(d) : !n.isEmptyObject(d)) return;
@@ -10332,8 +10343,8 @@ var outerPadding = 0;
           (f
             ? n.cleanData([a], !0)
             : l.deleteExpando || g != g.window
-            ? delete g[h]
-            : (g[h] = null));
+              ? delete g[h]
+              : (g[h] = null));
       }
     }
   }
@@ -10388,12 +10399,12 @@ var outerPadding = 0;
               n.data(this, a);
             })
           : arguments.length > 1
-          ? this.each(function () {
-              n.data(this, a, b);
-            })
-          : f
-          ? P(f, a, n.data(f, a))
-          : void 0;
+            ? this.each(function () {
+                n.data(this, a, b);
+              })
+            : f
+              ? P(f, a, n.data(f, a))
+              : void 0;
       },
       removeData: function (a) {
         return this.each(function () {
@@ -10450,12 +10461,12 @@ var outerPadding = 0;
           arguments.length < c
             ? n.queue(this[0], a)
             : void 0 === b
-            ? this
-            : this.each(function () {
-                var c = n.queue(this, a, b);
-                n._queueHooks(this, a),
-                  "fx" === a && "inprogress" !== c[0] && n.dequeue(this, a);
-              })
+              ? this
+              : this.each(function () {
+                  var c = n.queue(this, a, b);
+                  n._queueHooks(this, a),
+                    "fx" === a && "inprogress" !== c[0] && n.dequeue(this, a);
+                })
         );
       },
       dequeue: function (a) {
@@ -10631,7 +10642,7 @@ var outerPadding = 0;
                   needsContext: e && n.expr.match.needsContext.test(e),
                   namespace: p.join("."),
                 },
-                i
+                i,
               )),
               (m = g[o]) ||
                 ((m = g[o] = []),
@@ -10856,7 +10867,7 @@ var outerPadding = 0;
     },
     props:
       "altKey bubbles cancelable ctrlKey currentTarget eventPhase metaKey relatedTarget shiftKey target timeStamp view which".split(
-        " "
+        " ",
       ),
     fixHooks: {},
     keyHooks: {
@@ -10872,7 +10883,7 @@ var outerPadding = 0;
     mouseHooks: {
       props:
         "button buttons clientX clientY fromElement offsetX offsetY pageX pageY screenX screenY toElement".split(
-          " "
+          " ",
         ),
       filter: function (a, b) {
         var c,
@@ -11020,7 +11031,7 @@ var outerPadding = 0;
             );
           },
         };
-      }
+      },
     ),
     l.submitBubbles ||
       (n.event.special.submit = {
@@ -11042,7 +11053,7 @@ var outerPadding = 0;
                       a._submit_bubble = !0;
                     }),
                     n._data(c, "submitBubbles", !0));
-                }
+                },
               );
         },
         postDispatch: function (a) {
@@ -11124,7 +11135,7 @@ var outerPadding = 0;
                 : (d.removeEventListener(a, c, !0), n._removeData(d, b));
             },
           };
-        }
+        },
       ),
     n.fn.extend({
       on: function (a, b, c, d, e) {
@@ -11168,7 +11179,7 @@ var outerPadding = 0;
             n(a.delegateTarget).off(
               d.namespace ? d.origType + "." + d.namespace : d.origType,
               d.selector,
-              d.handler
+              d.handler,
             ),
             this
           );
@@ -11239,8 +11250,8 @@ var outerPadding = 0;
         typeof a.getElementsByTagName !== L
           ? a.getElementsByTagName(b || "*")
           : typeof a.querySelectorAll !== L
-          ? a.querySelectorAll(b || "*")
-          : void 0;
+            ? a.querySelectorAll(b || "*")
+            : void 0;
     if (!f)
       for (f = [], c = a.childNodes || a; null != (d = c[e]); e++)
         !b || n.nodeName(d, b) ? f.push(d) : n.merge(f, vb(d, b));
@@ -11294,18 +11305,18 @@ var outerPadding = 0;
       "script" === c && b.text !== a.text
         ? ((yb(b).text = a.text), zb(b))
         : "object" === c
-        ? (b.parentNode && (b.outerHTML = a.outerHTML),
-          l.html5Clone &&
-            a.innerHTML &&
-            !n.trim(b.innerHTML) &&
-            (b.innerHTML = a.innerHTML))
-        : "input" === c && X.test(a.type)
-        ? ((b.defaultChecked = b.checked = a.checked),
-          b.value !== a.value && (b.value = a.value))
-        : "option" === c
-        ? (b.defaultSelected = b.selected = a.defaultSelected)
-        : ("input" === c || "textarea" === c) &&
-          (b.defaultValue = a.defaultValue);
+          ? (b.parentNode && (b.outerHTML = a.outerHTML),
+            l.html5Clone &&
+              a.innerHTML &&
+              !n.trim(b.innerHTML) &&
+              (b.innerHTML = a.innerHTML))
+          : "input" === c && X.test(a.type)
+            ? ((b.defaultChecked = b.checked = a.checked),
+              b.value !== a.value && (b.value = a.value))
+            : "option" === c
+              ? (b.defaultSelected = b.selected = a.defaultSelected)
+              : ("input" === c || "textarea" === c) &&
+                (b.defaultValue = a.defaultValue);
     }
   }
   n.extend({
@@ -11416,8 +11427,8 @@ var outerPadding = 0;
             k
               ? delete d[i]
               : typeof d.removeAttribute !== L
-              ? d.removeAttribute(i)
-              : (d[i] = null),
+                ? d.removeAttribute(i)
+                : (d[i] = null),
             c.push(f));
         }
     },
@@ -11430,12 +11441,12 @@ var outerPadding = 0;
             return void 0 === a
               ? n.text(this)
               : this.empty().append(
-                  ((this[0] && this[0].ownerDocument) || z).createTextNode(a)
+                  ((this[0] && this[0].ownerDocument) || z).createTextNode(a),
                 );
           },
           null,
           a,
-          arguments.length
+          arguments.length,
         );
       },
       append: function () {
@@ -11532,7 +11543,7 @@ var outerPadding = 0;
           },
           null,
           a,
-          arguments.length
+          arguments.length,
         );
       },
       replaceWith: function () {
@@ -11595,8 +11606,8 @@ var outerPadding = 0;
                     : n.globalEval(
                         (d.text || d.textContent || d.innerHTML || "").replace(
                           rb,
-                          ""
-                        )
+                          "",
+                        ),
                       ));
           i = c = null;
         }
@@ -11619,7 +11630,7 @@ var outerPadding = 0;
               f.apply(e, c.get());
           return this.pushStack(e);
         };
-      }
+      },
     );
   var Db,
     Eb = {};
@@ -11828,7 +11839,7 @@ var outerPadding = 0;
               (e.style.marginRight = e.style.width = "0"),
               (d.style.width = "1px"),
               (g = !parseFloat(
-                (a.getComputedStyle(e, null) || {}).marginRight
+                (a.getComputedStyle(e, null) || {}).marginRight,
               )),
               b.removeChild(c);
           }
@@ -11855,7 +11866,7 @@ var outerPadding = 0;
             : {},
           function () {
             d = 4 === c.offsetWidth;
-          }
+          },
         ),
         (e = !0),
         (f = !1),
@@ -12062,9 +12073,9 @@ var outerPadding = 0;
                   d,
                   l.boxSizing() &&
                     "border-box" === n.css(a, "boxSizing", !1, e),
-                  e
+                  e,
                 )
-              : 0
+              : 0,
           );
         },
       };
@@ -12073,12 +12084,13 @@ var outerPadding = 0;
       (n.cssHooks.opacity = {
         get: function (a, b) {
           return Ob.test(
-            (b && a.currentStyle ? a.currentStyle.filter : a.style.filter) || ""
+            (b && a.currentStyle ? a.currentStyle.filter : a.style.filter) ||
+              "",
           )
             ? 0.01 * parseFloat(RegExp.$1) + ""
             : b
-            ? "1"
-            : "";
+              ? "1"
+              : "";
         },
         set: function (a, b) {
           var c = a.style,
@@ -12101,7 +12113,7 @@ var outerPadding = 0;
               display: "inline-block",
             },
             Kb,
-            [a, "marginRight"]
+            [a, "marginRight"],
           )
         : void 0;
     })),
@@ -12124,7 +12136,7 @@ var outerPadding = 0;
           },
         }),
           Hb.test(a) || (n.cssHooks[a + b].set = Xb);
-      }
+      },
     ),
     n.fn.extend({
       css: function (a, b) {
@@ -12144,7 +12156,7 @@ var outerPadding = 0;
           },
           a,
           b,
-          arguments.length > 1
+          arguments.length > 1,
         );
       },
       show: function () {
@@ -12193,7 +12205,7 @@ var outerPadding = 0;
                   this.options.duration * a,
                   0,
                   1,
-                  this.options.duration
+                  this.options.duration,
                 )
               : a),
           (this.now = (this.end - this.start) * b + this.start),
@@ -12218,9 +12230,9 @@ var outerPadding = 0;
           n.fx.step[a.prop]
             ? n.fx.step[a.prop](a)
             : a.elem.style &&
-              (null != a.elem.style[n.cssProps[a.prop]] || n.cssHooks[a.prop])
-            ? n.style(a.elem, a.prop, a.now + a.unit)
-            : (a.elem[a.prop] = a.now);
+                (null != a.elem.style[n.cssProps[a.prop]] || n.cssHooks[a.prop])
+              ? n.style(a.elem, a.prop, a.now + a.unit)
+              : (a.elem[a.prop] = a.now);
         },
       },
     }),
@@ -12428,7 +12440,7 @@ var outerPadding = 0;
           {
             specialEasing: {},
           },
-          c
+          c,
         ),
         originalProperties: b,
         originalOptions: c,
@@ -12441,7 +12453,7 @@ var outerPadding = 0;
             j.opts,
             b,
             c,
-            j.opts.specialEasing[b] || j.opts.easing
+            j.opts.specialEasing[b] || j.opts.easing,
           );
           return j.tweens.push(d), d;
         },
@@ -12464,7 +12476,7 @@ var outerPadding = 0;
           elem: a,
           anim: j,
           queue: j.opts.queue,
-        })
+        }),
       ),
       j
         .progress(j.opts.progress)
@@ -12496,10 +12508,10 @@ var outerPadding = 0;
         (d.duration = n.fx.off
           ? 0
           : "number" == typeof d.duration
-          ? d.duration
-          : d.duration in n.fx.speeds
-          ? n.fx.speeds[d.duration]
-          : n.fx.speeds._default),
+            ? d.duration
+            : d.duration in n.fx.speeds
+              ? n.fx.speeds[d.duration]
+              : n.fx.speeds._default),
         (null == d.queue || d.queue === !0) && (d.queue = "fx"),
         (d.old = d.complete),
         (d.complete = function () {
@@ -12517,7 +12529,7 @@ var outerPadding = 0;
           },
           a,
           c,
-          d
+          d,
         );
       },
       animate: function (a, b, c, d) {
@@ -12610,7 +12622,7 @@ var outerPadding = 0;
         n.fn[a] = function (a, c, d) {
           return this.animate(b, a, c, d);
         };
-      }
+      },
     ),
     (n.timers = []),
     (n.fx.tick = function () {
@@ -12696,11 +12708,11 @@ var outerPadding = 0;
                 null == e
                   ? (e = "")
                   : "number" == typeof e
-                  ? (e += "")
-                  : n.isArray(e) &&
-                    (e = n.map(e, function (a) {
-                      return null == a ? "" : a + "";
-                    })),
+                    ? (e += "")
+                    : n.isArray(e) &&
+                      (e = n.map(e, function (a) {
+                        return null == a ? "" : a + "";
+                      })),
                 (b =
                   n.valHooks[this.type] ||
                   n.valHooks[this.nodeName.toLowerCase()]),
@@ -12821,10 +12833,10 @@ var outerPadding = 0;
                   ? e
                   : ((e = n.find.attr(a, b)), null == e ? void 0 : e)
                 : null !== c
-                ? d && "set" in d && void 0 !== (e = d.set(a, c, b))
-                  ? e
-                  : (a.setAttribute(b, c + ""), c)
-                : void n.removeAttr(a, b));
+                  ? d && "set" in d && void 0 !== (e = d.set(a, c, b))
+                    ? e
+                    : (a.setAttribute(b, c + ""), c)
+                  : void n.removeAttr(a, b));
       },
       removeAttr: function (a, b) {
         var c,
@@ -12858,8 +12870,8 @@ var outerPadding = 0;
           b === !1
             ? n.removeAttr(a, c)
             : (sc && rc) || !qc.test(c)
-            ? a.setAttribute((!rc && n.propFix[c]) || c, c)
-            : (a[n.camelCase("default-" + c)] = a[c] = !0),
+              ? a.setAttribute((!rc && n.propFix[c]) || c, c)
+              : (a[n.camelCase("default-" + c)] = a[c] = !0),
           c
         );
       },
@@ -12883,8 +12895,8 @@ var outerPadding = 0;
               return c
                 ? void 0
                 : a[n.camelCase("default-" + b)]
-                ? b.toLowerCase()
-                : null;
+                  ? b.toLowerCase()
+                  : null;
             };
     }),
     (sc && rc) ||
@@ -12914,8 +12926,8 @@ var outerPadding = 0;
             return c
               ? void 0
               : (d = a.getAttributeNode(b)) && "" !== d.value
-              ? d.value
-              : null;
+                ? d.value
+                : null;
           }),
       (n.valHooks.button = {
         get: function (a, b) {
@@ -12981,8 +12993,8 @@ var outerPadding = 0;
                 ? d
                 : (a[b] = c)
               : e && "get" in e && null !== (d = e.get(a, b))
-              ? d
-              : a[b]
+                ? d
+                : a[b]
           );
       },
       propHooks: {
@@ -12992,8 +13004,8 @@ var outerPadding = 0;
             return b
               ? parseInt(b, 10)
               : tc.test(a.nodeName) || (uc.test(a.nodeName) && a.href)
-              ? 0
-              : -1;
+                ? 0
+                : -1;
           },
         },
       },
@@ -13031,7 +13043,7 @@ var outerPadding = 0;
       ],
       function () {
         n.propFix[this.toLowerCase()] = this;
-      }
+      },
     ),
     l.enctype || (n.propFix.enctype = "encoding");
   var vc = /[\t\r\n\f]/g;
@@ -13121,7 +13133,7 @@ var outerPadding = 0;
                         this.className || a === !1
                           ? ""
                           : n._data(this, "__className__") || ""));
-                }
+                },
           );
     },
     hasClass: function (a) {
@@ -13136,7 +13148,7 @@ var outerPadding = 0;
   }),
     n.each(
       "blur focus focusin focusout load resize scroll unload click dblclick mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave change select submit keydown keypress keyup error contextmenu".split(
-        " "
+        " ",
       ),
       function (a, b) {
         n.fn[b] = function (a, c) {
@@ -13144,7 +13156,7 @@ var outerPadding = 0;
             ? this.on(b, null, a, c)
             : this.trigger(b);
         };
-      }
+      },
     ),
     n.fn.extend({
       hover: function (a, b) {
@@ -13180,7 +13192,7 @@ var outerPadding = 0;
           return (
             c && b && (d = 0), 0 === d ? a : ((c = e || b), (d += !f - !e), "")
           );
-        })
+        }),
       )
       ? Function("return " + e)()
       : n.error("Invalid JSON: " + b);
@@ -13491,7 +13503,7 @@ var outerPadding = 0;
           k.dataTypes[0] && k.accepts[k.dataTypes[0]]
             ? k.accepts[k.dataTypes[0]] +
                 ("*" !== k.dataTypes[0] ? ", " + Kc + "; q=0.01" : "")
-            : k.accepts["*"]
+            : k.accepts["*"],
         );
       for (d in k.headers) v.setRequestHeader(d, k.headers[d]);
       if (k.beforeSend && (k.beforeSend.call(l, v, k) === !1 || 2 === t))
@@ -13543,8 +13555,8 @@ var outerPadding = 0;
               204 === a || "HEAD" === k.type
                 ? (x = "nocontent")
                 : 304 === a
-                ? (x = "notmodified")
-                : ((x = u.state), (r = u.data), (s = u.error), (j = !s)))
+                  ? (x = "notmodified")
+                  : ((x = u.state), (r = u.data), (s = u.error), (j = !s)))
             : ((s = x), (a || !x) && ((x = "error"), 0 > a && (a = 0))),
           (v.status = a),
           (v.statusText = (b || x) + ""),
@@ -13593,7 +13605,7 @@ var outerPadding = 0;
         n.fn[b] = function (a) {
           return this.on(b, a);
         };
-      }
+      },
     ),
     (n._evalUrl = function (a) {
       return n.ajax({
@@ -13635,7 +13647,7 @@ var outerPadding = 0;
                 var b = n(this),
                   c = b.contents();
                 c.length ? c.wrapAll(a) : b.append(a);
-              }
+              },
         );
       },
       wrap: function (a) {
@@ -13719,16 +13731,16 @@ var outerPadding = 0;
             return null == c
               ? null
               : n.isArray(c)
-              ? n.map(c, function (a) {
-                  return {
+                ? n.map(c, function (a) {
+                    return {
+                      name: b.name,
+                      value: a.replace(Tc, "\r\n"),
+                    };
+                  })
+                : {
                     name: b.name,
-                    value: a.replace(Tc, "\r\n"),
+                    value: c.replace(Tc, "\r\n"),
                   };
-                })
-              : {
-                  name: b.name,
-                  value: c.replace(Tc, "\r\n"),
-                };
           })
           .get();
       },
@@ -13888,7 +13900,7 @@ var outerPadding = 0;
             ? "url"
             : "string" == typeof b.data &&
               !(b.contentType || "").indexOf(
-                "application/x-www-form-urlencoded"
+                "application/x-www-form-urlencoded",
               ) &&
               bd.test(b.data) &&
               "data");
@@ -13958,7 +13970,7 @@ var outerPadding = 0;
             c &&
               function (a, b) {
                 g.each(c, e || [a.responseText, b, a]);
-              }
+              },
           ),
       this
     );
@@ -13973,8 +13985,8 @@ var outerPadding = 0;
     return n.isWindow(a)
       ? a
       : 9 === a.nodeType
-      ? a.defaultView || a.parentWindow
-      : !1;
+        ? a.defaultView || a.parentWindow
+        : !1;
   }
   (n.offset = {
     setOffset: function (a, b, c) {
@@ -14096,17 +14108,17 @@ var outerPadding = 0;
                 : void (f
                     ? f.scrollTo(
                         c ? n(f).scrollLeft() : e,
-                        c ? e : n(f).scrollTop()
+                        c ? e : n(f).scrollTop(),
                       )
                     : (a[d] = e));
             },
             a,
             d,
             arguments.length,
-            null
+            null,
           );
         };
-      }
+      },
     ),
     n.each(["top", "left"], function (a, b) {
       n.cssHooks[b] = Mb(l.pixelPosition, function (a, c) {
@@ -14138,27 +14150,27 @@ var outerPadding = 0;
                   return n.isWindow(b)
                     ? b.document.documentElement["client" + a]
                     : 9 === b.nodeType
-                    ? ((e = b.documentElement),
-                      Math.max(
-                        b.body["scroll" + a],
-                        e["scroll" + a],
-                        b.body["offset" + a],
-                        e["offset" + a],
-                        e["client" + a]
-                      ))
-                    : void 0 === d
-                    ? n.css(b, c, g)
-                    : n.style(b, c, d, g);
+                      ? ((e = b.documentElement),
+                        Math.max(
+                          b.body["scroll" + a],
+                          e["scroll" + a],
+                          b.body["offset" + a],
+                          e["offset" + a],
+                          e["client" + a],
+                        ))
+                      : void 0 === d
+                        ? n.css(b, c, g)
+                        : n.style(b, c, d, g);
                 },
                 b,
                 f ? d : void 0,
                 f,
-                null
+                null,
               );
             };
-          }
+          },
         );
-      }
+      },
     ),
     (n.fn.size = function () {
       return this.length;
@@ -14281,7 +14293,7 @@ if ("undefined" == typeof jQuery)
                 : this.isLoading &&
                   ((this.isLoading = !1), d.removeClass(c).removeAttr(c));
             }, this),
-            0
+            0,
           );
       }),
       (b.prototype.toggle = function () {
@@ -14322,7 +14334,7 @@ if ("undefined" == typeof jQuery)
           c.hasClass("btn") || (c = c.closest(".btn")),
             c.button("toggle"),
             b.preventDefault();
-        }
+        },
       );
   })(jQuery),
   +(function (a) {
@@ -14355,7 +14367,7 @@ if ("undefined" == typeof jQuery)
             !this.paused &&
             (this.interval = setInterval(
               a.proxy(this.next, this),
-              this.options.interval
+              this.options.interval,
             )),
           this
         );
@@ -14373,12 +14385,12 @@ if ("undefined" == typeof jQuery)
         return b > this.$items.length - 1 || 0 > b
           ? void 0
           : this.sliding
-          ? this.$element.one("slid.bs.carousel", function () {
-              c.to(b);
-            })
-          : d == b
-          ? this.pause().cycle()
-          : this.slide(b > d ? "next" : "prev", a(this.$items[b]));
+            ? this.$element.one("slid.bs.carousel", function () {
+                c.to(b);
+              })
+            : d == b
+              ? this.pause().cycle()
+              : this.slide(b > d ? "next" : "prev", a(this.$items[b]));
       }),
       (b.prototype.pause = function (b) {
         return (
@@ -14439,7 +14451,7 @@ if ("undefined" == typeof jQuery)
                         }, 0);
                     })
                     .emulateTransitionEnd(
-                      1e3 * d.css("transition-duration").slice(0, -1)
+                      1e3 * d.css("transition-duration").slice(0, -1),
                     ))
                 : (d.removeClass("active"),
                   e.addClass("active"),
@@ -14460,8 +14472,8 @@ if ("undefined" == typeof jQuery)
           "number" == typeof c
             ? e.to(c)
             : g
-            ? e[g]()
-            : f.interval && e.pause().cycle();
+              ? e[g]()
+              : f.interval && e.pause().cycle();
       });
     }),
       (a.fn.carousel.Constructor = b),
@@ -14476,7 +14488,7 @@ if ("undefined" == typeof jQuery)
             d = a(this),
             e = a(
               d.attr("data-target") ||
-                ((c = d.attr("href")) && c.replace(/.*(?=#[^\s]+$)/, ""))
+                ((c = d.attr("href")) && c.replace(/.*(?=#[^\s]+$)/, "")),
             ),
             f = a.extend({}, e.data(), d.data()),
             g = d.attr("data-slide-to");
@@ -14484,7 +14496,7 @@ if ("undefined" == typeof jQuery)
             e.carousel(f),
             (g = d.attr("data-slide-to")) && e.data("bs.carousel").to(g),
             b.preventDefault();
-        }
+        },
       ),
       a(window).on("load", function () {
         a('[data-ride="carousel"]').each(function () {
@@ -14606,7 +14618,7 @@ if ("undefined" == typeof jQuery)
                 .addClass("collapsed"),
             d[f.hasClass("in") ? "addClass" : "removeClass"]("collapsed")),
             f.collapse(h);
-        }
+        },
       );
   })(jQuery),
   +(function (a) {
@@ -14707,7 +14719,7 @@ if ("undefined" == typeof jQuery)
         .on(
           "keydown.bs.dropdown.data-api",
           e + ", [role=menu], [role=listbox]",
-          f.prototype.keydown
+          f.prototype.keydown,
         );
   })(jQuery),
   +(function (a) {
@@ -14721,7 +14733,7 @@ if ("undefined" == typeof jQuery)
             this.options.remote,
             a.proxy(function () {
               this.$element.trigger("loaded.bs.modal");
-            }, this)
+            }, this),
           );
     };
     (b.DEFAULTS = {
@@ -14745,7 +14757,7 @@ if ("undefined" == typeof jQuery)
             this.$element.on(
               "click.dismiss.bs.modal",
               '[data-dismiss="modal"]',
-              a.proxy(this.hide, this)
+              a.proxy(this.hide, this),
             ),
             this.backdrop(function () {
               var d = a.support.transition && c.$element.hasClass("fade");
@@ -14795,7 +14807,7 @@ if ("undefined" == typeof jQuery)
               this.$element[0] === a.target ||
                 this.$element.has(a.target).length ||
                 this.$element.focus();
-            }, this)
+            }, this),
           );
       }),
       (b.prototype.escape = function () {
@@ -14804,7 +14816,7 @@ if ("undefined" == typeof jQuery)
               "keyup.dismiss.bs.modal",
               a.proxy(function (a) {
                 27 == a.which && this.hide();
-              }, this)
+              }, this),
             )
           : this.isShown || this.$element.off("keyup.dismiss.bs.modal");
       }),
@@ -14824,7 +14836,7 @@ if ("undefined" == typeof jQuery)
           var d = a.support.transition && c;
           if (
             ((this.$backdrop = a(
-              '<div class="modal-backdrop ' + c + '" />'
+              '<div class="modal-backdrop ' + c + '" />',
             ).appendTo(document.body)),
             this.$element.on(
               "click.dismiss.bs.modal",
@@ -14833,7 +14845,7 @@ if ("undefined" == typeof jQuery)
                   ("static" == this.options.backdrop
                     ? this.$element[0].focus.call(this.$element[0])
                     : this.hide.call(this));
-              }, this)
+              }, this),
             ),
             d && this.$backdrop[0].offsetWidth,
             this.$backdrop.addClass("in"),
@@ -14876,7 +14888,7 @@ if ("undefined" == typeof jQuery)
           var c = a(this),
             d = c.attr("href"),
             e = a(
-              c.attr("data-target") || (d && d.replace(/.*(?=#[^\s]+$)/, ""))
+              c.attr("data-target") || (d && d.replace(/.*(?=#[^\s]+$)/, "")),
             ),
             f = e.data("bs.modal")
               ? "toggle"
@@ -14885,13 +14897,13 @@ if ("undefined" == typeof jQuery)
                     remote: !/#/.test(d) && d,
                   },
                   e.data(),
-                  c.data()
+                  c.data(),
                 );
           c.is("a") && b.preventDefault(),
             e.modal(f, this).one("hide", function () {
               c.is(":visible") && c.focus();
             });
-        }
+        },
       ),
       a(document)
         .on("show.bs.modal", ".modal", function () {
@@ -14936,7 +14948,7 @@ if ("undefined" == typeof jQuery)
             this.$element.on(
               "click." + this.type,
               this.options.selector,
-              a.proxy(this.toggle, this)
+              a.proxy(this.toggle, this),
             );
           else if ("manual" != g) {
             var h = "hover" == g ? "mouseenter" : "focusin",
@@ -14944,12 +14956,12 @@ if ("undefined" == typeof jQuery)
             this.$element.on(
               h + "." + this.type,
               this.options.selector,
-              a.proxy(this.enter, this)
+              a.proxy(this.enter, this),
             ),
               this.$element.on(
                 i + "." + this.type,
                 this.options.selector,
-                a.proxy(this.leave, this)
+                a.proxy(this.leave, this),
               );
           }
         }
@@ -15065,12 +15077,12 @@ if ("undefined" == typeof jQuery)
               "bottom" == e && h.top + h.height + j - m > o
                 ? "top"
                 : "top" == e && h.top - m - j < 0
-                ? "bottom"
-                : "right" == e && h.right + i > n
-                ? "left"
-                : "left" == e && h.left - i < p
-                ? "right"
-                : e),
+                  ? "bottom"
+                  : "right" == e && h.right + i > n
+                    ? "left"
+                    : "left" == e && h.left - i < p
+                      ? "right"
+                      : e),
               d.removeClass(l).addClass(e);
           }
           var q = this.getCalculatedOffset(e, h, i, j);
@@ -15105,9 +15117,9 @@ if ("undefined" == typeof jQuery)
                   });
                 },
               },
-              b
+              b,
             ),
-            0
+            0,
           ),
           e.addClass("in");
         var j = e[0].offsetWidth,
@@ -15176,7 +15188,7 @@ if ("undefined" == typeof jQuery)
                 width: b.offsetWidth,
                 height: b.offsetHeight,
               },
-          this.$element.offset()
+          this.$element.offset(),
         );
       }),
       (b.prototype.getCalculatedOffset = function (a, b, c, d) {
@@ -15186,19 +15198,19 @@ if ("undefined" == typeof jQuery)
               left: b.left + b.width / 2 - c / 2,
             }
           : "top" == a
-          ? {
-              top: b.top - d,
-              left: b.left + b.width / 2 - c / 2,
-            }
-          : "left" == a
-          ? {
-              top: b.top + b.height / 2 - d / 2,
-              left: b.left - c,
-            }
-          : {
-              top: b.top + b.height / 2 - d / 2,
-              left: b.left + b.width,
-            };
+            ? {
+                top: b.top - d,
+                left: b.left + b.width / 2 - c / 2,
+              }
+            : "left" == a
+              ? {
+                  top: b.top + b.height / 2 - d / 2,
+                  left: b.left - c,
+                }
+              : {
+                  top: b.top + b.height / 2 - d / 2,
+                  left: b.left + b.width,
+                };
       }),
       (b.prototype.getTitle = function () {
         var a,
@@ -15334,7 +15346,7 @@ if ("undefined" == typeof jQuery)
         (this.$body = a("body")),
         (this.$scrollElement = this.$element.on(
           "scroll.bs.scroll-spy.data-api",
-          f
+          f,
         )),
         (this.options = a.extend({}, b.DEFAULTS, d)),
         (this.selector =
@@ -15504,7 +15516,7 @@ if ("undefined" == typeof jQuery)
         '[data-toggle="tab"], [data-toggle="pill"]',
         function (b) {
           b.preventDefault(), a(this).tab("show");
-        }
+        },
       );
   })(jQuery),
   +(function (a) {
@@ -15515,7 +15527,7 @@ if ("undefined" == typeof jQuery)
           .on("scroll.bs.affix.data-api", a.proxy(this.checkPosition, this))
           .on(
             "click.bs.affix.data-api",
-            a.proxy(this.checkPositionWithEventLoop, this)
+            a.proxy(this.checkPositionWithEventLoop, this),
           )),
         (this.$element = a(c)),
         (this.affixed = this.unpin = this.pinnedOffset = null),
@@ -15551,10 +15563,10 @@ if ("undefined" == typeof jQuery)
             null != this.unpin && d + this.unpin <= e.top
               ? !1
               : null != h && e.top + this.$element.height() >= c - h
-              ? "bottom"
-              : null != g && g >= d
-              ? "top"
-              : !1;
+                ? "bottom"
+                : null != g && g >= d
+                  ? "top"
+                  : !1;
           if (this.affixed !== i) {
             this.unpin && this.$element.css("top", "");
             var j = "affix" + (i ? "-" + i : ""),
@@ -15700,7 +15712,7 @@ if ("undefined" == typeof jQuery)
             function (a) {
               b.call(c, a, e), d && a.remove();
             },
-            f
+            f,
           )
         );
       }),
@@ -16195,7 +16207,7 @@ if ("undefined" == typeof jQuery)
             d.id,
             d.data,
             f,
-            this
+            this,
           );
           if (k === !1) return null;
           k === !0 ||
@@ -16502,7 +16514,7 @@ if ("undefined" == typeof jQuery)
         0 == c && (c = createjs.LoadQueue.loadTimeout),
           (this._loadTimeout = setTimeout(
             createjs.proxy(this._handleTimeout, this),
-            c
+            c,
           )),
           this._isAudio && ((b.src = null), (b.preload = "auto")),
           (b.onerror = createjs.proxy(this._handleError, this)),
@@ -16512,7 +16524,7 @@ if ("undefined" == typeof jQuery)
             : ((b.onload = createjs.proxy(this._handleLoad, this)),
               (b.onreadystatechange = createjs.proxy(
                 this._handleReadyStateChange,
-                this
+                this,
               )));
         var d = this.buildPath(a.src, a.values);
         switch (a.type) {
@@ -16536,7 +16548,7 @@ if ("undefined" == typeof jQuery)
             throw new Error(
               'JSONP callback "' +
                 a.callback +
-                '" already exists on window. You need to specify a different callback. Or re-name the current one.'
+                '" already exists on window. You need to specify a different callback. Or re-name the current one.',
             );
           window[a.callback] = createjs.proxy(this._handleJSONPLoad, this);
         }
@@ -16648,11 +16660,11 @@ if ("undefined" == typeof jQuery)
         if (
           ((this._request.onloadstart = createjs.proxy(
             this._handleLoadStart,
-            this
+            this,
           )),
           (this._request.onprogress = createjs.proxy(
             this._handleProgress,
-            this
+            this,
           )),
           (this._request.onabort = createjs.proxy(this._handleAbort, this)),
           (this._request.onerror = createjs.proxy(this._handleError, this)),
@@ -16664,18 +16676,18 @@ if ("undefined" == typeof jQuery)
           else
             try {
               console.warn(
-                "LoadQueue.LOAD_TIMEOUT has been deprecated in favor of LoadQueue.loadTimeout"
+                "LoadQueue.LOAD_TIMEOUT has been deprecated in favor of LoadQueue.loadTimeout",
               );
             } catch (b) {}
           this._loadTimeout = setTimeout(
             createjs.proxy(this._handleTimeout, this),
-            a
+            a,
           );
         }
         (this._request.onload = createjs.proxy(this._handleLoad, this)),
           (this._request.onreadystatechange = createjs.proxy(
             this._handleReadyStateChange,
-            this
+            this,
           ));
         try {
           this._item.values && this._item.method != createjs.LoadQueue.GET
@@ -16793,7 +16805,7 @@ if ("undefined" == typeof jQuery)
             a.method == createjs.LoadQueue.POST &&
             c.setRequestHeader(
               "Content-Type",
-              "application/x-www-form-urlencoded"
+              "application/x-www-form-urlencoded",
             ),
           createjs.LoadQueue.isBinary(a.type) &&
             (c.responseType = "arraybuffer"),
@@ -16951,8 +16963,8 @@ if ("undefined" == typeof jQuery)
                 0 === g.length
                   ? "[]"
                   : gap
-                  ? "[\n" + gap + g.join(",\n" + gap) + "\n" + h + "]"
-                  : "[" + g.join(",") + "]"),
+                    ? "[\n" + gap + g.join(",\n" + gap) + "\n" + h + "]"
+                    : "[" + g.join(",") + "]"),
               (gap = h),
               e
             );
@@ -16973,8 +16985,8 @@ if ("undefined" == typeof jQuery)
               0 === g.length
                 ? "{}"
                 : gap
-                ? "{\n" + gap + g.join(",\n" + gap) + "\n" + h + "}"
-                : "{" + g.join(",") + "}"),
+                  ? "{\n" + gap + g.join(",\n" + gap) + "\n" + h + "}"
+                  : "{" + g.join(",") + "}"),
             (gap = h),
             e
           );
@@ -17063,9 +17075,9 @@ if ("undefined" == typeof jQuery)
                 .replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g, "@")
                 .replace(
                   /"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,
-                  "]"
+                  "]",
                 )
-                .replace(/(?:^|:|,)(?:\s*\[)+/g, "")
+                .replace(/(?:^|:|,)(?:\s*\[)+/g, ""),
             ))
           )
             return (
@@ -17075,7 +17087,7 @@ if ("undefined" == typeof jQuery)
                     {
                       "": j,
                     },
-                    ""
+                    "",
                   )
                 : j
             );
@@ -17102,7 +17114,7 @@ this.ndgmr = this.ndgmr || {};
     bitmap1,
     bitmap2,
     alphaThreshold,
-    getRect
+    getRect,
   ) {
     if (ndgmr.DEBUG || ndgmr.DEBUG_COLLISION) {
       document.body.appendChild(collisionCanvas);
@@ -17133,7 +17145,7 @@ this.ndgmr = this.ndgmr || {};
       intersection,
       bitmap2,
       collisionCtx2,
-      2
+      2,
     );
     pixelIntersection = _compareAlphaValues(
       imageData1,
@@ -17141,7 +17153,7 @@ this.ndgmr = this.ndgmr || {};
       intersection.width,
       intersection.height,
       alphaThreshold,
-      getRect
+      getRect,
     );
     if (pixelIntersection) {
       pixelIntersection.x += intersection.x;
@@ -17201,7 +17213,7 @@ this.ndgmr = this.ndgmr || {};
         cachedBAFrames[frameName] = image =
           createjs.SpriteSheetUtils.extractFrame(
             bitmap.spriteSheet,
-            bitmap.currentFrame
+            bitmap.currentFrame,
           );
       }
     }
@@ -17209,15 +17221,15 @@ this.ndgmr = this.ndgmr || {};
     ctx.restore();
     ctx.save();
     ctx.rotate(
-      _getParentalCumulatedProperty(bitmap, "rotation") * (Math.PI / 180)
+      _getParentalCumulatedProperty(bitmap, "rotation") * (Math.PI / 180),
     );
     ctx.scale(
       _getParentalCumulatedProperty(bitmap, "scaleX", "*"),
-      _getParentalCumulatedProperty(bitmap, "scaleY", "*")
+      _getParentalCumulatedProperty(bitmap, "scaleY", "*"),
     );
     ctx.translate(
       -bl.x - intersetion["rect" + i].regX,
-      -bl.y - intersetion["rect" + i].regY
+      -bl.y - intersetion["rect" + i].regY,
     );
     if ((sr = bitmap.sourceRect) != undefined) {
       ctx.drawImage(
@@ -17229,7 +17241,7 @@ this.ndgmr = this.ndgmr || {};
         0,
         0,
         sr.width,
-        sr.height
+        sr.height,
       );
     } else {
       ctx.drawImage(image, 0, 0, image.width, image.height);
@@ -17242,7 +17254,7 @@ this.ndgmr = this.ndgmr || {};
     width,
     height,
     alphaThreshold,
-    getRect
+    getRect,
   ) {
     var alpha1,
       alpha2,
@@ -17538,14 +17550,14 @@ function handleComplete() {
         y: startY + wiggleDelta,
       },
       380,
-      createjs.Ease.sineInOut
+      createjs.Ease.sineInOut,
     )
     .to(
       {
         y: startY,
       },
       380,
-      createjs.Ease.sineInOut
+      createjs.Ease.sineInOut,
     );
   stage.addChild(background);
   topFill = new createjs.Graphics();
@@ -17579,7 +17591,7 @@ function handleComplete() {
   } else {
     var myCookie = document.cookie.replace(
       /(?:(?:^|.*;\s*)highScore\s*\=\s*([^;]*).*$)|^.*$/,
-      "$1"
+      "$1",
     );
     if (myCookie) {
       highScore.text = myCookie;
@@ -17625,7 +17637,7 @@ function handleJumpStart() {
           rotation: -20,
         },
         rotationDelta,
-        createjs.Ease.linear
+        createjs.Ease.linear,
       )
       .to(
         {
@@ -17633,14 +17645,14 @@ function handleJumpStart() {
           rotation: -20,
         },
         jumpTime - rotationDelta,
-        createjs.Ease.quadOut
+        createjs.Ease.quadOut,
       )
       .to(
         {
           y: bird.y,
         },
         jumpTime,
-        createjs.Ease.quadIn
+        createjs.Ease.quadIn,
       )
       .to(
         {
@@ -17648,7 +17660,7 @@ function handleJumpStart() {
           rotation: 90,
         },
         380 / 1.5,
-        createjs.Ease.linear
+        createjs.Ease.linear,
       )
       .call(diveBird)
       .to(
@@ -17656,7 +17668,7 @@ function handleJumpStart() {
           y: ground.y - 30,
         },
         (h - (bird.y + 200)) / 1.5,
-        createjs.Ease.linear
+        createjs.Ease.linear,
       );
     if (!started) {
       token = undefined;
@@ -17681,7 +17693,7 @@ function restart() {
       {
         y: start.y + 10,
       },
-      50
+      50,
     )
     .call(removeStart);
   counter.text = 0;
@@ -17712,14 +17724,14 @@ function restart() {
         y: startY + wiggleDelta,
       },
       380,
-      createjs.Ease.sineInOut
+      createjs.Ease.sineInOut,
     )
     .to(
       {
         y: startY,
       },
       380,
-      createjs.Ease.sineInOut
+      createjs.Ease.sineInOut,
     );
 }
 function die() {
@@ -17745,7 +17757,7 @@ function die() {
         rotation: 90,
       },
       380 / 1.5,
-      createjs.Ease.linear
+      createjs.Ease.linear,
     )
     .call(diveBird)
     .to(
@@ -17753,20 +17765,20 @@ function die() {
         y: ground.y - 30,
       },
       (h - (bird.y + 200)) / 1.5,
-      createjs.Ease.linear
+      createjs.Ease.linear,
     );
   createjs.Tween.get(stage)
     .to(
       {
         alpha: 0,
       },
-      100
+      100,
     )
     .to(
       {
         alpha: 1,
       },
-      100
+      100,
     );
   score = addImageAtCenter("score", 0, -150);
   start = addImageAtCenter("start", -120, 50);
@@ -17800,7 +17812,7 @@ function die() {
         y: share.y + 50,
       },
       400,
-      createjs.Ease.sineIn
+      createjs.Ease.sineIn,
     )
     .call(addClickToStart);
 }
@@ -17825,7 +17837,7 @@ function dropIn(item) {
       y: item.y + 50,
     },
     400,
-    createjs.Ease.sineIn
+    createjs.Ease.sineIn,
   );
 }
 function addImageAtCenter(id, xOffset, yOffset) {
@@ -17857,7 +17869,7 @@ function goShare() {
   window.open(
     "http://twitter.com/share?url=http%3A%2F%2Fflappybird.io&text=I scored " +
       countText +
-      " on HTML5 Flappy Bird."
+      " on HTML5 Flappy Bird.",
   );
 }
 function supports_html5_storage() {
@@ -17939,7 +17951,7 @@ function retreiveScore() {
     function (data) {
       $(".score").html(data.count);
     },
-    "json"
+    "json",
   );
 }
 function submitScore(token) {
@@ -17949,7 +17961,7 @@ function submitScore(token) {
     "Flappy Bird",
     "Score Time",
     counter.text + " - " + rd,
-    rd
+    rd,
   );
   $.post(
     "https://" + apiUrl + "/scores/" + token + "?count=" + counter.text,
@@ -17958,7 +17970,7 @@ function submitScore(token) {
       window.location =
         "http://" + window.location.host + "/leaderboard/new/#" + token;
     },
-    "json"
+    "json",
   );
 }
 function updateScore(name) {

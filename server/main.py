@@ -80,10 +80,19 @@ class WebTransport:
         self.event_handlers[event_type] = handler
 
     async def start_server(self, host: str, port: int):
-        server = await websockets.serve(self.handle_connection, host, port)
+        allowed_origins = [
+            'http://localhost:3000',
+            'https://ai-hackathon-gym-environments.vercel.app'
+        ]
+        server = await websockets.serve(
+            self.handle_connection, 
+            host, 
+            port, 
+            origins=allowed_origins
+        )
         print(f"WebSocket server started on ws://{host}:{port}")
+        print(f"Allowed origins: {', '.join(allowed_origins)}")
         await server.wait_closed()
-
 async def main():
     transport = WebTransport()
 

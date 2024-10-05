@@ -54,7 +54,7 @@ const DinoGame = React.forwardRef<HTMLDivElement, DinoGameProps>(
 
           {!hideInstructions && (
             <div className="interstitial-wrapper instructions">
-              {instructions || (
+              {instructions ?? (
                 <p>
                   Press the <span className="kbd">spacebar</span> to start the
                   game and to jump.

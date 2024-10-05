@@ -1,6 +1,16 @@
 import { redirect } from "next/navigation";
 import { GameEditorComponent } from "~/components/game-editor";
-import { GameEditorStoreProvider } from "~/components/game-editor-store-provider";
+import dynamic from "next/dynamic";
+
+const GameEditorStoreProvider = dynamic(
+  () =>
+    import("~/components/game-editor-store-provider").then(
+      (mod) => mod.GameEditorStoreProvider,
+    ),
+  {
+    ssr: false,
+  },
+);
 
 export default function EditorPage({
   searchParams,

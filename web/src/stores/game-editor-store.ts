@@ -45,7 +45,7 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
       return null;
     }
     const blob = await response.blob();
-    transport.sendGameFrame(blob);
+    await transport.sendGameFrame(blob);
     return blob;
   };
 
@@ -88,7 +88,7 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
   const startScreenshotLoop = (fps = 60) => {
     const interval = 1000 / fps;
     screenshotLoopId = setInterval(() => {
-      takeScreenshot(store.getState().iFrameElement);
+      void takeScreenshot(store.getState().iFrameElement);
     }, interval);
   };
 
@@ -146,6 +146,6 @@ async function callRemoteFunction<ReturnType>(
     const timeoutId = setInterval(() => {
       window.removeEventListener("message", messageHandler);
       reject(new Error("Function call timed out"));
-    }, timeout || 5000);
+    }, timeout ?? 5000);
   });
 }
