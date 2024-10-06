@@ -1,8 +1,11 @@
 export interface Component {
   id: string;
   kind: "ocr" | "movement" | "sprite";
-  context: string;
+  name: string;
   zone: { x: number; y: number; width: number; height: number };
+  color: string;
+  context: string; // Add this line
+  label: string; // Add this line
 }
 
 interface UserEvent {
@@ -87,7 +90,18 @@ class WebTransport {
   }
 
   sendComponentUpdate(component: Component) {
-    this.sendMessage("component_update", { component });
+    // The color property will be automatically included in the component object
+    this.sendMessage("component_update", {
+      component: {
+        ...component,
+        zone: {
+          x: component.zone.x * 2,
+          y: component.zone.y * 2,
+          width: component.zone.width * 2,
+          height: component.zone.height * 2,
+        },
+      },
+    });
   }
 
   sendRemoveComponent(componentId: string) {

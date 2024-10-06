@@ -22,6 +22,7 @@ export interface GameEditorStore {
   canvasTopLeft: { x: number; y: number } | null;
   generatedCode: string | null;
   setGeneratedCode: (code: string) => void;
+  screenshotComponentZone: (componentId: string) => Promise<string | null>;
 }
 
 interface GameEditorStoreOptions {
@@ -86,15 +87,25 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
     canvasTopLeft: null,
     addComponent: (kind) => {
       const id = Date.now().toString();
+      const color = `#${getColorFromId(id)}`;
+      let name = kind !== "ocr" ? kind : "text";
+      // count how many components with this name + numbers exist
+      const count = get().components.filter((c) =>
+        new RegExp(`^${name}\\d*$`).test(c.name),
+      ).length;
+      name += count > 0 ? `${count + 1}` : "";
       set((state) => ({
         selectingZoneForComponent: id,
         components: [
           ...state.components,
           {
             id,
+            color,
             kind,
-            context: `New ${kind}`,
+            name,
             zone: { x: 0, y: 0, width: 100, height: 100 },
+            context: "", // Add this line
+            label: "", // Add this line
           },
         ],
       }));
@@ -105,8 +116,9 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
       })),
     updateComponent: (id, updates) => {
       const components = get().components;
-      const component = components.find((c) => c.context === updates.context);
+      const component = components.find((c) => c.name === updates.name);
       if (component) {
+        alert("Component with this name already exists");
         return false;
       }
       set((state) => ({
@@ -219,6 +231,30 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
       }),
     generatedCode: null,
     setGeneratedCode: (code: string) => set({ generatedCode: code }),
+    screenshotComponentZone: async (componentId: string) => {
+      const { components, iFrameElement } = get();
+      const component = components.find((c) => c.id === componentId);
+
+      if (!component || !iFrameElement) {
+        return null;
+      }
+
+      const dataUrl = await callRemoteFunction(
+        iFrameElement,
+        screenshotCanvasZone,
+        [component.zone],
+      );
+
+      if (!dataUrl) {
+        console.error("Failed to take screenshot");
+        return null;
+      }
+
+      // You can add additional logic here, such as saving the screenshot or sending it to the server
+      console.log(`Screenshot taken for component ${componentId}`);
+
+      return dataUrl;
+    },
   }));
 
   // Start the screenshot loop
@@ -270,6 +306,32 @@ function screenshotCanvas() {
   }
   context.drawImage(canvas, 0, 0, canvas.width, canvas.height);
   return canvas.toDataURL();
+}
+
+function screenshotCanvasZone(zone: Component["zone"]) {
+  const srcCanvas = document.getElementsByTagName("canvas")[0];
+  if (!srcCanvas) {
+    return null;
+  }
+  const dstCanvas = document.createElement("canvas");
+  dstCanvas.width = zone.width;
+  dstCanvas.height = zone.height;
+  const context = dstCanvas.getContext("2d");
+  if (!context) {
+    return null;
+  }
+  context.drawImage(
+    srcCanvas,
+    zone.x,
+    zone.y,
+    zone.width,
+    zone.height,
+    0,
+    0,
+    zone.width,
+    zone.height,
+  );
+  return dstCanvas.toDataURL();
 }
 
 function getCanvasTopLeft() {
@@ -366,4 +428,13 @@ function waitForInjectedLoaded(iFrameElement: HTMLIFrameElement) {
     };
     window.addEventListener("message", messageHandler);
   });
+}
+
+function getColorFromId(id: string): string {
+  let hash = 0;
+  for (let i = 0; i < id.length; i++) {
+    hash = id.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const color = Math.floor(Math.abs(Math.sin(hash) * 16777215));
+  return color.toString(16).padStart(6, "0");
 }

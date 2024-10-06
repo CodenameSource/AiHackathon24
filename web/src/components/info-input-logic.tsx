@@ -8,6 +8,7 @@ import { Input } from "./ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Textarea } from "./ui/textarea";
 import { toast } from "~/hooks/use-toast";
+import { ScreenshotButton } from "./ScreenshotButton"; // Add this import
 
 export function InfoInputLogic({
   canBuild,
@@ -70,7 +71,7 @@ export function InfoInputLogic({
           variant="default"
           className="bg-blue-600 text-white hover:bg-blue-700"
         >
-          Add OCR
+          Add Text
         </Button>
         <Button
           onClick={() => addComponent("movement")}
@@ -91,22 +92,15 @@ export function InfoInputLogic({
         {components.map((component) => (
           <Card key={component.id} className="relative p-4">
             <div
-              className={`absolute left-2 top-2 h-4 w-4 rounded-full ${
-                component.kind === "ocr"
-                  ? "bg-blue-500"
-                  : component.kind === "movement"
-                    ? "bg-green-500"
-                    : component.kind === "sprite"
-                      ? "bg-yellow-500"
-                      : "bg-gray-500"
-              }`}
+              className="absolute left-2 top-2 h-4 w-4 rounded-full"
+              style={{ backgroundColor: component.color }}
             ></div>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
                 <Input
-                  value={component.context}
+                  value={component.name}
                   onChange={(e) =>
-                    updateComponent(component.id, { context: e.target.value })
+                    updateComponent(component.id, { name: e.target.value })
                   }
                   className="font-semibold"
                 />
@@ -226,13 +220,7 @@ export function InfoInputLogic({
                   </Popover>
                 </div>
                 <div className="space-y-2">
-                  <Button
-                    onClick={() => alert("Not implemented")}
-                    variant="ghost"
-                    className="w-full border border-gray-300 hover:border-gray-400"
-                  >
-                    <Camera className="mr-2 h-4 w-4" /> Screenshot
-                  </Button>
+                  <ScreenshotButton componentId={component.id} />
                 </div>
                 <div className="space-y-2">
                   <Popover
@@ -251,7 +239,8 @@ export function InfoInputLogic({
                         variant="outline"
                         className="w-full border border-gray-300 hover:bg-gray-100"
                       >
-                        <Type className="mr-2 h-4 w-4" /> Add Context
+                        <Type className="mr-2 h-4 w-4" />{" "}
+                        {!!component.context.trim() ? "Edit" : "Add"} Context
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-80">

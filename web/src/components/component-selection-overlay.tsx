@@ -97,6 +97,13 @@ export const ComponentSelectionOverlay = ({
     setStartPoint(null);
   };
 
+  const currentColor = useMemo(() => {
+    if (!selectingZoneForComponent) {
+      return "#000000";
+    }
+    return components.find((c) => c.id === selectingZoneForComponent)?.color;
+  }, [selectingZoneForComponent, components]);
+
   return (
     <div
       className={cn("relative", className)}
@@ -110,12 +117,14 @@ export const ComponentSelectionOverlay = ({
       {/* The overlay rect */}
       {selectingZoneForComponent && topLeft && bottomRight && (
         <div
-          className="absolute inset-0 z-50 cursor-crosshair border-4 border-blue-500 bg-blue-500/60"
+          className="absolute inset-0 z-50 cursor-crosshair border-4"
           style={{
             top: topLeft.y,
             left: topLeft.x,
             width: bottomRight.x - topLeft.x,
             height: bottomRight.y - topLeft.y,
+            borderColor: currentColor,
+            backgroundColor: `${currentColor}99`, // 60% opacity (hex alpha)
           }}
         ></div>
       )}
@@ -128,12 +137,14 @@ export const ComponentSelectionOverlay = ({
             canvasTopLeft && (
               <div
                 key={component.id}
-                className="absolute inset-0 z-50 cursor-crosshair border-2 border-blue-500 bg-blue-500/40"
+                className="absolute inset-0 z-50 cursor-crosshair border-2"
                 style={{
                   top: component.zone.y + canvasTopLeft.y,
                   left: component.zone.x + canvasTopLeft.x,
                   width: component.zone.width,
                   height: component.zone.height,
+                  borderColor: component.color,
+                  backgroundColor: `${component.color}66`,
                 }}
               ></div>
             ),
