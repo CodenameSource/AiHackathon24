@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { GameEditorComponent } from "~/components/game-editor";
 import dynamic from "next/dynamic";
+import { ComponentSelectionOverlay } from "~/components/component-selection-overlay";
 
 const GameEditorStoreProvider = dynamic(
   () =>
@@ -26,7 +27,9 @@ export default function EditorPage({
 
   return (
     <GameEditorStoreProvider link={gameLink}>
-      <GameEditorComponent />
+      <ComponentSelectionOverlay>
+        <GameEditorComponent />
+      </ComponentSelectionOverlay>
     </GameEditorStoreProvider>
   );
 }
