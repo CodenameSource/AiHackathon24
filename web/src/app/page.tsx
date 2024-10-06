@@ -9,7 +9,7 @@ import {
 } from "~/components/ui/card";
 
 const baseUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
+  ? `https://ai-hackathon-gym-environments.vercel.app`
   : "http://localhost:3000";
 
 const gameLinks = [
