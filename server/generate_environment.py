@@ -45,9 +45,9 @@ def create_gym_env_from_message(all_frames):
 
     # Call the OpenAI API to generate the response
     response = client.chat.completions.create(
-        model="gpt-40",
+        model="gpt-4o",
         max_tokens=3000,
-        temperature=0.15,
+        temperature=0.1,
         messages=messages,
     )
 
