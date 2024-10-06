@@ -1,13 +1,12 @@
 "use client";
 
-import { useGameEditorLogic } from "./game-editor-logic";
-import { InfoInputLogic } from "./info-input-logic";
-import { CodeEditorLogic } from "./code-editor-logic";
+import { useCallback, useEffect, useState } from "react";
 import { Button } from "~/components/ui/button";
-import { EditorState } from "./game-editor-logic";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useGameEditorStore } from "./game-editor-store-provider";
 import { toast } from "~/hooks/use-toast";
+import { CodeEditorLogic } from "./code-editor-logic";
+import { EditorState } from "./game-editor-logic";
+import { useGameEditorStore } from "./game-editor-store-provider";
+import { InfoInputLogic } from "./info-input-logic";
 
 export function GameEditorComponent() {
   const [editorState, setEditorState] = useState<EditorState>(

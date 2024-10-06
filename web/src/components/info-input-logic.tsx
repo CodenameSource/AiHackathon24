@@ -246,12 +246,8 @@ export function InfoInputLogic() {
                         </div>
                         <Textarea
                           placeholder="Enter text here..."
-                          value={component.context}
-                          onChange={(e) =>
-                            updateComponent(component.id, {
-                              context: e.target.value,
-                            })
-                          }
+                          value={textInput}
+                          onChange={(e) => setTextInput(e.target.value)}
                         />
                         <div className="flex justify-end space-x-2">
                           <Button
