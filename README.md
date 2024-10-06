@@ -70,3 +70,5 @@ Follow these simple steps to create your custom Gym environment:
 ---
 
 Feel free to reach out if you need any help or have questions! 😊
+
+> Disclaimer: This project can only be meaningfully used by one person at a time, due to the limited system resources. Only the 
