@@ -91,7 +91,17 @@ class WebTransport {
 
   sendComponentUpdate(component: Component) {
     // The color property will be automatically included in the component object
-    this.sendMessage("component_update", { component });
+    this.sendMessage("component_update", {
+      component: {
+        ...component,
+        zone: {
+          x: component.zone.x * 2,
+          y: component.zone.y * 2,
+          width: component.zone.width * 2,
+          height: component.zone.height * 2,
+        },
+      },
+    });
   }
 
   sendRemoveComponent(componentId: string) {
