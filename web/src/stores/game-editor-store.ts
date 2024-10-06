@@ -87,6 +87,12 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
     addComponent: (kind) => {
       const id = Date.now().toString();
       const color = `#${getColorFromId(id)}`;
+      let name = kind !== "ocr" ? kind : "text";
+      // count how many components with this name + numbers exist
+      const count = get().components.filter((c) =>
+        new RegExp(`^${name}\\d*$`).test(c.name),
+      ).length;
+      name += count > 0 ? `${count + 1}` : "";
       set((state) => ({
         selectingZoneForComponent: id,
         components: [
@@ -95,8 +101,10 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
             id,
             color,
             kind,
-            context: `New ${kind}`,
+            name,
             zone: { x: 0, y: 0, width: 100, height: 100 },
+            context: "", // Add this line
+            label: "", // Add this line
           },
         ],
       }));
@@ -107,8 +115,9 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
       })),
     updateComponent: (id, updates) => {
       const components = get().components;
-      const component = components.find((c) => c.context === updates.context);
+      const component = components.find((c) => c.name === updates.name);
       if (component) {
+        alert("Component with this name already exists");
         return false;
       }
       set((state) => ({

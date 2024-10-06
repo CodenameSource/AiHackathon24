@@ -1,9 +1,11 @@
 export interface Component {
   id: string;
   kind: "ocr" | "movement" | "sprite";
-  context: string;
+  name: string;
   zone: { x: number; y: number; width: number; height: number };
-  color: string; // Add this line
+  color: string;
+  context: string; // Add this line
+  label: string; // Add this line
 }
 
 interface UserEvent {

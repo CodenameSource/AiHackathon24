@@ -97,9 +97,9 @@ export function InfoInputLogic({
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
                 <Input
-                  value={component.context}
+                  value={component.name}
                   onChange={(e) =>
-                    updateComponent(component.id, { context: e.target.value })
+                    updateComponent(component.id, { name: e.target.value })
                   }
                   className="font-semibold"
                 />
@@ -244,7 +244,8 @@ export function InfoInputLogic({
                         variant="outline"
                         className="w-full border border-gray-300 hover:bg-gray-100"
                       >
-                        <Type className="mr-2 h-4 w-4" /> Add Context
+                        <Type className="mr-2 h-4 w-4" />{" "}
+                        {!!component.context.trim() ? "Edit" : "Add"} Context
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-80">
