@@ -6,9 +6,10 @@ import generate_environment
 async def main():
     transport = WebTransport()
 
-    def handle_stop_gameplay(timestamp: int):
+    async def handle_stop_gameplay(timestamp: int):
         code = generate_environment.create_gym_env_from_message(transport.frames)
-        transport.send_code(code)  # TODO: implement this
+        print("Environment built")
+        await transport.send_code(code)
 
     transport.on('stop_gameplay', handle_stop_gameplay)
 
