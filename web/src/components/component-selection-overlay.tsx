@@ -15,9 +15,6 @@ export const ComponentSelectionOverlay = ({
   const selectingZoneForComponent = useGameEditorStore(
     (state) => state.selectingZoneForComponent,
   );
-  const startSelectingZone = useGameEditorStore(
-    (state) => state.startSelectingZone,
-  );
   const cancelSelectingZone = useGameEditorStore(
     (state) => state.cancelSelectingZone,
   );
@@ -52,25 +49,6 @@ export const ComponentSelectionOverlay = ({
       y: Math.max(startPoint.y, endPoint.y),
     };
   }, [startPoint, endPoint]);
-
-  // global shortcut to start selecting zone on shift + space
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (
-        e.shiftKey &&
-        e.key === " " &&
-        components.length > 0 &&
-        !selectingZoneForComponent
-      ) {
-        startSelectingZone(components[0]!.id);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [startSelectingZone, components, selectingZoneForComponent]);
 
   // global shortcut to cancel selecting zone on escape
   useEffect(() => {
@@ -142,22 +120,24 @@ export const ComponentSelectionOverlay = ({
         ></div>
       )}
       {/* all existing component zones (if they are present) */}
-      {components.map(
-        (component) =>
-          component.zone &&
-          canvasTopLeft && (
-            <div
-              key={component.id}
-              className="absolute inset-0 z-50 cursor-crosshair border-2 border-blue-500 bg-blue-500/40"
-              style={{
-                top: component.zone.y + canvasTopLeft.y,
-                left: component.zone.x + canvasTopLeft.x,
-                width: component.zone.width,
-                height: component.zone.height,
-              }}
-            ></div>
-          ),
-      )}
+      {components
+        .filter((c) => c.id !== selectingZoneForComponent)
+        .map(
+          (component) =>
+            component.zone &&
+            canvasTopLeft && (
+              <div
+                key={component.id}
+                className="absolute inset-0 z-50 cursor-crosshair border-2 border-blue-500 bg-blue-500/40"
+                style={{
+                  top: component.zone.y + canvasTopLeft.y,
+                  left: component.zone.x + canvasTopLeft.x,
+                  width: component.zone.width,
+                  height: component.zone.height,
+                }}
+              ></div>
+            ),
+        )}
       {children}
     </div>
   );
