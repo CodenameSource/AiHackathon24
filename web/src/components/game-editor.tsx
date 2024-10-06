@@ -5,31 +5,90 @@ import { InfoInputLogic } from "./info-input-logic";
 import { CodeEditorLogic } from "./code-editor-logic";
 import { Button } from "~/components/ui/button";
 import { EditorState } from "./game-editor-logic";
-import { useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useGameEditorStore } from "./game-editor-store-provider";
+import { toast } from "~/hooks/use-toast";
 
 export function GameEditorComponent() {
-  const iframeRef = useRef<HTMLIFrameElement | null>(null);
+  const [editorState, setEditorState] = useState<EditorState>(
+    EditorState.ComponentEditor,
+  );
+  const components = useGameEditorStore((state) => state.components);
+  const updateComponent = useGameEditorStore((state) => state.updateComponent);
+  const link = useGameEditorStore((state) => state.link);
+  const setIFrameElement = useGameEditorStore(
+    (state) => state.setIFrameElement,
+  );
+  const sendKeyboardEvent = useGameEditorStore(
+    (state) => state.sendKeyboardEvent,
+  );
 
-  const {
-    editorState,
-    code,
-    setCode,
-    isGameStarted,
-    components,
-    handleNameChange,
-    handleBuild,
-    handleCompile,
-    handleExport,
-    handleStartGame,
-    handleIframeLoad,
-    addComponent,
-    removeComponent,
-    updateComponent,
-    link,
-    handleSelectArea,  // Assuming these are coming from useGameEditorLogic
-    handleScreenshot,
-    handleAddText,
-  } = useGameEditorLogic();
+  const isGameplayRunning = useGameEditorStore(
+    (state) => state.isGameplayRunning,
+  );
+  const startGameplay = useGameEditorStore((state) => state.startGameplay);
+  const stopGameplay = useGameEditorStore((state) => state.stopGameplay);
+
+  const handleNameChange = (id: string, newContext: string) => {
+    const success = updateComponent(id, { context: newContext });
+    if (!success) {
+      toast({
+        title: "Name already exists",
+        description: "Please choose a unique name for the component.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleBuild = () => {
+    console.log("Building with components:", components);
+    setEditorState(EditorState.CodeEditor);
+  };
+
+  const handleStartGame = () => {
+    if (isGameplayRunning) {
+      stopGameplay();
+    } else {
+      startGameplay();
+    }
+  };
+
+  const handleIframeLoad = useCallback(
+    (iframe: HTMLIFrameElement) => {
+      if (iframe) {
+        setIFrameElement(iframe);
+
+        // Add a click event listener to focus the iframe
+        iframe.addEventListener("click", () => {
+          iframe.focus();
+        });
+
+        // Add event listeners to the iframe's content window
+        iframe.contentWindow?.addEventListener("keydown", (e) => {
+          e.preventDefault(); // Prevent default behavior
+          sendKeyboardEvent(e);
+        });
+        iframe.contentWindow?.addEventListener("keyup", (e) => {
+          e.preventDefault(); // Prevent default behavior
+          sendKeyboardEvent(e);
+        });
+
+        // Focus the iframe initially
+        iframe.focus();
+      }
+    },
+    [setIFrameElement, sendKeyboardEvent],
+  );
+
+  useEffect(() => {
+    return () => {
+      const iframe = document.querySelector("iframe");
+      if (iframe?.contentWindow) {
+        iframe.contentWindow.removeEventListener("keydown", sendKeyboardEvent);
+        iframe.contentWindow.removeEventListener("keyup", sendKeyboardEvent);
+      }
+    };
+  }, [sendKeyboardEvent]);
 
   return (
     <div className="flex h-screen">
@@ -41,42 +100,19 @@ export function GameEditorComponent() {
             src={link}
             className="h-full w-full rounded-lg"
             title="Game Content"
-            ref={iframeRef}  // Corrected to useRef
-            onLoad={(event: React.SyntheticEvent<HTMLIFrameElement>) => {
-              const iframe = event.currentTarget;
-              handleIframeLoad(iframe);
-            }}
-            tabIndex={0}
+            ref={handleIframeLoad}
+            tabIndex={0} // Make the iframe focusable
           />
         </div>
         <Button onClick={handleStartGame} className="mt-4 w-full">
-          {isGameStarted ? "Stop Game" : "Start Game"}
+          {isGameplayRunning ? "Stop Game" : "Start Game"}
         </Button>
       </div>
 
       {/* Editor Panel */}
       <div className="flex h-screen w-1/3 flex-col p-4">
-        {editorState === EditorState.ComponentEditor && (
-          <InfoInputLogic
-            components={components}
-            handleNameChange={handleNameChange}
-            removeComponent={removeComponent}
-            updateComponent={updateComponent}
-            handleBuild={handleBuild}
-            addComponent={addComponent as (kind: string) => void}
-            handleSelectArea={handleSelectArea}    // Passed down now
-            handleScreenshot={handleScreenshot}    // Passed down now
-            handleAddText={handleAddText}          // Passed down now
-          />
-        )}
-        {editorState === EditorState.CodeEditor && (
-          <CodeEditorLogic
-            code={code}
-            setCode={setCode}
-            handleCompile={handleCompile}
-            handleExport={handleExport}
-          />
-        )}
+        {editorState === EditorState.ComponentEditor && <InfoInputLogic />}
+        {editorState === EditorState.CodeEditor && <CodeEditorLogic />}
       </div>
     </div>
   );

@@ -12,6 +12,11 @@ export interface GameEditorStore {
   setIFrameElement: (element: HTMLIFrameElement) => void;
   clearIFrameElement: () => void;
   sendKeyboardEvent: (event: KeyboardEvent) => void;
+  isGameplayRunning: boolean;
+  startGameplay: () => void;
+  stopGameplay: () => void;
+  generatedCode: string | null;
+  setGeneratedCode: (code: string) => void;
 }
 
 interface GameEditorStoreOptions {
@@ -85,7 +90,6 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
         components: state.components.filter((c) => c.id !== id),
       })),
     updateComponent: (id, updates) => {
-      // Implement the updateComponent logic here
       set((state) => ({
         components: state.components.map((c) =>
           c.id === id ? { ...c, ...updates } : c,
@@ -115,6 +119,17 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
         shiftKey,
       });
     },
+    isGameplayRunning: false,
+    startGameplay: () => {
+      set({ isGameplayRunning: true });
+      console.log("Gameplay started");
+    },
+    stopGameplay: () => {
+      set({ isGameplayRunning: false });
+      console.log("Gameplay stopped");
+    },
+    generatedCode: null,
+    setGeneratedCode: (code: string) => set({ generatedCode: code }),
   }));
 
   // Start the screenshot loop
@@ -125,10 +140,6 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
     }, interval);
   };
 
-  // Start the screenshot loop immediately
-  startScreenshotLoop();
-
-  // Update the subscription to use snake_case
   store.subscribe((state, prevState) => {
     state.components.forEach((component) => {
       transport.sendComponentUpdate(component);
@@ -139,6 +150,21 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
         transport.sendRemoveComponent(component.id);
       }
     });
+    if (prevState.isGameplayRunning !== state.isGameplayRunning) {
+      if (state.isGameplayRunning) {
+        void transport.sendStartGameplay();
+        startScreenshotLoop();
+      } else {
+        void transport.sendStopGameplay();
+        if (screenshotLoopId) {
+          clearInterval(screenshotLoopId);
+        }
+      }
+    }
+  });
+
+  transport.onGeneratedCode((code: string) => {
+    store.getState().setGeneratedCode(code);
   });
 
   return store;
