@@ -24,6 +24,12 @@ export function InfoInputLogic({
   const updateComponent = useGameEditorStore((state) => state.updateComponent);
   const addComponent = useGameEditorStore((state) => state.addComponent);
   const removeComponent = useGameEditorStore((state) => state.removeComponent);
+  const startSelectingZone = useGameEditorStore(
+    (state) => state.startSelectingZone,
+  );
+  const selectingZoneForComponent = useGameEditorStore(
+    (state) => state.selectingZoneForComponent,
+  );
 
   const handleOpenPopover = (id: string, existingText: string) => {
     setOpenPopoverId(id);
@@ -117,6 +123,16 @@ export function InfoInputLogic({
             <CardContent>
               <div className="space-y-4">
                 <div className="flex items-center space-x-2">
+                  <Button
+                    onClick={() => startSelectingZone(component.id)}
+                    disabled={selectingZoneForComponent !== null}
+                    size="icon"
+                    variant="outline"
+                    className="shrink-0"
+                    title="Select Area"
+                  >
+                    <Crosshair className="h-5 w-5" />
+                  </Button>
                   <Popover
                     open={zonePopoverId === component.id}
                     onOpenChange={(open) =>
@@ -127,12 +143,12 @@ export function InfoInputLogic({
                   >
                     <PopoverTrigger asChild>
                       <Button
-                        size="icon"
                         variant="outline"
-                        className="text-blue-600 hover:bg-blue-100"
+                        className="w-full"
                         title="Edit Selected Zone"
                       >
-                        <Crop className="h-5 w-5" />
+                        <Crop className="mr-2 h-5 w-5" />
+                        <span>Edit Zone</span>
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-80">
@@ -208,15 +224,6 @@ export function InfoInputLogic({
                       </div>
                     </PopoverContent>
                   </Popover>
-                  <Button
-                    onClick={() => handleOpenZonePopover(component.id)}
-                    size="icon"
-                    variant="outline"
-                    className="text-green-600 hover:bg-green-100"
-                    title="Select Area"
-                  >
-                    <Crosshair className="h-5 w-5" />
-                  </Button>
                 </div>
                 <div className="space-y-2">
                   <Button
