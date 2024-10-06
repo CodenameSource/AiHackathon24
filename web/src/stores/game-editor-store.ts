@@ -86,12 +86,14 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
     canvasTopLeft: null,
     addComponent: (kind) => {
       const id = Date.now().toString();
+      const color = `#${getColorFromId(id)}`;
       set((state) => ({
         selectingZoneForComponent: id,
         components: [
           ...state.components,
           {
             id,
+            color,
             kind,
             context: `New ${kind}`,
             zone: { x: 0, y: 0, width: 100, height: 100 },
@@ -329,4 +331,13 @@ function waitForInjectedLoaded(iFrameElement: HTMLIFrameElement) {
     };
     window.addEventListener("message", messageHandler);
   });
+}
+
+function getColorFromId(id: string): string {
+  let hash = 0;
+  for (let i = 0; i < id.length; i++) {
+    hash = id.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const color = Math.floor(Math.abs(Math.sin(hash) * 16777215));
+  return color.toString(16).padStart(6, "0");
 }

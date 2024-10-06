@@ -70,7 +70,7 @@ export function InfoInputLogic({
           variant="default"
           className="bg-blue-600 text-white hover:bg-blue-700"
         >
-          Add OCR
+          Add Text
         </Button>
         <Button
           onClick={() => addComponent("movement")}
@@ -91,15 +91,8 @@ export function InfoInputLogic({
         {components.map((component) => (
           <Card key={component.id} className="relative p-4">
             <div
-              className={`absolute left-2 top-2 h-4 w-4 rounded-full ${
-                component.kind === "ocr"
-                  ? "bg-blue-500"
-                  : component.kind === "movement"
-                    ? "bg-green-500"
-                    : component.kind === "sprite"
-                      ? "bg-yellow-500"
-                      : "bg-gray-500"
-              }`}
+              className="absolute left-2 top-2 h-4 w-4 rounded-full"
+              style={{ backgroundColor: component.color }}
             ></div>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
