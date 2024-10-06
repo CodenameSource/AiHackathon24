@@ -21,7 +21,9 @@ export function useGameEditorLogic() {
   const [isGameStarted, setIsGameStarted] = useState(false);
 
   const components = useGameEditorStore((state) => state.components);
-  const addComponent = useGameEditorStore((state) => state.addComponent) as (kind: ComponentKind) => void;
+  const addComponent = useGameEditorStore((state) => state.addComponent) as (
+    kind: ComponentKind,
+  ) => void;
   const removeComponent = useGameEditorStore((state) => state.removeComponent);
   const updateComponent = useGameEditorStore((state) => state.updateComponent);
   const link = useGameEditorStore((state) => state.link);
@@ -114,7 +116,7 @@ export function useGameEditorLogic() {
   useEffect(() => {
     return () => {
       const iframe = document.querySelector("iframe");
-      if (iframe && iframe.contentWindow) {
+      if (iframe?.contentWindow) {
         iframe.contentWindow.removeEventListener("keydown", sendKeyboardEvent);
         iframe.contentWindow.removeEventListener("keyup", sendKeyboardEvent);
       }
@@ -138,8 +140,8 @@ export function useGameEditorLogic() {
     removeComponent,
     updateComponent,
     link,
-    handleSelectArea,  // Added in return
-    handleScreenshot,  // Added in return
-    handleAddText,     // Added in return
+    handleSelectArea, // Added in return
+    handleScreenshot, // Added in return
+    handleAddText, // Added in return
   };
 }
