@@ -7,7 +7,7 @@ class Component:
         self.height = height
         self.context = context
 
-    def process(self, image):
+    def process(self, image, *args):
         """
         Process the image with the component
         Should output useful information for the context
