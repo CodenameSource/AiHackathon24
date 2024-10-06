@@ -36,12 +36,12 @@ def analyze_frames_with_gpt_vision(frames):
         }
     ]
 
-    for frame in frames:
+    for timestamp, frame_url in frames:
         messages[0]["content"].append(
             {
                 "type": "image_url",
                 "image_url": {
-                    "url": f"data:image/jpeg;base64,{frame}",
+                    "url": frame_url
                 },
             }
         )
