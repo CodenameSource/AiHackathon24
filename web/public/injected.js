@@ -22,10 +22,12 @@ window.addEventListener("message", (event) => {
         },
       );
     } catch (error) {
-      event.source?.postMessage(
-        { callId: data.callId, error: error.message },
-        { targetOrigin: "*" },
-      );
+      if (error instanceof Error) {
+        event.source?.postMessage(
+          { callId: data.callId, error: error.message },
+          { targetOrigin: "*" },
+        );
+      }
     }
   }
 });
