@@ -8,6 +8,7 @@ import { Input } from "./ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Textarea } from "./ui/textarea";
 import { toast } from "~/hooks/use-toast";
+import { ScreenshotButton } from "./ScreenshotButton"; // Add this import
 
 export function InfoInputLogic({
   canBuild,
@@ -219,13 +220,7 @@ export function InfoInputLogic({
                   </Popover>
                 </div>
                 <div className="space-y-2">
-                  <Button
-                    onClick={() => alert("Not implemented")}
-                    variant="ghost"
-                    className="w-full border border-gray-300 hover:border-gray-400"
-                  >
-                    <Camera className="mr-2 h-4 w-4" /> Screenshot
-                  </Button>
+                  <ScreenshotButton componentId={component.id} />
                 </div>
                 <div className="space-y-2">
                   <Popover

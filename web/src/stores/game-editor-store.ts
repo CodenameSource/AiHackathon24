@@ -22,6 +22,7 @@ export interface GameEditorStore {
   canvasTopLeft: { x: number; y: number } | null;
   generatedCode: string | null;
   setGeneratedCode: (code: string) => void;
+  screenshotComponentZone: (componentId: string) => Promise<string | null>;
 }
 
 interface GameEditorStoreOptions {
@@ -191,6 +192,30 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
       })),
     generatedCode: null,
     setGeneratedCode: (code: string) => set({ generatedCode: code }),
+    screenshotComponentZone: async (componentId: string) => {
+      const { components, iFrameElement } = get();
+      const component = components.find((c) => c.id === componentId);
+
+      if (!component || !iFrameElement) {
+        return null;
+      }
+
+      const dataUrl = await callRemoteFunction(
+        iFrameElement,
+        screenshotCanvasZone,
+        [component.zone],
+      );
+
+      if (!dataUrl) {
+        console.error("Failed to take screenshot");
+        return null;
+      }
+
+      // You can add additional logic here, such as saving the screenshot or sending it to the server
+      console.log(`Screenshot taken for component ${componentId}`);
+
+      return dataUrl;
+    },
   }));
 
   // Start the screenshot loop
@@ -244,6 +269,32 @@ function screenshotCanvas() {
   return canvas.toDataURL();
 }
 
+function screenshotCanvasZone(zone: Component["zone"]) {
+  const srcCanvas = document.getElementsByTagName("canvas")[0];
+  if (!srcCanvas) {
+    return null;
+  }
+  const dstCanvas = document.createElement("canvas");
+  dstCanvas.width = zone.width;
+  dstCanvas.height = zone.height;
+  const context = dstCanvas.getContext("2d");
+  if (!context) {
+    return null;
+  }
+  context.drawImage(
+    srcCanvas,
+    zone.x,
+    zone.y,
+    zone.width,
+    zone.height,
+    0,
+    0,
+    zone.width,
+    zone.height,
+  );
+  return dstCanvas.toDataURL();
+}
+
 function getCanvasTopLeft() {
   const canvas = document.getElementsByTagName("canvas")[0];
   if (!canvas) {
@@ -291,11 +342,7 @@ async function callRemoteFunction<
         typeof event.data.callId === "string" &&
         event.data.callId === callId
       ) {
-        if (
-          "result" in event.data &&
-          typeof event.data.result === "object" &&
-          event.data.result !== null
-        ) {
+        if ("result" in event.data) {
           resolve(event.data.result as ReturnType);
         } else if (
           "error" in event.data &&
@@ -303,7 +350,9 @@ async function callRemoteFunction<
         ) {
           reject(new Error(event.data.error));
         } else {
-          reject(new Error("Invalid response format"));
+          reject(
+            new Error("Invalid response format " + JSON.stringify(event.data)),
+          );
         }
         window.removeEventListener("message", messageHandler);
         clearTimeout(timeoutId);
