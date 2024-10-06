@@ -280,11 +280,7 @@ async function callRemoteFunction<
         typeof event.data.callId === "string" &&
         event.data.callId === callId
       ) {
-        if (
-          "result" in event.data &&
-          typeof event.data.result === "object" &&
-          event.data.result !== null
-        ) {
+        if ("result" in event.data) {
           resolve(event.data.result as ReturnType);
         } else if (
           "error" in event.data &&
@@ -292,7 +288,9 @@ async function callRemoteFunction<
         ) {
           reject(new Error(event.data.error));
         } else {
-          reject(new Error("Invalid response format"));
+          reject(
+            new Error("Invalid response format " + JSON.stringify(event.data)),
+          );
         }
         window.removeEventListener("message", messageHandler);
         clearTimeout(timeoutId);
