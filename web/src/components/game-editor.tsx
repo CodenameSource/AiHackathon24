@@ -28,22 +28,6 @@ export function GameEditorComponent() {
   const startGameplay = useGameEditorStore((state) => state.startGameplay);
   const stopGameplay = useGameEditorStore((state) => state.stopGameplay);
 
-  const handleNameChange = (id: string, newContext: string) => {
-    const success = updateComponent(id, { context: newContext });
-    if (!success) {
-      toast({
-        title: "Name already exists",
-        description: "Please choose a unique name for the component.",
-        variant: "destructive",
-      });
-    }
-  };
-
-  const handleBuild = () => {
-    console.log("Building with components:", components);
-    setEditorState(EditorState.CodeEditor);
-  };
-
   const handleStartGame = () => {
     if (isGameplayRunning) {
       stopGameplay();

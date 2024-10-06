@@ -90,6 +90,11 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
         components: state.components.filter((c) => c.id !== id),
       })),
     updateComponent: (id, updates) => {
+      const components = get().components;
+      const component = components.find((c) => c.context === updates.context);
+      if (component) {
+        return false;
+      }
       set((state) => ({
         components: state.components.map((c) =>
           c.id === id ? { ...c, ...updates } : c,

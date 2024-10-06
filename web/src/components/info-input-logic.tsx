@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Input } from "./ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Textarea } from "./ui/textarea";
+import { toast } from "~/hooks/use-toast";
 
 export function InfoInputLogic() {
   const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
@@ -37,8 +38,14 @@ export function InfoInputLogic() {
   };
 
   const handleSubmitText = (id: string) => {
-    console.log("Text Submitted for Component ID:", id, "Text:", textInput);
-    updateComponent(id, { context: textInput });
+    const success = updateComponent(id, { context: textInput });
+    if (!success) {
+      toast({
+        title: "Name already exists",
+        description: "Please choose a unique name for the component.",
+        variant: "destructive",
+      });
+    }
     handleClosePopover();
   };
 
