@@ -12,13 +12,17 @@ class WebTransport:
         self.is_gameplay_running: bool = False
         self.frames: List[Tuple[int, str]] = []  # Store frames with timestamps in milliseconds
         self.keyboard_events: List[Tuple[int, Dict[str, Any]]] = []
+        self.active_connections: List[websockets.WebSocketServerProtocol] = []
 
     async def handle_connection(self, websocket, path):
+        self.active_connections.append(websocket)
         try:
             async for message in websocket:
                 await self.process_message(message)
         except websockets.exceptions.ConnectionClosed:
             pass
+        finally:
+            self.active_connections.remove(websocket)
 
     async def process_message(self, message: str):
         data = json.loads(message)
@@ -127,3 +131,9 @@ class WebTransport:
         print(f"WebSocket server started on ws://{host}:{port}")
         print(f"Allowed origins: {', '.join(allowed_origins)}")
         await server.wait_closed()
+
+    async def send_code(self, code: str):
+        message = json.dumps({"type": "generated_code", "payload": code})
+        await asyncio.gather(
+            *[connection.send(message) for connection in self.active_connections]
+        )

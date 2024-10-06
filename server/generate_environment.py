@@ -1,6 +1,6 @@
 from openai import OpenAI
 import os
-from server.analyze_frames import get_knowledge_from_images
+from analyze_frames import get_knowledge_from_images
 from dotenv import load_dotenv
 
 load_dotenv()

@@ -8,7 +8,7 @@ async def main():
 
     def handle_stop_gameplay(timestamp: int):
         code = generate_environment.create_gym_env_from_message(transport.frames)
-        print(code)
+        transport.send_code(code)  # TODO: implement this
 
     transport.on('stop_gameplay', handle_stop_gameplay)
 
