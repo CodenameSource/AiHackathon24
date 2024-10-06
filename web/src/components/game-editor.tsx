@@ -18,9 +18,7 @@ export function GameEditorComponent() {
   const [editorState, setEditorState] = useState<EditorState>(
     EditorState.ComponentEditor,
   );
-  const [code, setCode] = useState(
-    "// Your game code here\n\nfunction gameLogic() {\n  // Add your game logic\n}\n\n// Start the game\ngameLogic();",
-  );
+  const code = useGameEditorStore((state) => state.generatedCode);
 
   const components = useGameEditorStore((state) => state.components);
   const addComponent = useGameEditorStore((state) => state.addComponent);
@@ -237,10 +235,10 @@ export function GameEditorComponent() {
             <h2 className="mb-4 text-2xl font-bold">Code Editor</h2>
             <div className="flex flex-grow flex-col overflow-hidden rounded-lg border">
               <div className="flex items-center justify-between border-b p-2">
-                <span>game.js</span>
+                <span>environment.py</span>
                 <div className="flex space-x-2">
                   <Button onClick={handleCompile} size="sm">
-                    Compile
+                    Train
                   </Button>
                   <Button onClick={handleExport} size="sm">
                     Export
@@ -248,8 +246,7 @@ export function GameEditorComponent() {
                 </div>
               </div>
               <textarea
-                value={code}
-                onChange={(e) => setCode(e.target.value)}
+                value={code ?? ""}
                 className="flex-grow resize-none p-4 font-mono text-sm focus:outline-none"
                 style={{ lineHeight: "1.5", tabSize: 2 }}
               />

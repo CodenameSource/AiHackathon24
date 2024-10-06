@@ -15,6 +15,8 @@ export interface GameEditorStore {
   isGameplayRunning: boolean;
   startGameplay: () => void;
   stopGameplay: () => void;
+  generatedCode: string | null;
+  setGeneratedCode: (code: string) => void;
 }
 
 interface GameEditorStoreOptions {
@@ -126,6 +128,8 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
       set({ isGameplayRunning: false });
       console.log("Gameplay stopped");
     },
+    generatedCode: null,
+    setGeneratedCode: (code: string) => set({ generatedCode: code }),
   }));
 
   // Start the screenshot loop
@@ -157,6 +161,10 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
         }
       }
     }
+  });
+
+  transport.onGeneratedCode((code: string) => {
+    store.getState().setGeneratedCode(code);
   });
 
   return store;
