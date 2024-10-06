@@ -118,9 +118,15 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
       if (!canvasTopLeft) {
         console.error("Failed to get canvas top left");
       } else {
-        console.log("DID GET CANVAS TOP LEFT");
+        const iFrameRect = element.getBoundingClientRect();
+        set({
+          iFrameElement: element,
+          canvasTopLeft: {
+            x: canvasTopLeft.x + iFrameRect.left,
+            y: canvasTopLeft.y + iFrameRect.top,
+          },
+        });
       }
-      set({ iFrameElement: element, canvasTopLeft });
     },
     clearIFrameElement: () => set({ iFrameElement: null }),
     sendKeyboardEvent: (event: KeyboardEvent) => {

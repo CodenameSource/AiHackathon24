@@ -129,6 +129,35 @@ export const ComponentSelectionOverlay = ({
       {selectingZoneForComponent && (
         <div className="absolute inset-0 z-50 cursor-crosshair bg-black opacity-50"></div>
       )}
+      {/* The overlay rect */}
+      {selectingZoneForComponent && topLeft && bottomRight && (
+        <div
+          className="absolute inset-0 z-50 cursor-crosshair border-4 border-blue-500 bg-blue-500/60"
+          style={{
+            top: topLeft.y,
+            left: topLeft.x,
+            width: bottomRight.x - topLeft.x,
+            height: bottomRight.y - topLeft.y,
+          }}
+        ></div>
+      )}
+      {/* all existing component zones (if they are present) */}
+      {components.map(
+        (component) =>
+          component.zone &&
+          canvasTopLeft && (
+            <div
+              key={component.id}
+              className="absolute inset-0 z-50 cursor-crosshair border-2 border-blue-500 bg-blue-500/40"
+              style={{
+                top: component.zone.y + canvasTopLeft.y,
+                left: component.zone.x + canvasTopLeft.x,
+                width: component.zone.width,
+                height: component.zone.height,
+              }}
+            ></div>
+          ),
+      )}
       {children}
     </div>
   );
