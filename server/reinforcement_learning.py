@@ -3,7 +3,8 @@ import torch
 from stable_baselines3 import PPO
 from stable_baselines3.common.vec_env import DummyVecEnv
 from stable_baselines3.common.evaluation import evaluate_policy
-import DinoGameEnv  
+import importlib
+
 
 # Convert pre-trained imitation model to a policy
 class PretrainedPolicyWrapper:
@@ -27,7 +28,8 @@ def train_rl_model(gameplay_data, state_dim, action_dim):
     pretrained_policy = PretrainedPolicyWrapper(pretrained_model)
 
     # Create your environment
-    env = DummyVecEnv([lambda: DinoGameEnv()])
+    custom_env_file = importlib.import_module("CustomEnv.py")
+    env = DummyVecEnv([lambda: custom_env_file.CustomEnv()])
 
     # Fine-tune the model using PPO
     ppo_model = PPO("MlpPolicy", env, verbose=1)
