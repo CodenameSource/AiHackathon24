@@ -9,7 +9,13 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Textarea } from "./ui/textarea";
 import { toast } from "~/hooks/use-toast";
 
-export function InfoInputLogic() {
+export function InfoInputLogic({
+  canBuild,
+  onBuild,
+}: {
+  canBuild: boolean;
+  onBuild: () => void;
+}) {
   const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
   const [zonePopoverId, setZonePopoverId] = useState<string | null>(null);
   const [textInput, setTextInput] = useState<string>("");
@@ -280,7 +286,8 @@ export function InfoInputLogic() {
       </div>
       <div className="mt-8 flex justify-center">
         <Button
-          onClick={() => alert("Not implemented")}
+          disabled={!canBuild}
+          onClick={onBuild}
           variant="default"
           className="px-8 py-4 text-lg font-bold"
         >

@@ -12,8 +12,7 @@ export function GameEditorComponent() {
   const [editorState, setEditorState] = useState<EditorState>(
     EditorState.ComponentEditor,
   );
-  const components = useGameEditorStore((state) => state.components);
-  const updateComponent = useGameEditorStore((state) => state.updateComponent);
+  const generatedCode = useGameEditorStore((state) => state.generatedCode);
   const link = useGameEditorStore((state) => state.link);
   const setIFrameElement = useGameEditorStore(
     (state) => state.setIFrameElement,
@@ -94,7 +93,12 @@ export function GameEditorComponent() {
 
       {/* Editor Panel */}
       <div className="flex h-screen w-1/3 flex-col p-4">
-        {editorState === EditorState.ComponentEditor && <InfoInputLogic />}
+        {editorState === EditorState.ComponentEditor && (
+          <InfoInputLogic
+            canBuild={!!generatedCode}
+            onBuild={() => setEditorState(EditorState.CodeEditor)}
+          />
+        )}
         {editorState === EditorState.CodeEditor && <CodeEditorLogic />}
       </div>
     </div>

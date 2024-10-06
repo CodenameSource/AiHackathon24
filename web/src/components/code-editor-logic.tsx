@@ -24,8 +24,8 @@ export function CodeEditorLogic() {
   };
 
   return (
-    <div className="flex h-3/4 flex-col p-4 text-gray-100">
-      <h2 className="mb-4 text-2xl font-bold text-gray-100">Code Editor</h2>
+    <div className="flex h-3/4 flex-col p-4">
+      <h2 className="mb-4 text-2xl font-bold">Code Editor</h2>
       <div className="flex flex-grow flex-col overflow-hidden rounded-lg border border-gray-700 bg-gray-800">
         <div className="flex items-center justify-between border-b border-gray-700 bg-gray-800 p-2 text-gray-200">
           <span>environment.py</span>
