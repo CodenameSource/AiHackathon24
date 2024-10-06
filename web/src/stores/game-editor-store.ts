@@ -84,18 +84,21 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
     transport,
     selectingZoneForComponent: null,
     canvasTopLeft: null,
-    addComponent: (kind) =>
+    addComponent: (kind) => {
+      const id = Date.now().toString();
       set((state) => ({
+        selectingZoneForComponent: id,
         components: [
           ...state.components,
           {
-            id: Date.now().toString(),
+            id,
             kind,
             context: `New ${kind}`,
             zone: { x: 0, y: 0, width: 100, height: 100 },
           },
         ],
-      })),
+      }));
+    },
     removeComponent: (id) =>
       set((state) => ({
         components: state.components.filter((c) => c.id !== id),
