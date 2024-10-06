@@ -10,9 +10,11 @@ from server.components_processing import Component
 
 class SpriteComponent(Component):
 
-    def __init__(self, id, x, y, width, height, context):
-
+    def __init__(self, id, x, y, width, height, context, labels):
         super().__init__(id, x, y, width, height, context)
+        self.labels = labels
+        self.score_threshold = 0.4
+
         self.processor = AutoProcessor.from_pretrained("IDEA-Research/grounding-dino-base")
         self.model = AutoModelForZeroShotObjectDetection.from_pretrained("IDEA-Research/grounding-dino-base").to("cuda")
         if torch.cuda.is_available():
@@ -39,25 +41,24 @@ class SpriteComponent(Component):
                                                                         target_sizes=target_sizes)
         return results
 
-    def process(self, image, *args):
-        text_queries = args[0]
-        score_threshold = args[1]
+    def process(self, image):
+        text_queries = self.labels
 
-        results = self.infer_dino(image, text_queries, score_threshold)
+        results = self.infer_dino(image, text_queries, self.score_threshold)
 
         boxes, scores, labels = results[0]["boxes"], results[0]["scores"], results[0]["labels"]
         result_labels = []
 
         for box, score, label in zip(boxes, scores, labels):
             box = [int(i) for i in box.tolist()]
-            if score < score_threshold:
+            if score < self.score_threshold:
                 continue
-            result_labels.append((box, label, score))
+            result_labels.append(([box[0] + self.x, box[1] + self.y, box[2], box[3]], label, score))
 
+        self.push_to_backlog(result_labels)
         return result_labels # [[x0, y0, width, height], label, score]
 
     def visualize_results(self, image, detections):
-
         vis_image = image.copy()
 
         for det in detections:

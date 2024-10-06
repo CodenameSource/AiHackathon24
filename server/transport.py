@@ -66,8 +66,7 @@ class WebTransport:
         
         payload = data.get('payload')
         self.frames.append((timestamp, payload))  # Store the frame with timestamp
-        print(f"Stored frame at {timestamp} ms. Total frames: {len(self.frames)}")
-        
+
         if 'game_frame' in self.event_handlers:
             await self.call_handler('game_frame', payload, timestamp)
 
@@ -102,7 +101,6 @@ class WebTransport:
 
     async def handle_keyboard_event(self, data: Dict[str, Any], timestamp: int):
         keyboard_event = data.get('event', {})
-        print(f"Keyboard event received on server: {json.dumps(keyboard_event, indent=2)}")
         self.keyboard_events.append((timestamp, keyboard_event))
         if 'keyboard_event' in self.event_handlers:
             await self.call_handler('keyboard_event', keyboard_event, timestamp)
