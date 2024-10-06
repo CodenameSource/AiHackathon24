@@ -11,7 +11,7 @@ export const ComponentSelectionOverlay = ({
   children: React.ReactNode;
   className?: string;
 }) => {
-  const components = useGameEditorStore((state) => state.components); // TODO: remove this when iva done
+  const components = useGameEditorStore((state) => state.components);
   const selectingZoneForComponent = useGameEditorStore(
     (state) => state.selectingZoneForComponent,
   );
@@ -24,6 +24,7 @@ export const ComponentSelectionOverlay = ({
   const updateSelectingZone = useGameEditorStore(
     (state) => state.updateSelectingZone,
   );
+  const canvasTopLeft = useGameEditorStore((state) => state.canvasTopLeft);
 
   const [startPoint, setStartPoint] = useState<{ x: number; y: number } | null>(
     null,
@@ -100,17 +101,20 @@ export const ComponentSelectionOverlay = ({
   };
 
   const handleMouseUp = () => {
-    if (!selectingZoneForComponent) {
+    if (!selectingZoneForComponent || !topLeft || !bottomRight) {
       return;
     }
-    if (topLeft && bottomRight) {
-      updateSelectingZone({
-        x: topLeft.x,
-        y: topLeft.y,
-        width: bottomRight.x - topLeft.x,
-        height: bottomRight.y - topLeft.y,
-      });
-    }
+
+    const canvasX = canvasTopLeft?.x ?? 0;
+    const canvasY = canvasTopLeft?.y ?? 0;
+
+    updateSelectingZone({
+      x: topLeft.x - canvasX,
+      y: topLeft.y - canvasY,
+      width: bottomRight.x - topLeft.x,
+      height: bottomRight.y - topLeft.y,
+    });
+
     setEndPoint(null);
     setStartPoint(null);
   };

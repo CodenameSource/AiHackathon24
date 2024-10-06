@@ -83,7 +83,7 @@ export function GameEditorComponent() {
   const handleIframeLoad = useCallback(
     (iframe: HTMLIFrameElement) => {
       if (iframe) {
-        setIFrameElement(iframe);
+        void setIFrameElement(iframe);
 
         // Add a click event listener to focus the iframe
         iframe.addEventListener("click", () => {
