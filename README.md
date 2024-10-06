@@ -1,4 +1,4 @@
-# 🦖 INIT. 2D Game Imitation and Reinforcement Learning Environment
+# 🦖 INIT.  2D Game Imitation and Reinforcement Learning Environment
 
 ## 🎯 Project Overview
 
@@ -38,3 +38,35 @@ The environment design tool makes it easy to create tailored scenarios with **si
 - **Observations**: Define the information the agent will see (e.g., distance to obstacles, velocity, and more).
 
 This allows **developers**, **researchers**, and even **novices** to create new environments and simulations without deep technical knowledge.
+
+## 🎮 User Guide: Create Your Custom Gym Environment
+
+Follow these simple steps to create your custom Gym environment:
+
+### 1️⃣ Paste the URL of Any 2D Game on the Web!
+- 🖱️ Copy the URL of your favorite 2D game and paste it into the input field.
+- ![Screenshot](./readme_images/demo_1.png)
+
+### 2️⃣ See the Main Page with the Game and Its Settings
+- 🎯 You'll now see the game along with all the key settings and options for customization.
+- ![Screenshot](./readme_images/demo_2.png)
+
+### 3️⃣ Draw Attention to Components on the Game Screen
+- ✏️ **Component for Extracting Symbols**: Select areas of interest to extract symbols or information.
+- 🏷️ **Sprite Component**: Tag obstacles, enemies, or key elements on the game screen.
+- 🕹️ **Movement Component**: Mark areas to track the player's position and movements.
+- ![Screenshot](./readme_images/demo_3.png)
+
+### 4️⃣ Record Your Gameplay to Create a Custom Gym Environment
+- 🎥 Play the game while our system records your gameplay and learns from your interactions.
+- ⏺️ Your actions will be logged to create a personalized Gym environment.
+- ![Screenshot](./readme_images/demo_4.png)
+
+### 5️⃣ Download Your Custom Gym Environment
+- 📥 Once the environment is created, you can download it for further use with imitation and reinforcement learning models.
+- 🎉 Congratulations! You've built your own Gym environment for AI training.
+- ![Screenshot](./readme_images/demo_5.png)
+
+---
+
+Feel free to reach out if you need any help or have questions! 😊
