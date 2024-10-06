@@ -1,4 +1,4 @@
-# 🦖 2D Game Imitation and Reinforcement Learning Environment
+# 🦖 INIT. 2D Game Imitation and Reinforcement Learning Environment
 
 ## 🎯 Project Overview
 
