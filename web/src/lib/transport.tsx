@@ -3,6 +3,7 @@ export interface Component {
   kind: "ocr" | "movement" | "sprite";
   context: string;
   zone: { x: number; y: number; width: number; height: number };
+  color: string; // Add this line
 }
 
 interface UserEvent {
@@ -87,6 +88,7 @@ class WebTransport {
   }
 
   sendComponentUpdate(component: Component) {
+    // The color property will be automatically included in the component object
     this.sendMessage("component_update", { component });
   }
 
