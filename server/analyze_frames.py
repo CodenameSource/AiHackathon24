@@ -30,7 +30,7 @@ def analyze_frames_with_gpt_vision(frames):
             "content": [
                 {
                     "type": "text",
-                    "text": "You are a reinforcemnt learning expert. This is a gameplay from a 2d game. Explain me what is the purpose of the game - all observations, actions and reward functions. The response should be in a form that is the most meaningful to a LLM for generating a code that will make the environment.",
+                    "text": "You are a reinforcemnt learning expert. This is a gameplay from a 2d game. Explain me what is the purpose of the game - all observations, actions and reward functions. The response should be in a form that is the most meaningful to a LLM for generating a code that will make the environment. Please give me the labels for the obstacles in the end. Answer structure should be like this:- 1.General description, 2.Action space description, 3.Observation space description, 4. Reward function description, 5. Obstacle label",
                 }
             ],
         }
