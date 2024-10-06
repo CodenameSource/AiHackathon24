@@ -38,21 +38,21 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
 
   // Automatically connect without awaiting
   transport.connect().catch((error) => {
-    alert(
-      "Failed to connect to transport. Start the server and press ok to refresh the page.",
-    );
-    disconnected = true;
-    window.location.reload();
+    // alert(
+    //   "Failed to connect to transport. Start the server and press ok to refresh the page.",
+    // );
+    // disconnected = true;
+    // window.location.reload();
   });
 
   transport.onDisconnect(() => {
-    if (disconnected) {
-      return;
-    }
-    alert(
-      "Disconnected from transport. Start the server and press ok to refresh the page.",
-    );
-    window.location.reload();
+    // if (disconnected) {
+    //   return;
+    // }
+    // alert(
+    //   "Disconnected from transport. Start the server and press ok to refresh the page.",
+    // );
+    // window.location.reload();
   });
 
   const takeScreenshot = async (
