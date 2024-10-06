@@ -20,6 +20,8 @@ export interface GameEditorStore {
   cancelSelectingZone: () => void;
   updateSelectingZone: (updates: Component["zone"]) => void;
   canvasTopLeft: { x: number; y: number } | null;
+  generatedCode: string | null;
+  setGeneratedCode: (code: string) => void;
 }
 
 interface GameEditorStoreOptions {
@@ -99,6 +101,11 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
         components: state.components.filter((c) => c.id !== id),
       })),
     updateComponent: (id, updates) => {
+      const components = get().components;
+      const component = components.find((c) => c.context === updates.context);
+      if (component) {
+        return false;
+      }
       set((state) => ({
         components: state.components.map((c) =>
           c.id === id ? { ...c, ...updates } : c,
@@ -168,6 +175,8 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
         ),
         selectingZoneForComponent: null, // Disable selecting after updating
       })),
+    generatedCode: null,
+    setGeneratedCode: (code: string) => set({ generatedCode: code }),
   }));
 
   // Start the screenshot loop
@@ -199,6 +208,10 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
         }
       }
     }
+  });
+
+  transport.onGeneratedCode((code: string) => {
+    store.getState().setGeneratedCode(code);
   });
 
   return store;

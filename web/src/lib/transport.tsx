@@ -22,6 +22,7 @@ interface KeyboardEvent {
 class WebTransport {
   private socket: WebSocket | null = null;
   private onDisconnectCallback: (() => void) | null = null;
+  private onGeneratedCodeCallback: ((code: string) => void) | null = null;
 
   constructor(private url: string) {}
 
@@ -43,6 +44,25 @@ class WebTransport {
         console.log("WebSocket connection closed");
         if (this.onDisconnectCallback) {
           this.onDisconnectCallback();
+        }
+      };
+
+      this.socket.onmessage = (event: MessageEvent<unknown>) => {
+        if (typeof event.data !== "string") {
+          console.error("Received non-string data in onmessage");
+          return;
+        }
+        const data = JSON.parse(event.data) as unknown;
+        if (
+          typeof data === "object" &&
+          data !== null &&
+          "type" in data &&
+          data.type === "generated_code" &&
+          "payload" in data &&
+          typeof data.payload === "string" &&
+          this.onGeneratedCodeCallback
+        ) {
+          this.onGeneratedCodeCallback(data.payload);
         }
       };
     });
@@ -104,6 +124,10 @@ class WebTransport {
 
   public async sendStopGameplay(): Promise<void> {
     this.sendMessage("stop_gameplay", {});
+  }
+
+  onGeneratedCode(callback: (code: string) => void) {
+    this.onGeneratedCodeCallback = callback;
   }
 }
 
