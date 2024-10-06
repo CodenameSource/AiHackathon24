@@ -170,14 +170,53 @@ export function createGameEditorStore(options: GameEditorStoreOptions) {
     startSelectingZone: (id: string) => set({ selectingZoneForComponent: id }),
     cancelSelectingZone: () => set({ selectingZoneForComponent: null }),
     updateSelectingZone: (updates: Component["zone"]) =>
-      set((state) => ({
-        components: state.components.map((c) =>
-          c.id === state.selectingZoneForComponent
-            ? { ...c, zone: updates }
-            : c,
-        ),
-        selectingZoneForComponent: null, // Disable selecting after updating
-      })),
+      set((state) => {
+        // clamp the zone to the canvas size
+        const iFrameRect = state.iFrameElement?.getBoundingClientRect();
+        if (!iFrameRect) {
+          return state;
+        }
+        const canvasWidth = iFrameRect.width;
+        const canvasHeight = iFrameRect.height;
+        const newX = Math.max(
+          Math.min(updates.x, canvasWidth - updates.width),
+          0,
+        );
+        const newY = Math.max(
+          Math.min(updates.y, canvasHeight - updates.height),
+          0,
+        );
+        const newWidth = Math.max(
+          Math.min(
+            updates.width - (updates.x - newX),
+            canvasWidth - (updates.x - newX),
+          ),
+          0,
+        );
+        const newHeight = Math.max(
+          Math.min(
+            updates.height - (updates.y - newY),
+            canvasHeight - (updates.y - newY),
+          ),
+          0,
+        );
+        return {
+          components: state.components.map((c) =>
+            c.id === state.selectingZoneForComponent
+              ? {
+                  ...c,
+                  zone: {
+                    x: newX,
+                    y: newY,
+                    width: newWidth,
+                    height: newHeight,
+                  },
+                }
+              : c,
+          ),
+          selectingZoneForComponent: null, // Disable selecting after updating
+        };
+      }),
     generatedCode: null,
     setGeneratedCode: (code: string) => set({ generatedCode: code }),
   }));
