@@ -50,7 +50,7 @@ def analyze_frames_with_gpt_vision(frames):
         model="gpt-4o",
         messages=messages,
         max_tokens=1500,
-        temperature=0.15,
+        temperature=0.1,
     )
     return response
 
