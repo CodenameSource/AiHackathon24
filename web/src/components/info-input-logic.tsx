@@ -1,40 +1,22 @@
-import { useState } from 'react';
-import { Trash, Camera, Type, Crop, Crosshair } from "lucide-react";
-import * as React from "react";
+import { Camera, Crop, Crosshair, Trash, Type } from "lucide-react";
+import { useState } from "react";
+import { useGameEditorStore } from "./game-editor-store-provider";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Input } from "./ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Textarea } from "./ui/textarea";
 
-interface InfoInputLogicProps {
-  components: any[];
-  handleNameChange: (id: string, newContext: string) => void;
-  removeComponent: (id: string) => void;
-  updateComponent: (id: string, updatedComponent: any) => void;
-  handleBuild: () => void;
-  addComponent: (kind: string) => void;
-  handleSelectArea: (id: string) => void;
-  handleScreenshot: (id: string) => void;
-  handleAddText: (id: string, text: string) => void;
-}
-
-export function InfoInputLogic({
-  components,
-  handleNameChange,
-  removeComponent,
-  updateComponent,
-  handleBuild,
-  addComponent,
-  handleSelectArea,
-  handleScreenshot,
-  handleAddText,
-}: InfoInputLogicProps) {
+export function InfoInputLogic() {
   const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
   const [zonePopoverId, setZonePopoverId] = useState<string | null>(null);
-  const [textInput, setTextInput] = useState<string>('');
+  const [textInput, setTextInput] = useState<string>("");
+
+  const components = useGameEditorStore((state) => state.components);
+  const updateComponent = useGameEditorStore((state) => state.updateComponent);
+  const addComponent = useGameEditorStore((state) => state.addComponent);
+  const removeComponent = useGameEditorStore((state) => state.removeComponent);
 
   const handleOpenPopover = (id: string, existingText: string) => {
     setOpenPopoverId(id);
@@ -43,7 +25,7 @@ export function InfoInputLogic({
 
   const handleClosePopover = () => {
     setOpenPopoverId(null);
-    setTextInput('');
+    setTextInput("");
   };
 
   const handleOpenZonePopover = (id: string) => {
@@ -56,7 +38,7 @@ export function InfoInputLogic({
 
   const handleSubmitText = (id: string) => {
     console.log("Text Submitted for Component ID:", id, "Text:", textInput);
-    handleAddText(id, textInput);
+    updateComponent(id, { context: textInput });
     handleClosePopover();
   };
 
@@ -67,21 +49,21 @@ export function InfoInputLogic({
         <Button
           onClick={() => addComponent("ocr")}
           variant="default"
-          className="text-white bg-blue-600 hover:bg-blue-700"
+          className="bg-blue-600 text-white hover:bg-blue-700"
         >
           Add OCR
         </Button>
         <Button
           onClick={() => addComponent("movement")}
           variant="default"
-          className="text-white bg-green-600 hover:bg-green-700"
+          className="bg-green-600 text-white hover:bg-green-700"
         >
           Add Movement
         </Button>
         <Button
           onClick={() => addComponent("sprite")}
           variant="default"
-          className="text-white bg-yellow-600 hover:bg-yellow-700"
+          className="bg-yellow-600 text-white hover:bg-yellow-700"
         >
           Add Sprite
         </Button>
@@ -90,14 +72,14 @@ export function InfoInputLogic({
         {components.map((component) => (
           <Card key={component.id} className="relative p-4">
             <div
-              className={`absolute top-2 left-2 h-4 w-4 rounded-full ${
+              className={`absolute left-2 top-2 h-4 w-4 rounded-full ${
                 component.kind === "ocr"
                   ? "bg-blue-500"
                   : component.kind === "movement"
-                  ? "bg-green-500"
-                  : component.kind === "sprite"
-                  ? "bg-yellow-500"
-                  : "bg-gray-500"
+                    ? "bg-green-500"
+                    : component.kind === "sprite"
+                      ? "bg-yellow-500"
+                      : "bg-gray-500"
               }`}
             ></div>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -105,7 +87,7 @@ export function InfoInputLogic({
                 <Input
                   value={component.context}
                   onChange={(e) =>
-                    handleNameChange(component.id, e.target.value)
+                    updateComponent(component.id, { context: e.target.value })
                   }
                   className="font-semibold"
                 />
@@ -125,7 +107,9 @@ export function InfoInputLogic({
                   <Popover
                     open={zonePopoverId === component.id}
                     onOpenChange={(open) =>
-                      open ? handleOpenZonePopover(component.id) : handleCloseZonePopover()
+                      open
+                        ? handleOpenZonePopover(component.id)
+                        : handleCloseZonePopover()
                     }
                   >
                     <PopoverTrigger asChild>
@@ -151,7 +135,10 @@ export function InfoInputLogic({
                             value={component.zone.x}
                             onChange={(e) =>
                               updateComponent(component.id, {
-                                zone: { ...component.zone, x: parseInt(e.target.value) },
+                                zone: {
+                                  ...component.zone,
+                                  x: parseInt(e.target.value),
+                                },
                               })
                             }
                             placeholder="X"
@@ -161,7 +148,10 @@ export function InfoInputLogic({
                             value={component.zone.y}
                             onChange={(e) =>
                               updateComponent(component.id, {
-                                zone: { ...component.zone, y: parseInt(e.target.value) },
+                                zone: {
+                                  ...component.zone,
+                                  y: parseInt(e.target.value),
+                                },
                               })
                             }
                             placeholder="Y"
@@ -171,7 +161,10 @@ export function InfoInputLogic({
                             value={component.zone.width}
                             onChange={(e) =>
                               updateComponent(component.id, {
-                                zone: { ...component.zone, width: parseInt(e.target.value) },
+                                zone: {
+                                  ...component.zone,
+                                  width: parseInt(e.target.value),
+                                },
                               })
                             }
                             placeholder="Width"
@@ -181,14 +174,21 @@ export function InfoInputLogic({
                             value={component.zone.height}
                             onChange={(e) =>
                               updateComponent(component.id, {
-                                zone: { ...component.zone, height: parseInt(e.target.value) },
+                                zone: {
+                                  ...component.zone,
+                                  height: parseInt(e.target.value),
+                                },
                               })
                             }
                             placeholder="Height"
                           />
                         </div>
                         <div className="flex justify-end space-x-2">
-                          <Button variant="outline" size="sm" onClick={handleCloseZonePopover}>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={handleCloseZonePopover}
+                          >
                             Close
                           </Button>
                         </div>
@@ -196,7 +196,7 @@ export function InfoInputLogic({
                     </PopoverContent>
                   </Popover>
                   <Button
-                    onClick={() => handleSelectArea(component.id)}
+                    onClick={() => handleOpenZonePopover(component.id)}
                     size="icon"
                     variant="outline"
                     className="text-green-600 hover:bg-green-100"
@@ -207,7 +207,7 @@ export function InfoInputLogic({
                 </div>
                 <div className="space-y-2">
                   <Button
-                    onClick={() => handleScreenshot(component.id)}
+                    onClick={() => alert("Not implemented")}
                     variant="ghost"
                     className="w-full border border-gray-300 hover:border-gray-400"
                   >
@@ -219,33 +219,52 @@ export function InfoInputLogic({
                     open={openPopoverId === component.id}
                     onOpenChange={(open) =>
                       open
-                        ? handleOpenPopover(component.id, component.text || '')
+                        ? handleOpenPopover(
+                            component.id,
+                            component.context || "",
+                          )
                         : handleClosePopover()
                     }
                   >
                     <PopoverTrigger asChild>
-                      <Button variant="outline" className="w-full border border-gray-300 hover:bg-gray-100">
+                      <Button
+                        variant="outline"
+                        className="w-full border border-gray-300 hover:bg-gray-100"
+                      >
                         <Type className="mr-2 h-4 w-4" /> Add Context
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-80">
                       <div className="grid gap-4">
                         <div className="space-y-2">
-                          <h4 className="font-medium leading-none">Add Context</h4>
+                          <h4 className="font-medium leading-none">
+                            Add Context
+                          </h4>
                           <p className="text-sm text-muted-foreground">
                             Describe the context of this component.
                           </p>
                         </div>
                         <Textarea
                           placeholder="Enter text here..."
-                          value={textInput}
-                          onChange={(e) => setTextInput(e.target.value)}
+                          value={component.context}
+                          onChange={(e) =>
+                            updateComponent(component.id, {
+                              context: e.target.value,
+                            })
+                          }
                         />
                         <div className="flex justify-end space-x-2">
-                          <Button variant="outline" onClick={handleClosePopover}>
-                            Cancel 
+                          <Button
+                            variant="outline"
+                            onClick={handleClosePopover}
+                          >
+                            Cancel
                           </Button>
-                          <Button onClick={() => handleSubmitText(component.id)}>Add</Button>
+                          <Button
+                            onClick={() => handleSubmitText(component.id)}
+                          >
+                            Add
+                          </Button>
                         </div>
                       </div>
                     </PopoverContent>
@@ -256,9 +275,9 @@ export function InfoInputLogic({
           </Card>
         ))}
       </div>
-      <div className="flex justify-center mt-8">
+      <div className="mt-8 flex justify-center">
         <Button
-          onClick={handleBuild}
+          onClick={() => alert("Not implemented")}
           variant="default"
           className="px-8 py-4 text-lg font-bold"
         >
