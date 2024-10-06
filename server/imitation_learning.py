@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
+import json
 from torch.utils.data import DataLoader, Dataset
 
 class GameplayDataset(Dataset):
@@ -13,6 +14,15 @@ class GameplayDataset(Dataset):
     def __getitem__(self, idx):
         state, action = self.gameplay_data[idx]
         return torch.tensor(state, dtype=torch.float32), torch.tensor(action, dtype=torch.long)
+
+    def save(self, gameplay_data_file):
+        with open(gameplay_data_file, 'w') as f:
+            json.dump(self.gameplay_data, f)
+
+    def load(self, gameplay_data_file):
+        with open(gameplay_data_file, 'r') as f:
+            gameplay_data = json.load(f)
+
 
 # Neural network for behavior cloning
 class ImitationPolicy(nn.Module):
